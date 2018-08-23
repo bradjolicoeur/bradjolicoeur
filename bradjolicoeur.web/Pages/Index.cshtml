@@ -1,0 +1,9 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = Model.ContentPage.Title;
+}
+
+<div class="row">
+    @Html.DisplayFor( vm => vm.ContentPage.Body)
+</div>
