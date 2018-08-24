@@ -16,12 +16,16 @@ namespace bradjolicoeur.Core.Models.ContentType
         public const string RouteCodename = "route";
         public const string TitleCodename = "title";
         public const string DescriptionCodename = "description";
+        public const string ImageCodename = "image";
+        public const string PublishedDateCodename = "published_date";
         public const string BlogCodename = "blog";
         public const string BodyCodename = "body";
 
         public string Route { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public IEnumerable<Asset> Image { get; set; }
+        public DateTime? PublishedDate { get; set; }
         public IEnumerable<TaxonomyTerm> Blog { get; set; }
         public IRichTextContent Body { get; set; }
         public ContentItemSystemAttributes System { get; set; }
