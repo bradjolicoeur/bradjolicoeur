@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bradjolicoeur.web", "bradjo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bradjolicoeur.core", "bradjolicoeur.core\bradjolicoeur.core.csproj", "{489AB7BD-314F-42FB-ADDD-45D2FD9401FD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{6ECDD88C-2521-40B4-9AAA-8DA9A7D5922B}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
