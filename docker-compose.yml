@@ -3,8 +3,26 @@ version: '3.4'
 services:
   bradjolicoeur.web:
     image: bradjolicoeurweb
+    container_name: "myapp"
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
+    networks:
+      - mynetwork
+  proxy:
+     image: 
+     build:
+      context: .
+      dockerfile: Dockerfile
+     container_name: "nginxcore"
+     ports:
        - "8080:80"
+     volumes:
+       - ./proxy.conf:/etc/nginx/conf.d/default.conf
+     networks:
+       - mynetwork
+     links:
+       - bradjolicoeur.web
+networks:
+  mynetwork:
+    driver: bridge

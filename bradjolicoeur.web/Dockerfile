@@ -1,7 +1,5 @@
 FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
 WORKDIR /app
-EXPOSE 50705
-EXPOSE 44300
 
 FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
@@ -19,3 +17,9 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "bradjolicoeur.web.dll"]
+
+FROM nginx
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 5000
+CMD [ "dotnet", "run" ]
