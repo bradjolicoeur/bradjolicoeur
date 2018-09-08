@@ -15,9 +15,5 @@ RUN dotnet publish "bradjolicoeur.web.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
-ENV ASPNETCORE_URLS http://+:5001
-EXPOSE 5001
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "bradjolicoeur.web.dll"]
-
-CMD ["dotnet", "run"]

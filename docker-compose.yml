@@ -7,8 +7,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    networks:
-      - mynetwork
   proxy:
      build:
       context: .
@@ -16,10 +14,5 @@ services:
      container_name: "nginxcore"
      ports:
        - "8080:80"
-     networks:
-       - mynetwork
      links:
        - bradjolicoeur.web
-networks:
-  mynetwork:
-    driver: bridge
