@@ -1,7 +1,5 @@
 FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
 WORKDIR /app
-EXPOSE 50705
-EXPOSE 44300
 
 FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
@@ -17,5 +15,9 @@ RUN dotnet publish "bradjolicoeur.web.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
+ENV ASPNETCORE_URLS http://+:5001
+EXPOSE 5001
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "bradjolicoeur.web.dll"]
+
+CMD ["dotnet", "run"]
