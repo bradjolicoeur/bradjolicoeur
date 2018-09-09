@@ -2,8 +2,9 @@ version: '3.4'
 
 services:
   bradjolicoeur.web:
-    image: bradjolicoeurweb
-    container_name: "myapp"
+    container_name: "bradjolicoeurweb"
+    networks:
+      - jolicoeur_net
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,7 +13,11 @@ services:
       context: .
       dockerfile: Dockerfile-proxy
      container_name: "nginxcore"
+     networks:
+      - jolicoeur_net
      ports:
-       - "8080:80"
+       - "80:80"
      links:
        - bradjolicoeur.web
+networks:
+  jolicoeur_net:
