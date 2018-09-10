@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{6ECDD8
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		docker-compose-app.service = docker-compose-app.service
+		docker-compose-server.yml = docker-compose-server.yml
 		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
 		Dockerfile-proxy = Dockerfile-proxy
@@ -21,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx", "nginx", "{DBC95243
 	ProjectSection(SolutionItems) = preProject
 		nginx\nginx.conf = nginx\nginx.conf
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E1D6CBCF-7CFC-4A7C-862F-2B6E9805E27B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
