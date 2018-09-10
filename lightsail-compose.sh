@@ -23,7 +23,7 @@ systemctl enable docker-compose-app
 
 # copy in the nginx config file
 mkdir /nginx
-curl -o /nginx/nginxconf https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/nginx/nginx.conf
+curl -o /nginx/nginx.conf https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/nginx/nginx.conf
 
 # start up the application via docker-compose
 docker-compose -f /srv/docker/docker-compose.yml up -d
