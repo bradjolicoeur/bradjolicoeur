@@ -13,8 +13,8 @@ services:
        - /nginx/nginx-srv.conf:/etc/nginx/nginx-srv.conf
        - /srv/docker/letsencrypt/src/production/production-site:/usr/share/nginx/html
        - /srv/docker/letsencrypt/src/production/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
-       - /docker-volumes/etc/letsencrypt/live/bradjolicoeur.com/fullchain.pem:/etc/letsencrypt/live/ohhaithere.com/fullchain.pem
-       - /docker-volumes/etc/letsencrypt/live/bradjolicoeur.com/privkey.pem:/etc/letsencrypt/live/ohhaithere.com/privkey.pem
+       - /docker-volumes/etc/letsencrypt/live/bradjolicoeur.com/fullchain.pem:/etc/letsencrypt/live/bradjolicoeur.com/fullchain.pem
+       - /docker-volumes/etc/letsencrypt/live/bradjolicoeur.com/privkey.pem:/etc/letsencrypt/live/bradjolicoeur.com/privkey.pem
      networks:
       - jolicoeur_net
      ports:
