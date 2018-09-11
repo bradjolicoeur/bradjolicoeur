@@ -10,11 +10,16 @@ services:
      image: nginx:latest
      container_name: "proxy"
      volumes:
-       - /nginx/nginx.conf:/etc/nginx/nginx.conf
+       - /nginx/nginx-srv.conf:/etc/nginx/nginx.conf
+       - /srv/docker/letsencrypt/src/production/production-site:/usr/share/nginx/html
+       - /srv/docker/letsencrypt/src/production/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+       - /docker-volumes/etc/letsencrypt/live/bradjolicoeur.com/fullchain.pem:/etc/letsencrypt/live/ohhaithere.com/fullchain.pem
+       - /docker-volumes/etc/letsencrypt/live/bradjolicoeur.com/privkey.pem:/etc/letsencrypt/live/ohhaithere.com/privkey.pem
      networks:
       - jolicoeur_net
      ports:
        - "80:80"
+       - "443:443"
      links:
        - website
 networks:
