@@ -1,11 +1,11 @@
 sudo mkdir -p /srv/docker/letsencrypt-docker-nginx/src/letsencrypt/letsencrypt-site
 
-curl -o /srv/docker/letsencrypt-docker-nginx/src/letsencrypt https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/letsencrypt/docker-compose.yml
+curl -o /srv/docker/letsencrypt-docker-nginx/src/letsencrypt/docker-compose.yml https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/letsencrypt/docker-compose.yml
 
 curl -o /srv/docker/letsencrypt-docker-nginx/src/letsencrypt/letsencrypt-site/index.html https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/letsencrypt/index.html
 
 cd /srv/docker/letsencrypt-docker-nginx/src/letsencrypt
-sudo docker-compose up -d
+sudo docker-compose -f /srv/docker/letsencrypt-docker-nginx/src/letsencrypt/docker-compose.yml up -d
 
 sudo docker run -it --rm \
 -v /srv/docker-volumes/etc/letsencrypt:/etc/letsencrypt \
