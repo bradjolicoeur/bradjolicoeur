@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  website:
+    container_name: "website"
+    networks:
+      - jolicoeur_net
+    image: bradjolicoeur/website:latest
+  proxy:
+     image: nginx:latest
+     container_name: "proxy"
+     volumes:
+       - /nginx/nginx.conf:/etc/nginx/nginx.conf
+       - /var/log/nginx:/var/log/nginx
+     networks:
+      - jolicoeur_net
+     ports:
+       - "80:80"
+       - "443:443"
+     links:
+       - website
+networks:
+  jolicoeur_net:
