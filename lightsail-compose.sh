@@ -23,11 +23,12 @@ systemctl enable docker-compose-app
 
 # copy in the nginx config file
 mkdir /nginx
-curl -o /nginx/nginx.conf https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/nginx/nginx-srv.conf
+curl -o /nginx/nginx.conf https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/nginx/nginx.conf
 
 mkdir -p /srv/docker/letsencrypt/src/production/production-site
 mkdir -p /srv/docker/letsencrypt/src/production/dh-param
 mkdir -p /docker-volumes/etc/letsencrypt/live/bradjolicoeur.com
+mkdir -p /var/log/nginx
 
 # start up the application via docker-compose
 docker-compose -f /srv/docker/docker-compose.yml up -d

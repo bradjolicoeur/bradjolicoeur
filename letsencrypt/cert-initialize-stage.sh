@@ -5,8 +5,11 @@ sudo docker run -it --rm \
 -v "/docker-volumes/var/log/letsencrypt:/var/log/letsencrypt" \
 certbot/certbot \
 certonly --webroot \
---email brad@jolicoeurs.net --agree-tos --no-eff-email \
+--register-unsafely-without-email --agree-tos \
 --webroot-path=/data/letsencrypt \
+--staging \
 -d bradjolicoeur.com -d www.bradjolicoeur.com
 
-sudo openssl dhparam -out /srv/docker/letsencrypt/src/production/dh-param/dhparam-2048.pem 2048
+sudo openssl dhparam -outform PEM -out /srv/docker/letsencrypt/src/production/dh-param/dhparam-2048.pem 2048
+
+# sudo openssl dhparam -check -in /srv/docker/letsencrypt/src/production/dh-param/dhparam-2048.pem
