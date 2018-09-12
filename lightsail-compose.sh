@@ -33,4 +33,4 @@ mkdir -p /docker-volumes/etc/letsencrypt/live/bradjolicoeur.com
 docker-compose -f /srv/docker/docker-compose.yml up -d
 
 curl -o cert-initialize.sh https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/letsencrypt/cert-initialize.sh
-chmod +X ./cert-initialize.sh
+chmod +x ./cert-initialize.sh
