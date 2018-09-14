@@ -6,8 +6,8 @@ services:
     networks:
       - jolicoeur_net
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: ./local-config/Dockerfile
   proxy:
      image: nginx:latest
      container_name: "proxy"
