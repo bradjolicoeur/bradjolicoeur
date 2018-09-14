@@ -12,4 +12,4 @@ certonly --webroot \
 
 sudo openssl dhparam -outform PEM -out /srv/docker/letsencrypt/src/production/dh-param/dhparam-2048.pem 2048
 
-# sudo openssl dhparam -check -in /srv/docker/letsencrypt/src/production/dh-param/dhparam-2048.pem
+sudo openssl dhparam -check -in /srv/docker/letsencrypt/src/production/dh-param/dhparam-2048.pem

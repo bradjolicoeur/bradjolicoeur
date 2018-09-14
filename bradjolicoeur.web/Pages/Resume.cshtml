@@ -1,10 +1,10 @@
 ﻿@page
 @model bradjolicoeur.web.Pages.ResumeModel
 @{
-    ViewData["Title"] = Model.ContentPage.Title;
+    ViewData["Title"] = Model.ViewModel.Title;
 }
 <div class="container">
     <div class="row">
-        @Html.DisplayFor(vm => vm.ContentPage.Body)
+        @Html.DisplayFor(vm => vm.ViewModel.Body)
     </div>
 </div>

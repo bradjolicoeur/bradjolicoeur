@@ -14,16 +14,16 @@ chmod +x /usr/local/bin/docker-compose
 # if you change this, change the systemd service file to match
 # WorkingDirectory=[whatever you have below]
 mkdir /srv/docker
-curl -o /srv/docker/docker-compose.yml https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/docker-compose-initial.yml
+curl -o /srv/docker/docker-compose.yml https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/server-config/docker-compose-initial.yml
 
 # copy in systemd unit file and register it so our compose file runs 
 # on system restart
-curl -o /etc/systemd/system/docker-compose-app.service https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/docker-compose-app.service
+curl -o /etc/systemd/system/docker-compose-app.service https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/server-config/docker-compose-app.service
 systemctl enable docker-compose-app
 
 # copy in the nginx config file
 mkdir /nginx
-curl -o /nginx/nginx.conf https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/nginx/nginx.conf
+curl -o /nginx/nginx.conf https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/server-config/nginx/nginx-initial.conf
 
 mkdir -p /srv/docker/letsencrypt/src/production/production-site
 mkdir -p /srv/docker/letsencrypt/src/production/dh-param
@@ -32,8 +32,8 @@ mkdir -p /var/log/nginx
 # start up the application via docker-compose
 docker-compose -f /srv/docker/docker-compose.yml up -d
 
-curl -o cert-initialize.sh https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/letsencrypt/cert-initialize.sh
+curl -o cert-initialize.sh https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/server-config/letsencrypt/cert-initialize.sh
 chmod +x ./cert-initialize.sh
 
-curl -o elevate-to-ssl.sh https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/letsencrypt/elevate-to-ssl.sh
+curl -o elevate-to-ssl.sh https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/server-config/letsencrypt/elevate-to-ssl.sh
 chmod +x ./elevate-to-ssl.sh

@@ -2,10 +2,10 @@
 docker-compose -f /srv/docker/docker-compose.yml down
 
 #pull down the production configuration
-sudo curl -o /nginx/nginx.conf https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/nginx/nginx-srv.conf
+sudo curl -o /nginx/nginx.conf https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/server-config/nginx/nginx-server.conf
 
 #pull down the production docker compose
-sudo curl -o /srv/docker/docker-compose.yml https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/docker-compose-server.yml
+sudo curl -o /srv/docker/docker-compose.yml https://raw.githubusercontent.com/bradjolicoeur/bradjolicoeur/master/server-config/docker-compose-server.yml
 
 
 #bring containers back up in production configuration
