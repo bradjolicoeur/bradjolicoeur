@@ -1,0 +1,35 @@
+﻿@page "{id?}"
+@model ArticleModel
+@{
+    ViewData["Title"] = "Article";
+}
+
+<div class="container">
+    <div class="row text-center margin-bottom-20">
+        <h2>@Model.ViewModel.Article.Title</h2>
+        <div class="title-bar"> </div>
+    </div>
+    <div class="row margin-bottom-20">
+        <div class="col-sm-8">
+            @Html.DisplayFor(vm => vm.ViewModel.Article)
+        </div>
+        <div class="col-sm-4">
+            <h3>You May Also Like</h3>
+            <ul class="list-unstyled">
+                @foreach (var article in Model.ViewModel.Suggestions)
+                {
+                    <li>
+                        <a asp-page="./article" asp-route-id="@article.Route"><h4>@article.Title</h4></a>
+                    </li>
+
+                }
+
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
+
+

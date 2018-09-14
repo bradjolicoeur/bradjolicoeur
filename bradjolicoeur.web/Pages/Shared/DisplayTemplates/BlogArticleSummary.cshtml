@@ -23,7 +23,7 @@
 
         <div>@Html.DisplayFor(i => Model.Description)</div>
         <span class="button-link">
-            <a asp-controller="blog" asp-action="article" asp-route-id="@Model.Route">Read More</a>
+            <a asp-page="./article" asp-route-id="@Model.Route">Read More</a>
         </span>
     </div>
 
