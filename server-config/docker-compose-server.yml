@@ -2,11 +2,13 @@ version: '3.4'
 
 services:
   website:
+    restart: always
     container_name: "website"
     networks:
       - jolicoeur_net
     image: bradjolicoeur/website:latest
   proxy:
+     restart: always
      image: nginx:latest
      container_name: "proxy"
      volumes:

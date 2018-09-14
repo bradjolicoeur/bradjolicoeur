@@ -3,6 +3,7 @@ version: '3.4'
 services:
   website:
     container_name: "website"
+    image: bradjolicoeur/website
     networks:
       - jolicoeur_net
     build:
