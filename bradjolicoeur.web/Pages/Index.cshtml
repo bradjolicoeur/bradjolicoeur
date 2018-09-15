@@ -2,6 +2,8 @@
 @model IndexModel
 @{
     ViewData["Title"] = Model.ViewModel.Title;
+    ViewBag.Description = Model.ViewModel.Title;
+    ViewBag.Image = Model.ViewModel.Image?.FirstOrDefault()?.Url;
 }
 
 <h2>@Model.ViewModel.Title</h2>

@@ -2,6 +2,8 @@
 @model BlogModel
 @{
     ViewData["Title"] = Model.ViewModel.ContentPage.Title;
+    ViewBag.Description = Model.ViewModel.ContentPage.Title;
+    ViewBag.Image = Model.ViewModel.ContentPage.Image?.FirstOrDefault()?.Url;
 }
 
 <h2>@Model.ViewModel.ContentPage.Title</h2>

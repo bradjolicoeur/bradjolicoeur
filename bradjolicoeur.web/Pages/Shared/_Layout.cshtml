@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Brad Jolicoeur</title>
 
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path" />
+    <meta property="og:image" content="@ViewBag.Image" />
+    <meta property="og:site_name" content="Afterman Software" />
+    <meta property="og:description" content="@ViewBag.Description" />
+    <meta property="fb:app_id" content="859212197619663" />
+    <meta name="description" content="@ViewBag.Description" />
+
+    <script type="application/ld+json">
+        {
+        "@@context": "http://schema.org",
+        "@@type": "WebSite",
+        "name": "Brad Jolicoeur",
+        "url": "https://www.bradjolicoeur.com"
+        }
+        }
+    </script>
+
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -18,7 +37,7 @@
 </head>
 <body>
     <nav class="navbar navbar-custom navbar-fixed-top">
-        
+
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -32,7 +51,7 @@
                     <img src="~/images/mstile-150x150.png" class="nav-bar-image" alt="logo">
                 </a>
                 <a class="navbar-brand" asp-page="/Index">
-                   Brad Jolicoeur
+                    Brad Jolicoeur
                 </a>
 
             </div>
@@ -80,5 +99,8 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+
+         <!-- Go to www.addthis.com/dashboard to customize your tools -->
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ad53bb27e56a083"></script>
 </body>
 </html>
