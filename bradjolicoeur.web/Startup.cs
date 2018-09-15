@@ -1,5 +1,6 @@
 using bradjolicoeur.core.Client;
 using bradjolicoeur.core.Models;
+using bradjolicoeur.core.Services;
 using bradjolicoeur.Core.Models.ContentType;
 using bradjolicoeur.web.Resolvers;
 using KenticoCloud.Delivery;
@@ -45,6 +46,8 @@ namespace bradjolicoeur.web
                 CodeFirstModelProvider = { TypeProvider = new CustomTypeProvider() },
                 ContentLinkUrlResolver = new CustomContentLinkUrlResolver()
             });
+
+            services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
 
         }
 
