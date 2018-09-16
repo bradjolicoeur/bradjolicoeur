@@ -2,7 +2,7 @@
 @model ArticleModel
 @{
     ViewData["Title"] = "Article";
-    ViewBag.Description = Model.ViewModel.Article.Title;
+    ViewBag.Description = Model.ViewModel.Article.Description;
     ViewBag.Image = Model.ViewModel.Article.Image?.FirstOrDefault()?.Url;
 }
 

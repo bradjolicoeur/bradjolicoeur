@@ -2,7 +2,7 @@
 @model IndexModel
 @{
     ViewData["Title"] = Model.ViewModel.Title;
-    ViewBag.Description = Model.ViewModel.Title;
+    ViewBag.Description = Model.ViewModel.Description;
     ViewBag.Image = Model.ViewModel.Image?.FirstOrDefault()?.Url;
 }
 @section HeroSection {
