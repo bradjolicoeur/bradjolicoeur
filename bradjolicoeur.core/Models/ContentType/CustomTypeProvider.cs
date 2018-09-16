@@ -17,6 +17,8 @@ namespace bradjolicoeur.Core.Models.ContentType
                     return typeof(MarkDownContent);
                 case "content_page":
                     return typeof(ContentPage);
+                case "profile":
+                    return typeof(Profile);
                 default:
                     return null;
             }

@@ -32,7 +32,7 @@
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
@@ -67,13 +67,19 @@
 
     <partial name="_CookieConsentPartial" />
 
+    <div class="container-fluid">
+        @RenderSection("HeroSection", required: false)
+    </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - Brad Jolicoeur</p>
-        </footer>
+
+
     </div>
+    <hr />
+    <footer class="body-content">
+
+        <p>&copy; 2018 - Brad Jolicoeur</p>
+    </footer>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -100,7 +106,7 @@
 
     @RenderSection("Scripts", required: false)
 
-         <!-- Go to www.addthis.com/dashboard to customize your tools -->
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ad53bb27e56a083"></script>
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ad53bb27e56a083"></script>
 </body>
 </html>
