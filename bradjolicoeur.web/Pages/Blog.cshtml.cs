@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using bradjolicoeur.Core.Models.ContentType;
 using bradjolicoeur.web.ViewModels;
@@ -18,7 +19,7 @@ namespace bradjolicoeur.web.Pages
 
         public BlogViewModel ViewModel { get; private set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string id = null)
         {
             var viewModel = new BlogViewModel();
 
@@ -27,12 +28,26 @@ namespace bradjolicoeur.web.Pages
               new EqualsFilter("system.codename", "blog_page")
               ).ConfigureAwait(false)).Items.FirstOrDefault();
 
-            viewModel.BlogArticles = (await DeliveryClient.GetItemsAsync<BlogArticle>(
-              new EqualsFilter("system.type", BlogArticle.Codename),
-              new OrderParameter("elements." + BlogArticle.PublishedDateCodename, SortOrder.Descending)
-              ).ConfigureAwait(false)).Items.ToArray();
+            viewModel.BlogArticles = await GetBlogArticles(id);
 
             ViewModel = viewModel;
+        }
+
+        private async Task<BlogArticle[]> GetBlogArticles(string tag)
+        {
+            var param = new List<IQueryParameter> {
+                new EqualsFilter("system.type", BlogArticle.Codename),
+                new OrderParameter("elements." + BlogArticle.PublishedDateCodename, SortOrder.Descending)
+            };
+
+            if (!string.IsNullOrEmpty(tag))
+            {
+                param.Add(new ContainsFilter("elements." + BlogArticle.TagsCodename, tag));
+            }
+
+            return (await DeliveryClient.GetItemsAsync<BlogArticle>(
+                    param.ToArray()
+                    ).ConfigureAwait(false)).Items.ToArray();
         }
     }
 }
