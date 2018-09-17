@@ -13,14 +13,18 @@ namespace bradjolicoeur.Core.Models.ContentType
     public partial class Profile
     {
         public const string Codename = "profile";
+        public const string TitleCodename = "title";
         public const string NameCodename = "name";
         public const string DescriptionCodename = "description";
+        public const string SocialProfilesCodename = "social_profiles";
         public const string ImageCodename = "image";
         public const string RouteCodename = "route";
         public const string BioCodename = "bio";
 
+        public string Title { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public IEnumerable<object> SocialProfiles { get; set; }
         public IEnumerable<Asset> Image { get; set; }
         public string Route { get; set; }
         public IRichTextContent Bio { get; set; }

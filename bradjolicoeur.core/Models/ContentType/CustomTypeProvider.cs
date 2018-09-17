@@ -13,12 +13,16 @@ namespace bradjolicoeur.Core.Models.ContentType
                     return typeof(BlogArticle);
                 case "code_snip":
                     return typeof(CodeSnip);
-                case "mark_down_content":
-                    return typeof(MarkDownContent);
                 case "content_page":
                     return typeof(ContentPage);
+                case "mark_down_content":
+                    return typeof(MarkDownContent);
                 case "profile":
                     return typeof(Profile);
+                case "rich_image":
+                    return typeof(RichImage);
+                case "socialprofile":
+                    return typeof(Socialprofile);
                 default:
                     return null;
             }

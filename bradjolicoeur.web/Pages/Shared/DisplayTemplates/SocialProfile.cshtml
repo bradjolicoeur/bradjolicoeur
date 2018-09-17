@@ -1,0 +1,20 @@
+﻿@model Socialprofile
+
+@{ string imageUrl = null;
+
+    switch (Model.Type.FirstOrDefault()?.Codename) {
+        case "linkedin":
+            imageUrl = "~/images/linkedin.png";
+            break;
+        case "stack_exchange":
+            imageUrl = "~/images/stackexchange.png";
+            break;
+        case "github":
+            imageUrl = "~/images/github.png";
+            break;
+        default:
+            break;
+    }
+}
+
+<a href="@Model.Url" target="_blank"><img src="@imageUrl" alt="@Model.Type.FirstOrDefault().Name" /></a>
