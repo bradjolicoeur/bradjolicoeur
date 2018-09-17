@@ -5,6 +5,7 @@ body {
     padding-bottom: 20px;
 }
 
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -13,9 +14,9 @@ body {
 }
 
 .nav-bar-image {
-    height: 50px;
-    width: 50px;
-    margin-top: -10px;
+    height: 32px;
+    width: 32px;
+    margin-top: -3px;
 }
 
 .navbar-custom {
@@ -46,6 +47,7 @@ body {
 
 .hero-container {
     position: relative;
+    text-align: center;
     display: inline-block;
     align-content: center;
     width: 100%;
@@ -62,7 +64,7 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate( -50%, -50% );
+    transform: translate(-50%, -50%);
     color: white;
 }
 
