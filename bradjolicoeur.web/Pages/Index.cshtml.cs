@@ -24,7 +24,8 @@ namespace bradjolicoeur.web.Pages
         {
             var response = await DeliveryClient.GetItemsAsync<ContentPage>(
               new EqualsFilter("system.type", ContentPage.Codename),
-              new EqualsFilter("system.codename", "home_page")
+              new EqualsFilter("system.codename", "home_page"),
+               new DepthParameter(2)
               ).ConfigureAwait(false);
 
             ViewModel = response.Items.FirstOrDefault();

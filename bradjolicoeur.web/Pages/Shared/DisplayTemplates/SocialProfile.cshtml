@@ -4,17 +4,17 @@
 
     switch (Model.Type.FirstOrDefault()?.Codename) {
         case "linkedin":
-            imageUrl = "~/images/linkedin.png";
+            imageUrl = "images/linkedin32x32.png";
             break;
-        case "stack_exchange":
-            imageUrl = "~/images/stackexchange.png";
+        case "stack_overflow":
+            imageUrl = "images/stackoverflow32x32.png";
             break;
         case "github":
-            imageUrl = "~/images/github.png";
+            imageUrl = "images/github32x32.png";
             break;
         default:
             break;
     }
 }
 
-<a href="@Model.Url" target="_blank"><img src="@imageUrl" alt="@Model.Type.FirstOrDefault().Name" /></a>
+<li><a href="@Model.Url" target="_blank"><img src="@imageUrl" alt="@Model.Type.FirstOrDefault().Name" /></a></li>
