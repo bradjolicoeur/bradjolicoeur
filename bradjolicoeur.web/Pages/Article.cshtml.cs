@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using bradjolicoeur.Core.Models.ContentType;
 using bradjolicoeur.web.ViewModels;
