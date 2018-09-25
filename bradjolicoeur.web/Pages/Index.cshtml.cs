@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using bradjolicoeur.Core.Models.ContentType;
+using bradjolicoeur.web.ViewModels;
 using KenticoCloud.Delivery;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,17 +19,24 @@ namespace bradjolicoeur.web.Pages
             DeliveryClient = deliveryClient;
         }
 
-        public ContentPage ViewModel { get; private set; }
+        public HomeViewModel ViewModel { get; private set; }
 
         public async Task OnGetAsync()
         {
-            var response = await DeliveryClient.GetItemsAsync<ContentPage>(
+
+            ViewModel = new HomeViewModel();
+                
+            ViewModel.ContentPage  = (await DeliveryClient.GetItemsAsync<ContentPage>(
               new EqualsFilter("system.type", ContentPage.Codename),
               new EqualsFilter("system.codename", "home_page"),
                new DepthParameter(2)
-              ).ConfigureAwait(false);
+              ).ConfigureAwait(false)).Items.FirstOrDefault();
 
-            ViewModel = response.Items.FirstOrDefault();
+            ViewModel.RecentArticles = (await DeliveryClient.GetItemsAsync<BlogArticle>(
+              new LimitParameter(4),
+                new OrderParameter("elements." + BlogArticle.PublishedDateCodename, SortOrder.Descending)
+              ).ConfigureAwait(false)).Items.ToArray();
+
         }
     }
 }

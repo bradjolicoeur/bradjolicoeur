@@ -1,9 +1,9 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = Model.ViewModel.Title;
-    ViewBag.Description = Model.ViewModel.Description;
-    ViewBag.Image = Model.ViewModel.Image?.FirstOrDefault()?.Url;
+    ViewData["Title"] = Model.ViewModel.ContentPage.Title;
+    ViewBag.Description = Model.ViewModel.ContentPage.Description;
+    ViewBag.Image = Model.ViewModel.ContentPage.Image?.FirstOrDefault()?.Url;
 }
 @section HeroSection {
 
@@ -21,8 +21,16 @@
 }
 
 <div class="container">
+    <div class="row well">
+        @Html.DisplayFor(vm => vm.ViewModel.ContentPage.Body)
+    </div>
     <div class="row">
-        @Html.DisplayFor(vm => vm.ViewModel.Body)
+        <h2>Recent Blog Articles</h2>
+        <hr/>
+        @foreach (var article in Model.ViewModel.RecentArticles)
+        {
+            @Html.DisplayFor(vm => article, "BlogArticleSummary");
+        }
     </div>
 </div>
 
