@@ -1,16 +1,11 @@
-﻿using bradjolicoeur.core.Models.Web;
-using bradjolicoeur.core.Services;
+﻿using bradjolicoeur.core.Services;
 using bradjolicoeur.Core.Models.ContentType;
 using KenticoCloud.Delivery;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace bradjolicoeur.web.Pages
 {
@@ -34,6 +29,7 @@ namespace bradjolicoeur.web.Pages
             };
 
             var response = await DClient.GetItemsAsync(parameters).ConfigureAwait(false);
+
 
             string xml = GenerateSitemapService.Generate(response.Items, HttpContext.Request.Scheme + "://" + HttpContext.Request.Host);
             return Content(xml, "text/xml", Encoding.UTF8);
