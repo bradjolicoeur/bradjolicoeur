@@ -14,6 +14,7 @@ namespace bradjolicoeur.Core.Models.ContentType
     {
         public const string Codename = "blog_article";
         public const string RouteCodename = "route";
+        public const string ReferralLinkCodename = "referral_link";
         public const string TitleCodename = "title";
         public const string DescriptionCodename = "description";
         public const string ImageCodename = "image";
@@ -22,6 +23,7 @@ namespace bradjolicoeur.Core.Models.ContentType
         public const string TagsCodename = "tags";
 
         public string Route { get; set; }
+        public string ReferralLink { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public IEnumerable<Asset> Image { get; set; }

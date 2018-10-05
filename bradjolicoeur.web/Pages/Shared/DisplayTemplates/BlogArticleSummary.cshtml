@@ -23,7 +23,15 @@
 
         <div>@Html.DisplayFor(i => Model.Description)</div>
         <span class="button-link">
-            <a asp-page="./article" asp-route-id="@Model.Route">Read More</a>
+            @if (string.IsNullOrEmpty(Model.ReferralLink) != true)
+            {
+                <a href="@Model.ReferralLink" target="_blank">Read More</a>
+            }
+            else
+            {
+                <a asp-page="./article" asp-route-id="@Model.Route">Read More</a>
+            }
+
         </span>
     </div>
 

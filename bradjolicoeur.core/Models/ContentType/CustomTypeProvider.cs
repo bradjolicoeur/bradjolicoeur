@@ -15,6 +15,8 @@ namespace bradjolicoeur.Core.Models.ContentType
                     return typeof(CodeSnip);
                 case "content_page":
                     return typeof(ContentPage);
+                case "embed_video":
+                    return typeof(EmbedVideo);
                 case "mark_down_content":
                     return typeof(MarkDownContent);
                 case "profile":
