@@ -37,8 +37,11 @@ namespace bradjolicoeur.web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSingleton(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc();
+
+            services.AddProgressiveWebApp();
 
             services.AddSingleton<IDeliveryClient>(c => new CachedDeliveryClient(
                 c.GetRequiredService<IOptions<ProjectOptions>>(), c.GetRequiredService<IMemoryCache>())
