@@ -1,4 +1,4 @@
 cd /srv/docker
-docker-compose pull website
-docker-compose down
-docker-compose up -d
+docker-compose --log-level ERROR pull website
+docker-compose --log-level ERROR down
+docker-compose --log-level ERROR up -d
