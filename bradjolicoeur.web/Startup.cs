@@ -13,6 +13,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using WebEssentials.AspNetCore.Pwa;
 
 namespace bradjolicoeur.web
 {
@@ -41,7 +42,10 @@ namespace bradjolicoeur.web
 
             services.AddMvc();
 
-            services.AddProgressiveWebApp();
+            services.AddProgressiveWebApp( new PwaOptions
+            {
+                AllowHttp = true
+            });
 
             services.AddSingleton<IDeliveryClient>(c => new CachedDeliveryClient(
                 c.GetRequiredService<IOptions<ProjectOptions>>(), c.GetRequiredService<IMemoryCache>())
