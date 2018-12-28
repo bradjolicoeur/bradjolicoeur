@@ -43,7 +43,7 @@ namespace bradjolicoeur.web
 
             services.AddSingleton(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
 
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddProgressiveWebApp( new PwaOptions
             {
