@@ -1,7 +1,10 @@
 using bradjolicoeur.core.Client;
+using bradjolicoeur.core.Helpers;
 using bradjolicoeur.core.Models;
+using bradjolicoeur.core.Resolvers;
 using bradjolicoeur.core.Services;
 using bradjolicoeur.Core.Models.ContentType;
+using bradjolicoeur.web.Filters;
 using bradjolicoeur.web.Resolvers;
 using KenticoCloud.Delivery;
 using Microsoft.AspNetCore.Builder;
@@ -47,12 +50,26 @@ namespace bradjolicoeur.web
                 AllowHttp = true
             });
 
-            services.AddSingleton<IDeliveryClient>(c => new CachedDeliveryClient(
-                c.GetRequiredService<IOptions<ProjectOptions>>(), c.GetRequiredService<IMemoryCache>())
-            {
-                CodeFirstModelProvider = { TypeProvider = new CustomTypeProvider() },
-                ContentLinkUrlResolver = new CustomContentLinkUrlResolver()
-            });
+            var deliveryOptions = new DeliveryOptions();
+            Configuration.GetSection(nameof(DeliveryOptions)).Bind(deliveryOptions);
+
+            services.AddSingleton<IWebhookListener>(sp => new WebhookListener());
+            services.AddSingleton<IDependentTypesResolver>(sp => new DependentFormatResolver());
+            services.AddSingleton<ICacheManager>(sp => new ReactiveCacheManager(
+                sp.GetRequiredService<IOptions<ProjectOptions>>(),
+                sp.GetRequiredService<IMemoryCache>(),
+                sp.GetRequiredService<IDependentTypesResolver>(),
+                sp.GetRequiredService<IWebhookListener>()));
+            services.AddScoped<KenticoCloudSignatureActionFilter>();
+
+            services.AddSingleton<IDeliveryClient>(sp => new CachedDeliveryClient(
+                sp.GetRequiredService<IOptions<ProjectOptions>>(),
+                sp.GetRequiredService<ICacheManager>(),
+                DeliveryClientBuilder.WithOptions(_ => deliveryOptions)
+                .WithCodeFirstTypeProvider(new CustomTypeProvider())
+                .WithContentLinkUrlResolver(new CustomContentLinkUrlResolver())
+                .Build())
+               );
 
             services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
 
