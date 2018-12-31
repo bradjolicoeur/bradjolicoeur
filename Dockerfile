@@ -5,7 +5,7 @@ FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
 COPY ["bradjolicoeur.web/bradjolicoeur.web.csproj", "bradjolicoeur.web/"]
 COPY ["bradjolicoeur.core/bradjolicoeur.core.csproj", "bradjolicoeur.core/"]
-
+COPY NuGet.Config /root/.nuget/NuGet/
 COPY . .
 WORKDIR "/src/bradjolicoeur.web"
 RUN dotnet build "bradjolicoeur.web.csproj" -c Release -o /app
