@@ -6,7 +6,7 @@ WORKDIR /src
 
 COPY . .
 
-RUN dotnet build -c Release -o /app --no-restore
+RUN dotnet build -c Release -o /app
 
 FROM build AS publish
 RUN dotnet publish -c Release -o /app --no-restore --no-build
