@@ -5,7 +5,7 @@ FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
 
 
-COPY **/*.nupkg NugetPackage/
+COPY ./packages/*.nupkg NugetPackage/
 COPY ./NuGet.Config ./
 
 COPY ["bradjolicoeur.web/bradjolicoeur.web.csproj", "bradjolicoeur.web/"]
