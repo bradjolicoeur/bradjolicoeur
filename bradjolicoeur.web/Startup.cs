@@ -43,7 +43,12 @@ namespace bradjolicoeur.web
 
             services.AddSingleton(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AddPageRoute("/sitemap", "sitemap.xml");
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddProgressiveWebApp( new PwaOptions
             {
