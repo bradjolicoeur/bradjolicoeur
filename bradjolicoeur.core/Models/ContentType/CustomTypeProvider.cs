@@ -7,7 +7,6 @@ namespace bradjolicoeur.Core.Models.ContentType
 {
     public class CustomTypeProvider : ICodeFirstTypeProvider
     {
-
         private static readonly Dictionary<Type, string> _codenames = new Dictionary<Type, string>
         {
             {typeof(BlogArticle), "blog_article"},
@@ -17,8 +16,10 @@ namespace bradjolicoeur.Core.Models.ContentType
             {typeof(MarkDownContent), "mark_down_content"},
             {typeof(Profile), "profile"},
             {typeof(RichImage), "rich_image"},
-            {typeof(Socialprofile), "socialprofile"}
+            {typeof(Socialprofile), "socialprofile"},
+            {typeof(UrlRedirect), "url_redirect"}
         };
+
         public Type GetType(string contentType)
         {
             return _codenames.Keys.FirstOrDefault(type => GetCodename(type).Equals(contentType));

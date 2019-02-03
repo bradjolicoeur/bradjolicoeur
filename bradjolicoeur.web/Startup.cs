@@ -5,6 +5,7 @@ using bradjolicoeur.core.Resolvers;
 using bradjolicoeur.core.Services;
 using bradjolicoeur.Core.Models.ContentType;
 using bradjolicoeur.web.Filters;
+using bradjolicoeur.web.Middleware;
 using bradjolicoeur.web.Resolvers;
 using KenticoCloud.Delivery;
 using Microsoft.AspNetCore.Builder;
@@ -102,6 +103,8 @@ namespace bradjolicoeur.web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseMiddleware<RedirectMiddleware>();
 
             app.UseMvc();
         }
