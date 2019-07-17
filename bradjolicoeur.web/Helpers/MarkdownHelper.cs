@@ -1,4 +1,4 @@
-﻿using HeyRed.MarkdownSharp;
+﻿using Markdig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +8,9 @@ namespace bradjolicoeur.web.Helpers
 {
     public static class MarkdownHelper
     {
-        private static Markdown Markdown = new Markdown();
-
         public static string Transform(string text)
         {
-            return Markdown.Transform(text);
+            return Markdown.ToHtml(text);
         }
     }
 }
