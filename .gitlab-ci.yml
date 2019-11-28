@@ -8,13 +8,11 @@ stages:
 build:
   stage: build
   script:
-    - cd src
     - dotnet build
 
 test:
   stage: test
   script:
-    - cd src
     - dotnet test
 
 release:
