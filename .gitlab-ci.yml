@@ -40,7 +40,7 @@ release:
 
   artifacts:
     paths:
-      - src/publish/
+      - publish/
   script:
     - cd src
     - docker build -t $IMAGE_NAME .
