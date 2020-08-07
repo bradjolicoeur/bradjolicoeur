@@ -25,7 +25,7 @@ release:
   before_script:
     - docker info
     # Install CA certs, openssl to https downloads, python for gcloud sdk
-    - apk add --update make ca-certificates openssl python
+    - apk add --update make ca-certificates openssl python3
     - update-ca-certificates
     # Write our GCP service account private key into a file
     - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
