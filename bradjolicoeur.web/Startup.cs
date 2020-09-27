@@ -8,6 +8,8 @@ using bradjolicoeur.web.Filters;
 using bradjolicoeur.web.Middleware;
 using bradjolicoeur.web.Resolvers;
 using KenticoCloud.Delivery;
+using Markdig;
+using Markdig.SyntaxHighlighting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -44,12 +46,16 @@ namespace bradjolicoeur.web
 
             services.AddSingleton(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
 
-            services.AddMvc()
+            services.AddMvc(o =>
+                {
+                    o.EnableEndpointRouting = false;
+                })
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AddPageRoute("/sitemap", "sitemap.xml");
+                   
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddProgressiveWebApp( new PwaOptions
             {
@@ -79,12 +85,14 @@ namespace bradjolicoeur.web
 
             services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
 
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.EnvironmentName.Equals("Development", System.StringComparison.InvariantCultureIgnoreCase))
             {
                 app.UseDeveloperExceptionPage();
             }
