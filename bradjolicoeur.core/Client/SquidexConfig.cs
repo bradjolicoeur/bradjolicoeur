@@ -17,8 +17,8 @@ namespace bradjolicoeur.core.Client
                     new SquidexOptions
                     {
                         AppName = "brad-jolicoeur-blog",
-                        ClientId = "brad-jolicoeur-blog:default",
-                        ClientSecret = "5iyjfhrlf8xffvqglz77ayswf3gywixsbgjn3kiqp80x",
+                        ClientId = "brad-jolicoeur-blog:read-only",
+                        ClientSecret = "1cq5l90ferjma3bukon11hhwgzbxhnio8fa1oxkzxjax",
                         Url = "https://cloud.squidex.io"
                     });
 
