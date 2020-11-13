@@ -1,0 +1,28 @@
+﻿@model ReadingFeed
+
+<div class="row margin-bottom-20">
+    <div class="col-sm-4 blog-thumbnail">
+
+        @if (Model.Data.ImageUrl != null)
+        {
+            <img src="@Model.Data.ImageUrl" alt="@Model.Data.Title" class="img-responsive" />
+        }
+
+    </div>
+    <div class="col-sm-8 text-align-top blog-summary ">
+        <h3 class="margin-top-5">@Model.Data.Title</h3>
+        <h6><strong>@Model.Data.Author</strong></h6>
+      
+        <div>
+        @if (!string.IsNullOrEmpty(Model.Data.Description)) { 
+
+            @Html.DisplayFor(i => Model.Data.Description)
+        
+        }</div>
+        <span class="button-link">
+            <a href="@Model.Data.ArticleUrl" target="_blank">Read More</a>
+        </span>
+    </div>
+
+
+</div>

@@ -9,7 +9,6 @@ using bradjolicoeur.web.Middleware;
 using bradjolicoeur.web.Resolvers;
 using KenticoCloud.Delivery;
 using Markdig;
-using Markdig.SyntaxHighlighting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -86,7 +85,7 @@ namespace bradjolicoeur.web
             services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
 
 
-
+            services.AddSquidexServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

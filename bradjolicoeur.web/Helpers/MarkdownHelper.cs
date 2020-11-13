@@ -1,6 +1,5 @@
 ﻿using Markdig;
 using Markdig.Parsers;
-using Markdig.SyntaxHighlighting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,6 @@ namespace bradjolicoeur.web.Helpers
             {
                 pipeline = new MarkdownPipelineBuilder()
                     .UseAdvancedExtensions()
-                    .UseSyntaxHighlighting()
                     .Build();
             }
 

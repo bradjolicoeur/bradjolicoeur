@@ -1,0 +1,17 @@
+﻿@page
+@model bradjolicoeur.web.Pages.ReadingModel
+@{
+    ViewData["Title"] = "Reading Feed";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>This is a curated feed of the articles and videos I encounter in my daily professional reading.</p>
+<p>Note that I may not have fully read/viewed all of the things in this feed.  The images, content and opinions in them are owned by their respective authors.</p>
+
+@foreach (var item in Model.content?.Items)
+{
+
+    @Html.DisplayFor(vm => item, "ReadingArticleSummary");
+
+}
