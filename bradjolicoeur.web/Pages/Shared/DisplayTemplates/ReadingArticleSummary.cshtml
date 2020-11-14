@@ -3,24 +3,33 @@
 <div class="row margin-bottom-20">
     <div class="col-sm-4 blog-thumbnail">
 
-        @if (Model.Data.ImageUrl != null)
+        @if (!string.IsNullOrEmpty(Model.Data.ImageUrl) && !Model.Data.IsYouTube())
         {
             <img src="@Model.Data.ImageUrl" alt="@Model.Data.Title" class="img-responsive" />
         }
 
+        @if (Model.Data.IsYouTube())
+        {
+        <div class="responsive-iframe-container">
+            <iframe class="responsive-iframe" src="@Model.Data.YouTubeEmbeddedUrl()" 
+                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+        </div>
+        }
+
     </div>
-    <div class="col-sm-8 text-align-top blog-summary ">
-        <h3 class="margin-top-5">@Model.Data.Title</h3>
-        <h6><strong>@Model.Data.Author</strong></h6>
+    <div class="col-sm-8 text-align-top blog-summary margin-top-5">
+        <h3>@Model.Data.Title</h3>
+        <h6><strong>@Model.Data.AuthorAndSiteName()</strong></h6>
       
         <div>
         @if (!string.IsNullOrEmpty(Model.Data.Description)) { 
 
-            @Html.DisplayFor(i => Model.Data.Description)
+           <i>@Html.DisplayFor(i => Model.Data.Description)</i>
         
         }</div>
         <span class="button-link">
-            <a href="@Model.Data.ArticleUrl" target="_blank">Read More</a>
+            <a href="@Model.Data.ArticleUrl" target="_blank">@Model.Data.ButtonLabel()</a>
         </span>
     </div>
 
