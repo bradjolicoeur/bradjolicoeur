@@ -1,8 +1,10 @@
 ﻿@model BlogArticle
+@inject Squidex.ClientLibrary.ISquidexClientManager Squidex
+
 
 <div class="row margin-bottom-20">
     <div class="col-sm-4 blog-thumbnail">
-        <img src="@Model.Data.ImageUrl.FirstOrDefault()" alt="@Model.Data.Title" class="img-responsive" />
+        <img src="@Squidex.GenerateImageUrl(Model.Data.ImageUrl.FirstOrDefault())" alt="@Model.Data.Title" class="img-responsive" />
     </div>
     <div class="col-sm-8 text-align-top blog-summary">
         <h3>@Model.Data.Title</h3>
@@ -11,7 +13,10 @@
         {
             <ul class="list-inline">
                 <li><h5>tags:</h5></li>
-               @* @Html.DisplayFor(vm => Model.Data.GetTags())*@
+                @foreach (var tag in Model.Data.GetTags().Tags)
+                {
+                    <li><a asp-page="./blog" asp-route-id="@tag.Value">@tag.Name</a></li>
+                }
             </ul>
 
         }

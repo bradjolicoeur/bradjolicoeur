@@ -20,7 +20,7 @@ namespace bradjolicoeur.core.Models.ContentModels
 
         [JsonProperty("image")]
         [JsonConverter(typeof(InvariantConverter))]
-        public string[] ImageUrl { get; set; }
+        public IEnumerable<string> ImageUrl { get; set; }
 
         [JsonProperty("blogtags")]
         [JsonConverter(typeof(InvariantConverter))]

@@ -1,9 +1,10 @@
 ﻿@page "{slug?}"
 @model ArticleModel
+
 @{
-    ViewData["Title"] = Model.Article?.Data?.Title;
-    ViewBag.Description = Model.Article?.Data?.Description;
-    ViewBag.Image = Model.Article?.Data?.ImageUrl.FirstOrDefault();
+    ViewData["Title"] = Model.Article.Data.Title;
+    ViewBag.Description = Model.Article.Data.Description;
+    ViewBag.Image = Model.ImageUrl;
 }
 
 <div class="container">
@@ -12,7 +13,32 @@
     </div>
     <div class="row margin-bottom-20">
         <div class="col-sm-8">
-            @Html.DisplayFor(vm => vm.Article)
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="blog-thumbnail margin-bottom-20">
+                        <img src="@ViewBag.Image" alt="@Model.Article.Data.Title" class="img-responsive" />
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <h5>by Brad Jolicoeur</h5>
+                    <h6>@Model.Article.Data.PublishedDate.ToString("MM/dd/yyyy")</h6>
+
+                    @if (Model.Article.Data.HasTags())
+                    {
+                        <ul class="list-inline">
+                            <li><h5>tags:</h5></li>
+                                @foreach (var tag in Model.Article.Data.GetTags().Tags)
+                                {
+                                    <li><a asp-page="./blog" asp-route-id="@tag.Value">@tag.Name</a></li>
+                                }
+                        </ul>
+                    }
+
+                </div>
+            </div>
+            <div class="text-align-top ">
+                <div class="blog-body">@Html.Raw(MarkdownHelper.Transform(Model.Article.Data.Body))</div>
+            </div>
         </div>
         <div class="col-sm-4">
             <h3>You May Also Like</h3>
@@ -31,10 +57,10 @@
         <div id="disqus_thread"></div>
         <script>
             var disqus_config = function () {
-            this.page.url = "@Request.Scheme://@Request.Host@Request.Path";  
-            this.page.identifier = "@Request.Scheme://@Request.Host@Request.Path"; 
+            this.page.url = "@Request.Scheme://@Request.Host@Request.Path";
+            this.page.identifier = "@Request.Scheme://@Request.Host@Request.Path";
             };
-            
+
             (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
             s.src = 'https://bradjolicoeur.disqus.com/embed.js';

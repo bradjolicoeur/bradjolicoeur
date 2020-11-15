@@ -14,14 +14,19 @@ namespace bradjolicoeur.web.Pages
     {
         private readonly IContentsClient<BlogArticle, BlogArticleData> _blogArticle;
 
-        public ArticleModel(IContentsClient<BlogArticle, BlogArticleData> blogArtcle)
+        public ISquidexClientManager _squidex { get; }
+
+        public ArticleModel(IContentsClient<BlogArticle, BlogArticleData> blogArtcle, ISquidexClientManager squidex)
         {
             _blogArticle = blogArtcle;
+            _squidex = squidex;
         }
 
         public ContentsResult<BlogArticle, BlogArticleData> ArticleData { get; set; }
 
         public BlogArticle Article { get => ArticleData?.Items?.FirstOrDefault(); }
+
+        public string ImageUrl { get => _squidex.GenerateImageUrl(Article.Data.ImageUrl.FirstOrDefault()); }
 
         public ContentsResult<BlogArticle, BlogArticleData> Suggestions { get; set; }
 
