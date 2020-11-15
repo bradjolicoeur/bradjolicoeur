@@ -14,3 +14,22 @@
     @Html.DisplayFor(vm => item, "ReadingArticleSummary");
 
 }
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class='page-item @(Model.PreviousPage? "":"disabled")'>
+            <a asp-page="/reading" asp-route-currentpage="@(Model.CurrentPage -1)" class="button-link">Previous</a>
+        </li>
+
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                <a asp-page="/reading" asp-route-currentpage="@i" class="page-link">@i</a>
+            </li>
+        }
+
+        <li class='page-item @(Model.NextPage? "":"disabled")'>
+            <a asp-page="/reading" asp-route-currentpage="@(Model.CurrentPage +1)" class="button-link">Next</a>
+        </li>
+    </ul>
+</nav>
