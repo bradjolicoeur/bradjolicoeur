@@ -62,10 +62,10 @@ namespace bradjolicoeur.core.Services
                     pageName += "/" + ((item.Route.ToLower() != "home")? item.Route : "");
                     break;
 
-                case "blog_article":
-                    var ei = contentItem.CastTo<BlogArticle>();
-                    pageName += "/article/" + ei.Route;
-                    break;
+                //case "blog_article":
+                //    var ei = contentItem.CastTo<BlogArticle>();
+                //    pageName += "/article/" + ei.Route;
+                //    break;
 
                 default:
                     break;

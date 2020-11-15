@@ -1,15 +1,13 @@
-﻿using bradjolicoeur.Core.Models.ContentType;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using bradjolicoeur.core.Models.ContentModels;
+using bradjolicoeur.Core.Models.ContentType;
+using Squidex.ClientLibrary;
 
 namespace bradjolicoeur.web.ViewModels
 {
     public class HomeViewModel
     {
         public ContentPage ContentPage { get; set; }
-        public IEnumerable<BlogArticle> RecentArticles {get;set;}
+        public ContentsResult<BlogArticle, BlogArticleData> BlogArticles { get; set; }
 
     }
 }

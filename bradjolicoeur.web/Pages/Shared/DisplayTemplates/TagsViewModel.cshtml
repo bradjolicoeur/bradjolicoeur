@@ -1,0 +1,6 @@
+﻿@model TagsViewModel
+
+@foreach (var tag in Model.Tags)
+{
+    <li><a asp-page="./blog" asp-route-id="@tag.Value">@tag.Name</a></li>
+}

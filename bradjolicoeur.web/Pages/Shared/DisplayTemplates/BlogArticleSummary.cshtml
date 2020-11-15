@@ -2,38 +2,23 @@
 
 <div class="row margin-bottom-20">
     <div class="col-sm-4 blog-thumbnail">
-
-        @if (Model.Image.Count() > 0)
-        {
-            <img src="@Model.Image.FirstOrDefault()?.Url" alt="@Model.Image.FirstOrDefault()?.Description" class="img-responsive" />
-        }
-
+        <img src="@Model.Data.ImageUrl.FirstOrDefault()" alt="@Model.Data.Title" class="img-responsive" />
     </div>
     <div class="col-sm-8 text-align-top blog-summary">
-        <h3>@Model.Title</h3>
-        <h6><strong>Brad Jolicoeur</strong>  -  @Model.PublishedDate?.ToString("MM/dd/yyyy")</h6>
-        @if (Model.Tags.Count() > 0)
+        <h3>@Model.Data.Title</h3>
+        <h6><strong>Brad Jolicoeur</strong>  -  @Model.Data.PublishedDate.ToString("MM/dd/yyyy")</h6>
+        @if (Model.Data.HasTags())
         {
             <ul class="list-inline">
                 <li><h5>tags:</h5></li>
-                @Html.DisplayFor(vm => Model.Tags)
+               @* @Html.DisplayFor(vm => Model.Data.GetTags())*@
             </ul>
 
         }
 
-        <div>@Html.DisplayFor(i => Model.Description)</div>
+        <div>@Html.DisplayFor(i => Model.Data.Description)</div>
         <span class="button-link">
-            @if (string.IsNullOrEmpty(Model.ReferralLink) != true)
-            {
-                <a href="@Model.ReferralLink" target="_blank">Read More</a>
-            }
-            else
-            {
-                <a asp-page="./article" asp-route-id="@Model.Route">Read More</a>
-            }
-
+            <a asp-page="./article" asp-route-slug="@Model.Data.Slug">Read More</a>
         </span>
     </div>
-
-
 </div>

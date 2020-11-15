@@ -1,4 +1,6 @@
-﻿using bradjolicoeur.Core.Models.ContentType;
+﻿using bradjolicoeur.core.Models.ContentModels;
+using bradjolicoeur.Core.Models.ContentType;
+using Squidex.ClientLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,6 @@ namespace bradjolicoeur.web.ViewModels
     {
         public ContentPage ContentPage { get; set; }
 
-        public IEnumerable<BlogArticle> BlogArticles { get; set; }
+        public ContentsResult<BlogArticle, BlogArticleData> BlogArticles { get; set; }
     }
 }

@@ -1,26 +1,26 @@
-﻿@page "{id?}"
+﻿@page "{slug?}"
 @model ArticleModel
 @{
-    ViewData["Title"] = Model.ViewModel.Article.Title;
-    ViewBag.Description = Model.ViewModel.Article.Description;
-    ViewBag.Image = Model.ViewModel.Article.Image?.FirstOrDefault()?.Url;
+    ViewData["Title"] = Model.Article?.Data?.Title;
+    ViewBag.Description = Model.Article?.Data?.Description;
+    ViewBag.Image = Model.Article?.Data?.ImageUrl.FirstOrDefault();
 }
 
 <div class="container">
     <div class="row margin-bottom-20">
-        <h1>@Model.ViewModel.Article.Title</h1>
+        <h1>@Model.Article.Data.Title</h1>
     </div>
     <div class="row margin-bottom-20">
         <div class="col-sm-8">
-            @Html.DisplayFor(vm => vm.ViewModel.Article)
+            @Html.DisplayFor(vm => vm.Article)
         </div>
         <div class="col-sm-4">
             <h3>You May Also Like</h3>
             <ul class="list-unstyled">
-                @foreach (var article in Model.ViewModel.Suggestions)
+                @foreach (var article in Model.Suggestions.Items)
                 {
                     <li>
-                        <a asp-page="./article" asp-route-id="@article.Route"><h4>@article.Title</h4></a>
+                        <a asp-page="./article" asp-route-id="@article.Data.Slug"><h4>@article.Data.Title</h4></a>
                     </li>
 
                 }

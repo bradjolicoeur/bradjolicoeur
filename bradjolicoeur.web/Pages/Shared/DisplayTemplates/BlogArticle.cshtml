@@ -3,26 +3,23 @@
 <div class="row">
     <div class="col-sm-3">
         <div class="blog-thumbnail margin-bottom-20">
-            @if (Model.Image.Count() > 0)
-            {
-                <img src="@Model.Image.FirstOrDefault().Url" class="img-responsive" alt="@Model.Image.FirstOrDefault()?.Description" />
-            }
+            <img src="@Model.Data.ImageUrl.FirstOrDefault()" alt="@Model.Data.Title" class="img-responsive" />
         </div>
     </div>
     <div class="col-sm-9">
         <h5>by Brad Jolicoeur</h5>
-        <h6>@Model.PublishedDate?.ToString("MM/dd/yyyy")</h6>
+        <h6>@Model.Data.PublishedDate.ToString("MM/dd/yyyy")</h6>
 
-        @if (Model.Tags.Count() > 0)
+        @if (Model.Data.HasTags())
         {
             <ul class="list-inline">
                 <li><h5>tags:</h5></li>
-                @Html.DisplayFor(vm => vm.Tags)
+                @*@Html.DisplayFor(vm => vm.Data.GetTags())*@
             </ul>
         }
 
     </div>
 </div>
 <div class="text-align-top ">
-    <div class="blog-body">@Html.DisplayFor(vm => vm.Body)</div>
+    <div class="blog-body">@Html.DisplayFor(vm => vm.Data.Body)</div>
 </div>

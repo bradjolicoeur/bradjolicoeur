@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using bradjolicoeur.core.Models.ContentModels;
 using bradjolicoeur.Core.Models.ContentType;
 using bradjolicoeur.web.ViewModels;
 using KenticoCloud.Delivery;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Squidex.ClientLibrary;
 
 namespace bradjolicoeur.web.Pages
 {
@@ -14,9 +16,12 @@ namespace bradjolicoeur.web.Pages
     {
         private IDeliveryClient DeliveryClient { get; set; }
 
-        public IndexModel(IDeliveryClient deliveryClient)
+        private readonly IContentsClient<BlogArticle, BlogArticleData> _blogArticle;
+
+        public IndexModel(IDeliveryClient deliveryClient, IContentsClient<BlogArticle, BlogArticleData> blogArtcle)
         {
             DeliveryClient = deliveryClient;
+            _blogArticle = blogArtcle;
         }
 
         public HomeViewModel ViewModel { get; private set; }
@@ -32,10 +37,11 @@ namespace bradjolicoeur.web.Pages
                new DepthParameter(2)
               ).ConfigureAwait(false)).Items.FirstOrDefault();
 
-            ViewModel.RecentArticles = (await DeliveryClient.GetItemsAsync<BlogArticle>(
-              new LimitParameter(4),
-                new OrderParameter("elements." + BlogArticle.PublishedDateCodename, SortOrder.Descending)
-              ).ConfigureAwait(false)).Items.ToArray();
+            ViewModel.BlogArticles = await _blogArticle.GetAsync(new ContentQuery
+            {
+                OrderBy = $"data/publisheddate/iv desc",
+                Top = 3,
+            });
 
         }
     }
