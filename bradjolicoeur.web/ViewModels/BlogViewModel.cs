@@ -12,6 +12,6 @@ namespace bradjolicoeur.web.ViewModels
     {
         public ContentPage ContentPage { get; set; }
 
-        public ContentsResult<BlogArticle, BlogArticleData> BlogArticles { get; set; }
+        
     }
 }

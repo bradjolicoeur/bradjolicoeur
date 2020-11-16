@@ -21,29 +21,20 @@ namespace bradjolicoeur.web.Pages
         public int PageSize { get; set; } = 10;
         public long Count { get; set; }
         public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
-        public bool NextPage => (CurrentPage * PageSize) <= ViewModel.BlogArticles.Total;
+        public bool NextPage => (CurrentPage * PageSize) <= BlogArticles.Total;
         public bool PreviousPage => (CurrentPage > 1);
-
-        private IDeliveryClient DeliveryClient { get; set; }
 
         private readonly IContentsClient<BlogArticle, BlogArticleData> _blogArticle;
 
-        public BlogModel(IDeliveryClient deliveryClient, IContentsClient<BlogArticle, BlogArticleData> blogArtcle)
+        public BlogModel( IContentsClient<BlogArticle, BlogArticleData> blogArtcle)
         {
-            DeliveryClient = deliveryClient;
             _blogArticle = blogArtcle;
         }
 
-        public BlogViewModel ViewModel { get; private set; }
+        public ContentsResult<BlogArticle, BlogArticleData> BlogArticles { get; set; }
 
         public async Task OnGetAsync(string id = null)
         {
-            ViewModel = new BlogViewModel();
-
-            ViewModel.ContentPage = (await DeliveryClient.GetItemsAsync<ContentPage>(
-              new EqualsFilter("system.type", ContentPage.Codename),
-              new EqualsFilter("system.codename", "blog_page")
-              ).ConfigureAwait(false)).Items.FirstOrDefault();
 
             await GetBlogArticles(id);
         }
@@ -52,7 +43,7 @@ namespace bradjolicoeur.web.Pages
         {
             var filter = string.IsNullOrEmpty(tag) ? null : $"data/blogtags/iv eq '{tag}'";
 
-            ViewModel.BlogArticles = await _blogArticle.GetAsync(new ContentQuery
+            BlogArticles = await _blogArticle.GetAsync(new ContentQuery
             {
                 OrderBy = $"data/publisheddate/iv desc",
                 Filter = filter,
@@ -60,7 +51,7 @@ namespace bradjolicoeur.web.Pages
                 Top = PageSize,
             });
 
-            Count = ViewModel.BlogArticles.Total;
+            Count = BlogArticles.Total;
 
         }
     }

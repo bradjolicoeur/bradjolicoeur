@@ -1,14 +1,14 @@
 ﻿@page "{id?}"
 @model BlogModel
 @{
-    ViewData["Title"] = Model.ViewModel.ContentPage.Title;
-    ViewBag.Description = Model.ViewModel.ContentPage.Description;
-    ViewBag.Image = Model.ViewModel.ContentPage.Image?.FirstOrDefault()?.Url;
+    ViewData["Title"] = "Blog";
+    ViewBag.Description = "Blog";
+    ViewBag.Image = null;
 }
 
-<h2>@Model.ViewModel.ContentPage.Title</h2>
+<h2>@ViewData["Title"]</h2>
 
-@foreach (var article in Model.ViewModel.BlogArticles.Items)
+@foreach (var article in Model.BlogArticles.Items)
 {
     @Html.DisplayFor(vm => article, "BlogArticleSummary");
 }
