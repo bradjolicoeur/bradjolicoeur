@@ -1,30 +1,34 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using bradjolicoeur.core.Models.ContentModels;
 using bradjolicoeur.Core.Models.ContentType;
 using KenticoCloud.Delivery;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Squidex.ClientLibrary;
 
 namespace bradjolicoeur.web.Pages
 {
     public class ResumeModel : PageModel
     {
-        private IDeliveryClient DeliveryClient { get; set; }
+        private readonly IContentsClient<Resume, ResumeData> _resume;
 
-        public ResumeModel(IDeliveryClient deliveryClient)
+        public ResumeModel(IContentsClient<Resume, ResumeData> resume)
         {
-            DeliveryClient = deliveryClient;
+            _resume = resume;
         }
 
-        public ContentPage ViewModel { get; private set; }
+        public Resume Resume { get => content?.Items?.FirstOrDefault(); }
 
-        public async Task OnGetAsync()
+        public ContentsResult<Resume, ResumeData> content { get; set; }
+
+        public async Task OnGet()
         {
-            var response = await DeliveryClient.GetItemsAsync<ContentPage>(
-              new EqualsFilter("system.type", ContentPage.Codename),
-              new EqualsFilter("system.codename", "resume_page")
-              ).ConfigureAwait(false);
+            content = await _resume.GetAsync(new ContentQuery
+            {
+                Filter = $"id eq '603b2d8a-c44f-4be1-be30-b61a205dbbf0'"
+            });
 
-            ViewModel = response.Items.FirstOrDefault();
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿@page
-@model bradjolicoeur.web.Pages.ResumeModel
+@model ResumeModel
 @{
-    ViewData["Title"] = Model.ViewModel.Title;
-    ViewBag.Description = Model.ViewModel.Description;
+    ViewData["Title"] = "Resume";
+    ViewBag.Description = "Resume";
 }
 <div class="container">
     <div class="row">
-        @Html.DisplayFor(vm => vm.ViewModel.Body)
+        @Html.Raw(MarkdownHelper.Transform(Model.Resume.Data.Body))
     </div>
 </div>
