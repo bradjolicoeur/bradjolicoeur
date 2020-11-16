@@ -29,7 +29,7 @@
                             <li><h5>tags:</h5></li>
                                 @foreach (var tag in Model.Article.Data.GetTags().Tags)
                                 {
-                                    <li><a asp-page="./blog" asp-route-id="@tag.Value">@tag.Name</a></li>
+                                    <li><a asp-page="./blog" asp-route-id="@tag.Name">@tag.Name</a></li>
                                 }
                         </ul>
                     }

@@ -48,10 +48,12 @@ namespace bradjolicoeur.web.Pages
 
         private async Task GetBlogArticles(string tag)
         {
+            var filter = string.IsNullOrEmpty(tag) ? null : $"data/blogtags/iv eq '{tag}'";
 
             ViewModel.BlogArticles = await _blogArticle.GetAsync(new ContentQuery
             {
                 OrderBy = $"data/publisheddate/iv desc",
+                Filter = filter,
                 Skip = ((CurrentPage - 1) * PageSize),
                 Top = PageSize,
             });
