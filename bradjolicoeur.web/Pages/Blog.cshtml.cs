@@ -21,6 +21,8 @@ namespace bradjolicoeur.web.Pages
         public int PageSize { get; set; } = 10;
         public long Count { get; set; }
         public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
+        public bool NextPage => (CurrentPage * PageSize) <= ViewModel.BlogArticles.Total;
+        public bool PreviousPage => (CurrentPage > 1);
 
         private IDeliveryClient DeliveryClient { get; set; }
 
@@ -60,19 +62,6 @@ namespace bradjolicoeur.web.Pages
 
             Count = ViewModel.BlogArticles.Total;
 
-            //var param = new List<IQueryParameter> {
-            //    new EqualsFilter("system.type", BlogArticle.Codename),
-            //    new OrderParameter("elements." + BlogArticle.PublishedDateCodename, SortOrder.Descending)
-            //};
-
-            //if (!string.IsNullOrEmpty(tag))
-            //{
-            //    param.Add(new ContainsFilter("elements." + BlogArticle.TagsCodename, tag));
-            //}
-
-            //return (await DeliveryClient.GetItemsAsync<BlogArticle>(
-            //        param.ToArray()
-            //        ).ConfigureAwait(false)).Items.ToArray();
         }
     }
 }
