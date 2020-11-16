@@ -14,30 +14,33 @@ namespace bradjolicoeur.web.Pages
 {
     public class IndexModel : PageModel
     {
-        private IDeliveryClient DeliveryClient { get; set; }
 
         private readonly IContentsClient<BlogArticle, BlogArticleData> _blogArticle;
+        private readonly IContentsClient<HomePage, HomePageData> _homePage;
+        private readonly ISquidexClientManager _squidex;
 
-        public IndexModel(IDeliveryClient deliveryClient, IContentsClient<BlogArticle, BlogArticleData> blogArtcle)
+        public IndexModel(IContentsClient<BlogArticle, BlogArticleData> blogArtcle, IContentsClient<HomePage, HomePageData> homePage, ISquidexClientManager squidex)
         {
-            DeliveryClient = deliveryClient;
             _blogArticle = blogArtcle;
+            _homePage = homePage;
+            _squidex = squidex;
         }
 
-        public HomeViewModel ViewModel { get; private set; }
+        public ContentsResult<HomePage, HomePageData> HomePageData { get; set; }
+        public HomePage HomePage { get => HomePageData?.Items?.FirstOrDefault(); }
+        public ContentsResult<BlogArticle, BlogArticleData> BlogArticles { get; set; }
+        public string ImageUrl { get => _squidex.GenerateImageUrl(HomePage.Data.ProfileImage.FirstOrDefault()); }
 
         public async Task OnGetAsync()
         {
 
-            ViewModel = new HomeViewModel();
-                
-            ViewModel.ContentPage  = (await DeliveryClient.GetItemsAsync<ContentPage>(
-              new EqualsFilter("system.type", ContentPage.Codename),
-              new EqualsFilter("system.codename", "home_page"),
-               new DepthParameter(2)
-              ).ConfigureAwait(false)).Items.FirstOrDefault();
+            HomePageData = await _homePage.GetAsync(new ContentQuery
+            {
+                Filter = $"id eq 'bdb9893d-4bee-44bb-bd81-73ca73dda795'"
+            });
 
-            ViewModel.BlogArticles = await _blogArticle.GetAsync(new ContentQuery
+
+            BlogArticles = await _blogArticle.GetAsync(new ContentQuery
             {
                 OrderBy = $"data/publisheddate/iv desc",
                 Top = 3,

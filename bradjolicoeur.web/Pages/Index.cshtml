@@ -1,9 +1,9 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = Model.ViewModel.ContentPage.Title;
-    ViewBag.Description = Model.ViewModel.ContentPage.Description;
-    ViewBag.Image = Model.ViewModel.ContentPage.Image?.FirstOrDefault()?.Url;
+    ViewData["Title"] = "Home";
+    ViewBag.Description = "Home";
+    ViewBag.Image = Model.ImageUrl;
 }
 @section HeroSection {
 
@@ -12,8 +12,8 @@
         <img style="width:100%;" src="~/images/IMG_20180707_161856v2.jpg" alt="Brad self portrait" />
         <div class="container hero-content">
             <p>
-                <h1>Hello! I'm Brad.</h1>
-                <h3>I convert ideas into working software.</h3>
+                <h1>@Model.HomePage.Data.HeroTitle</h1>
+                <h3>@Model.HomePage.Data.HeroPhrase</h3>
             </p>
         </div>
     </div>
@@ -22,12 +22,19 @@
 
 <div class="container">
     <div class="row well">
-        @Html.DisplayFor(vm => vm.ViewModel.ContentPage.Body)
+        <div class="col-sm-2 col-xs-4">
+            <img src="@Model.ImageUrl" class="img-responsive" alt="Brad Jolicoeur" />
+        </div>
+        <div class="col-sm-10 col-xs-8">
+            @Html.Raw(MarkdownHelper.Transform(Model.HomePage.Data.Bio))
+        </div>
+
+        
     </div>
     <div class="row">
         <h2>Recent Blog Articles</h2>
         <hr/>
-        @foreach (var article in Model.ViewModel.BlogArticles.Items)
+        @foreach (var article in Model.BlogArticles.Items)
         {
             @Html.DisplayFor(vm => article, "BlogArticleSummary");
         }

@@ -31,6 +31,8 @@ namespace bradjolicoeur.core.Client
             services.AddSingleton(clientManager.CreateContentsClient<ReadingFeed, ReadingFeedData>("reading-feed"));
             services.AddSingleton(clientManager.CreateContentsClient<BlogArticle, BlogArticleData>("blog-article"));
             services.AddSingleton(clientManager.CreateContentsClient<Resume, ResumeData>("resume"));
+            services.AddSingleton(clientManager.CreateContentsClient<HomePage, HomePageData>("home-page"));
+            services.AddSingleton(clientManager.CreateContentsClient<SitemapItem, SitemapItemData>("home-page"));
         }
     }
 }
