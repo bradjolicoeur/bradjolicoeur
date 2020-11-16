@@ -34,6 +34,7 @@ namespace bradjolicoeur.web.Pages
 
         public async Task OnGetAsync()
         {
+            CurrentPage = CurrentPage < 1 ? 1 : CurrentPage;
 
             content = await _readingFeed.GetAsync(new ContentQuery
             {

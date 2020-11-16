@@ -36,6 +36,8 @@ namespace bradjolicoeur.web.Pages
 
         private async Task GetBlogArticles(string tag)
         {
+            CurrentPage = CurrentPage < 1 ? 1 : CurrentPage;
+
             var filter = string.IsNullOrEmpty(tag) ? null : $"data/blogtags/iv eq '{tag}'";
 
             BlogArticles = await _blogArticle.GetAsync(new ContentQuery

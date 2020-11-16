@@ -74,7 +74,7 @@ namespace bradjolicoeur.web
 
             services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
 
-            services.AddSquidexServices();
+            services.AddSquidexServices(Configuration);
 
             // Register IAppCache as a singleton CachingService
             services.AddLazyCache();

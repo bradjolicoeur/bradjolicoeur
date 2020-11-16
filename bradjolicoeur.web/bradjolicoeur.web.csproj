@@ -27,4 +27,10 @@
     <Folder Include="wwwroot\lib\prittify\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="secretsettings-template.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

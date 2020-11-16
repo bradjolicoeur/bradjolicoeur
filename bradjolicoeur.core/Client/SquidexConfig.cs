@@ -1,4 +1,5 @@
 ﻿using bradjolicoeur.core.Models.ContentModels;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Squidex.ClientLibrary;
 using Squidex.ClientLibrary.Management;
@@ -10,15 +11,15 @@ namespace bradjolicoeur.core.Client
 {
     public static class SquidexConfig
     {
-        public static void AddSquidexServices(this IServiceCollection services)
+        public static void AddSquidexServices(this IServiceCollection services, IConfiguration configuration)
         {
             var clientManager =
                 new SquidexClientManager(
                     new SquidexOptions
                     {
                         AppName = "brad-jolicoeur-blog",
-                        ClientId = "brad-jolicoeur-blog:read-only",
-                        ClientSecret = "1cq5l90ferjma3bukon11hhwgzbxhnio8fa1oxkzxjax",
+                        ClientId = configuration["SquidexClientId"] ,
+                        ClientSecret = configuration["SquidexClientSecret"],
                         Url = "https://cloud.squidex.io"
                     });
 

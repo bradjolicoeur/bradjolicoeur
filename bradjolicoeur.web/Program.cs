@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace bradjolicoeur.web
@@ -14,11 +15,23 @@ namespace bradjolicoeur.web
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostContext, configApp) =>
+                {
+                    configApp.AddEnvironmentVariables();
+                    configApp.AddJsonFile("appsettings.json", optional: true);
+                    configApp.AddJsonFile(
+                       $"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json",
+                       optional: true);
+                    configApp.AddJsonFile("secretsettings.json", true);
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
