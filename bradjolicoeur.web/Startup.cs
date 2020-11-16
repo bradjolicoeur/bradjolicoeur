@@ -3,7 +3,6 @@ using bradjolicoeur.core.Helpers;
 using bradjolicoeur.core.Models;
 using bradjolicoeur.core.Resolvers;
 using bradjolicoeur.core.Services;
-using bradjolicoeur.Core.Models.ContentType;
 using bradjolicoeur.web.Filters;
 using bradjolicoeur.web.Middleware;
 using bradjolicoeur.web.Resolvers;
@@ -73,19 +72,12 @@ namespace bradjolicoeur.web
                 sp.GetRequiredService<IWebhookListener>()));
             services.AddScoped<KenticoCloudSignatureActionFilter>();
 
-            services.AddSingleton<IDeliveryClient>(sp => new CachedDeliveryClient(
-                sp.GetRequiredService<IOptions<ProjectOptions>>(),
-                sp.GetRequiredService<ICacheManager>(),
-                DeliveryClientBuilder.WithOptions(_ => deliveryOptions)
-                .WithCodeFirstTypeProvider(new CustomTypeProvider())
-                .WithContentLinkUrlResolver(new CustomContentLinkUrlResolver())
-                .Build())
-               );
-
             services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
 
-
             services.AddSquidexServices();
+
+            // Register IAppCache as a singleton CachingService
+            services.AddLazyCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
