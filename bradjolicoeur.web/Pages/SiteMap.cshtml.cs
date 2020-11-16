@@ -1,9 +1,8 @@
-﻿using bradjolicoeur.core.Services;
-using bradjolicoeur.Core.Models.ContentType;
-using KenticoCloud.Delivery;
+﻿using bradjolicoeur.core.Models.ContentModels;
+using bradjolicoeur.core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
+using Squidex.ClientLibrary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,27 +10,26 @@ namespace bradjolicoeur.web.Pages
 {
     public class SiteMapModel : PageModel
     {
-        private IDeliveryClient DClient { get; set; }
         private IGenerateSitemapService GenerateSitemapService { get; set; }
 
-        public SiteMapModel(IDeliveryClient dcFactory, IGenerateSitemapService generateSitemapService)
+        private readonly IContentsClient<SitemapItem, SitemapItemData> _sitemapItem;
+
+        public SiteMapModel(IContentsClient<SitemapItem, SitemapItemData> sitemapItem, IGenerateSitemapService generateSitemapService)
         {
-            DClient = dcFactory;
             GenerateSitemapService = generateSitemapService;
+            _sitemapItem = sitemapItem;
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var parameters = new List<IQueryParameter>
+            var results = await _sitemapItem.GetAsync(new ContentQuery
             {
-                new DepthParameter(0),
-                new InFilter("system.type", ContentPage.Codename, BlogArticle.Codename),
-            };
-
-            var response = await DClient.GetItemsAsync(parameters).ConfigureAwait(false);
+                OrderBy = $"data/lastmodified/iv desc",
+                Top = 10,
+            });
 
 
-            string xml = GenerateSitemapService.Generate(response.Items, HttpContext.Request.Scheme + "://" + HttpContext.Request.Host);
+            string xml = GenerateSitemapService.Generate(results.Items, HttpContext.Request.Scheme + "://" + HttpContext.Request.Host);
             return Content(xml, "text/xml", Encoding.UTF8);
         }
 

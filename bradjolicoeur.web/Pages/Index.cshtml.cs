@@ -1,41 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using bradjolicoeur.Core.Models.ContentType;
-using bradjolicoeur.web.ViewModels;
-using KenticoCloud.Delivery;
-using Microsoft.AspNetCore.Mvc;
+using bradjolicoeur.core.Models.ContentModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Squidex.ClientLibrary;
 
 namespace bradjolicoeur.web.Pages
 {
     public class IndexModel : PageModel
     {
-        private IDeliveryClient DeliveryClient { get; set; }
 
-        public IndexModel(IDeliveryClient deliveryClient)
+        private readonly IContentsClient<BlogArticle, BlogArticleData> _blogArticle;
+        private readonly IContentsClient<HomePage, HomePageData> _homePage;
+        private readonly ISquidexClientManager _squidex;
+
+        public IndexModel(IContentsClient<BlogArticle, BlogArticleData> blogArtcle, IContentsClient<HomePage, HomePageData> homePage, ISquidexClientManager squidex)
         {
-            DeliveryClient = deliveryClient;
+            _blogArticle = blogArtcle;
+            _homePage = homePage;
+            _squidex = squidex;
         }
 
-        public HomeViewModel ViewModel { get; private set; }
+        public ContentsResult<HomePage, HomePageData> HomePageData { get; set; }
+        public HomePage HomePage { get => HomePageData?.Items?.FirstOrDefault(); }
+        public ContentsResult<BlogArticle, BlogArticleData> BlogArticles { get; set; }
+        public string ImageUrl { get => _squidex.GenerateImageUrl(HomePage.Data.ProfileImage.FirstOrDefault()); }
 
         public async Task OnGetAsync()
         {
 
-            ViewModel = new HomeViewModel();
-                
-            ViewModel.ContentPage  = (await DeliveryClient.GetItemsAsync<ContentPage>(
-              new EqualsFilter("system.type", ContentPage.Codename),
-              new EqualsFilter("system.codename", "home_page"),
-               new DepthParameter(2)
-              ).ConfigureAwait(false)).Items.FirstOrDefault();
+            HomePageData = await _homePage.GetAsync(new ContentQuery
+            {
+                Filter = $"id eq 'bdb9893d-4bee-44bb-bd81-73ca73dda795'"
+            });
 
-            ViewModel.RecentArticles = (await DeliveryClient.GetItemsAsync<BlogArticle>(
-              new LimitParameter(4),
-                new OrderParameter("elements." + BlogArticle.PublishedDateCodename, SortOrder.Descending)
-              ).ConfigureAwait(false)).Items.ToArray();
+
+            BlogArticles = await _blogArticle.GetAsync(new ContentQuery
+            {
+                OrderBy = $"data/publisheddate/iv desc",
+                Top = 3,
+            });
 
         }
     }

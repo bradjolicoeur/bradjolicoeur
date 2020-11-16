@@ -1,16 +1,34 @@
 ﻿@page "{id?}"
 @model BlogModel
 @{
-    ViewData["Title"] = Model.ViewModel.ContentPage.Title;
-    ViewBag.Description = Model.ViewModel.ContentPage.Description;
-    ViewBag.Image = Model.ViewModel.ContentPage.Image?.FirstOrDefault()?.Url;
+    ViewData["Title"] = "Blog";
+    ViewBag.Description = "Blog";
+    ViewBag.Image = null;
 }
 
-<h2>@Model.ViewModel.ContentPage.Title</h2>
+<h2>@ViewData["Title"]</h2>
 
-@foreach (var article in Model.ViewModel.BlogArticles)
+@foreach (var article in Model.BlogArticles.Items)
 {
     @Html.DisplayFor(vm => article, "BlogArticleSummary");
 }
 
 
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class='page-item @(Model.PreviousPage? "":"disabled")'>
+            <a asp-page="/blog" asp-route-currentpage="@(Model.CurrentPage -1)" class="button-link">Previous</a>
+        </li>
+
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                <a asp-page="/blog" asp-route-currentpage="@i" class="page-link">@i</a>
+            </li>
+        }
+
+        <li class='page-item @(Model.NextPage? "":"disabled")'>
+            <a asp-page="/blog" asp-route-currentpage="@(Model.CurrentPage +1)" class="button-link">Next</a>
+        </li>
+    </ul>
+</nav>

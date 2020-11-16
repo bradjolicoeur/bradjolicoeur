@@ -1,53 +1,53 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
-using bradjolicoeur.Core.Models.ContentType;
-using bradjolicoeur.web.ViewModels;
-using KenticoCloud.Delivery;
+using bradjolicoeur.core.Models.ContentModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Squidex.ClientLibrary;
 
 namespace bradjolicoeur.web.Pages
 {
     public class BlogModel : PageModel
     {
-        private IDeliveryClient DeliveryClient { get; set; }
+        [FromQuery(Name = "currentpage")]
+        public int CurrentPage { get; set; } = 1;
 
-        public BlogModel(IDeliveryClient deliveryClient)
+        [FromQuery(Name = "length")]
+        public int PageSize { get; set; } = 10;
+        public long Count { get; set; }
+        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
+        public bool NextPage => (CurrentPage * PageSize) <= BlogArticles.Total;
+        public bool PreviousPage => (CurrentPage > 1);
+
+        private readonly IContentsClient<BlogArticle, BlogArticleData> _blogArticle;
+
+        public BlogModel( IContentsClient<BlogArticle, BlogArticleData> blogArtcle)
         {
-            DeliveryClient = deliveryClient;
+            _blogArticle = blogArtcle;
         }
 
-        public BlogViewModel ViewModel { get; private set; }
+        public ContentsResult<BlogArticle, BlogArticleData> BlogArticles { get; set; }
 
         public async Task OnGetAsync(string id = null)
         {
-            var viewModel = new BlogViewModel();
 
-            viewModel.ContentPage = (await DeliveryClient.GetItemsAsync<ContentPage>(
-              new EqualsFilter("system.type", ContentPage.Codename),
-              new EqualsFilter("system.codename", "blog_page")
-              ).ConfigureAwait(false)).Items.FirstOrDefault();
-
-            viewModel.BlogArticles = await GetBlogArticles(id);
-
-            ViewModel = viewModel;
+            await GetBlogArticles(id);
         }
 
-        private async Task<BlogArticle[]> GetBlogArticles(string tag)
+        private async Task GetBlogArticles(string tag)
         {
-            var param = new List<IQueryParameter> {
-                new EqualsFilter("system.type", BlogArticle.Codename),
-                new OrderParameter("elements." + BlogArticle.PublishedDateCodename, SortOrder.Descending)
-            };
+            var filter = string.IsNullOrEmpty(tag) ? null : $"data/blogtags/iv eq '{tag}'";
 
-            if (!string.IsNullOrEmpty(tag))
+            BlogArticles = await _blogArticle.GetAsync(new ContentQuery
             {
-                param.Add(new ContainsFilter("elements." + BlogArticle.TagsCodename, tag));
-            }
+                OrderBy = $"data/publisheddate/iv desc",
+                Filter = filter,
+                Skip = ((CurrentPage - 1) * PageSize),
+                Top = PageSize,
+            });
 
-            return (await DeliveryClient.GetItemsAsync<BlogArticle>(
-                    param.ToArray()
-                    ).ConfigureAwait(false)).Items.ToArray();
+            Count = BlogArticles.Total;
+
         }
     }
 }

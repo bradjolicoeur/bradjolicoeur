@@ -1,6 +1,7 @@
-﻿using bradjolicoeur.Core.Models.ContentType;
-using KenticoCloud.Delivery;
+﻿using bradjolicoeur.core.Models.ContentModels;
+using LazyCache;
 using Microsoft.AspNetCore.Http;
+using Squidex.ClientLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,25 +11,28 @@ namespace bradjolicoeur.web.Middleware
 {
     public class RedirectMiddleware
     {
+        private readonly IAppCache _cache;
         private RequestDelegate NextDelegate { get; set; }
         private IServiceProvider ServiceProvider { get; set; }
-        private IDeliveryClient DeliveryClient { get; set; }
+
+        private readonly IContentsClient<UrlRedirect, UrlRedirectData> _urlRedirect;
 
         public RedirectMiddleware(RequestDelegate nextDelegate, 
-            IServiceProvider serviceProvider, IDeliveryClient deliveryClient)
+            IServiceProvider serviceProvider, 
+            IContentsClient<UrlRedirect, UrlRedirectData> urlRedirect,
+            IAppCache cache)
         {
             NextDelegate = nextDelegate;
             ServiceProvider = serviceProvider;
-            DeliveryClient = deliveryClient;
+            _urlRedirect = urlRedirect;
+            _cache = cache;
         }
 
-        private async Task<IEnumerable<UrlRedirect>> GetRedirects()
+        private async Task<IEnumerable<UrlRedirectData>> GetRedirects()
         {
-            var response = await DeliveryClient.GetItemsAsync<UrlRedirect>(
-               new EqualsFilter("system.type", UrlRedirect.Codename)
-              ).ConfigureAwait(false);
+            var response = await _urlRedirect.GetAsync(new ContentQuery());
 
-            return response.Items;
+            return response.Items.Select(x => x.Data);
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -36,8 +40,10 @@ namespace bradjolicoeur.web.Middleware
             //The path from the request
             string requestURL = httpContext.Request.Path.ToString().ToLower();
 
+            Func<Task<IEnumerable<UrlRedirectData>>> getter = () => GetRedirects();
+
             //pull the full list of redirects 
-            var redirects = await GetRedirects();
+            var redirects = await _cache.GetOrAddAsync("url-redirects", getter, new TimeSpan(0, 20, 0));
 
             //search the full list for a redirect that matches the request path
             var redirect = redirects.Where(q => q.RedirectFrom

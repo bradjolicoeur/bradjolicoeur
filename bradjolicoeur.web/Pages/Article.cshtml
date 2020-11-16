@@ -1,26 +1,52 @@
-﻿@page "{id?}"
+﻿@page "{slug?}"
 @model ArticleModel
+
 @{
-    ViewData["Title"] = Model.ViewModel.Article.Title;
-    ViewBag.Description = Model.ViewModel.Article.Description;
-    ViewBag.Image = Model.ViewModel.Article.Image?.FirstOrDefault()?.Url;
+    ViewData["Title"] = Model.Article.Data.Title;
+    ViewBag.Description = Model.Article.Data.Description;
+    ViewBag.Image = Model.ImageUrl;
 }
 
 <div class="container">
     <div class="row margin-bottom-20">
-        <h1>@Model.ViewModel.Article.Title</h1>
+        <h1>@Model.Article.Data.Title</h1>
     </div>
     <div class="row margin-bottom-20">
         <div class="col-sm-8">
-            @Html.DisplayFor(vm => vm.ViewModel.Article)
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="blog-thumbnail margin-bottom-20">
+                        <img src="@ViewBag.Image" alt="@Model.Article.Data.Title" class="img-responsive" />
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <h5>by Brad Jolicoeur</h5>
+                    <h6>@Model.Article.Data.PublishedDate.ToString("MM/dd/yyyy")</h6>
+
+                    @if (Model.Article.Data.HasTags())
+                    {
+                        <ul class="list-inline">
+                            <li><h5>tags:</h5></li>
+                                @foreach (var tag in Model.Article.Data.GetTags().Tags)
+                                {
+                                    <li><a asp-page="./blog" asp-route-id="@tag.Name">@tag.Name</a></li>
+                                }
+                        </ul>
+                    }
+
+                </div>
+            </div>
+            <div class="text-align-top ">
+                <div class="blog-body">@Html.Raw(MarkdownHelper.Transform(Model.Article.Data.Body))</div>
+            </div>
         </div>
         <div class="col-sm-4">
             <h3>You May Also Like</h3>
             <ul class="list-unstyled">
-                @foreach (var article in Model.ViewModel.Suggestions)
+                @foreach (var article in Model.Suggestions.Items)
                 {
                     <li>
-                        <a asp-page="./article" asp-route-id="@article.Route"><h4>@article.Title</h4></a>
+                        <a asp-page="./article" asp-route-id="@article.Data.Slug"><h4>@article.Data.Title</h4></a>
                     </li>
 
                 }
@@ -31,10 +57,10 @@
         <div id="disqus_thread"></div>
         <script>
             var disqus_config = function () {
-            this.page.url = "@Request.Scheme://@Request.Host@Request.Path";  
-            this.page.identifier = "@Request.Scheme://@Request.Host@Request.Path"; 
+            this.page.url = "@Request.Scheme://@Request.Host@Request.Path";
+            this.page.identifier = "@Request.Scheme://@Request.Host@Request.Path";
             };
-            
+
             (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
             s.src = 'https://bradjolicoeur.disqus.com/embed.js';

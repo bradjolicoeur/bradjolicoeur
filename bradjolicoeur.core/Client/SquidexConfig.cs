@@ -28,8 +28,12 @@ namespace bradjolicoeur.core.Client
                 c.GetRequiredService<SquidexClientManager>()
                     .CreateAssetsClient());
 
-            services.AddSingleton<IContentsClient<ReadingFeed, ReadingFeedData>>
-                (clientManager.CreateContentsClient<ReadingFeed, ReadingFeedData>("reading-feed"));
+            services.AddSingleton(clientManager.CreateContentsClient<ReadingFeed, ReadingFeedData>("reading-feed"));
+            services.AddSingleton(clientManager.CreateContentsClient<BlogArticle, BlogArticleData>("blog-article"));
+            services.AddSingleton(clientManager.CreateContentsClient<Resume, ResumeData>("resume"));
+            services.AddSingleton(clientManager.CreateContentsClient<HomePage, HomePageData>("home-page"));
+            services.AddSingleton(clientManager.CreateContentsClient<SitemapItem, SitemapItemData>("sitemap-item"));
+            services.AddSingleton(clientManager.CreateContentsClient<UrlRedirect, UrlRedirectData>("url-redirect"));
         }
     }
 }
