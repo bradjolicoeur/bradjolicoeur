@@ -1,4 +1,5 @@
-﻿using bradjolicoeur.core.Models.Web;
+﻿using bradjolicoeur.core.Models.ContentModels;
+using bradjolicoeur.core.Models.Web;
 using bradjolicoeur.Core.Models.ContentType;
 using KenticoCloud.Delivery;
 using System;
@@ -14,12 +15,12 @@ namespace bradjolicoeur.core.Services
 
         private string PageUrl { get; set; }
 
-        public string Generate(IReadOnlyList<ContentItem> items, string pageUrl)
+        public string Generate(IReadOnlyList<SitemapItem> items, string pageUrl)
         {
             PageUrl = pageUrl;
             var nodes = items.Select(item => new SitemapNode(GetPageUrl(item))
             {
-                LastModified = item.System.LastModified
+                LastModified = item.Data.LastModified
             }).ToList();
 
             return GetSitemapDocument(nodes);
@@ -51,27 +52,10 @@ namespace bradjolicoeur.core.Services
             return document.ToString();
         }
 
-        private string GetPageUrl(ContentItem contentItem)
+        private string GetPageUrl(SitemapItem contentItem)
         {
-            var system = contentItem.System;
-            string pageName = PageUrl;
-            switch (contentItem.System.Type)
-            {
-                case "content_page":
-                    var item = contentItem.CastTo<ContentPage>();
-                    pageName += "/" + ((item.Route.ToLower() != "home")? item.Route : "");
-                    break;
+            return PageUrl + "/" + contentItem.Data.RelativePath;
 
-                //case "blog_article":
-                //    var ei = contentItem.CastTo<BlogArticle>();
-                //    pageName += "/article/" + ei.Route;
-                //    break;
-
-                default:
-                    break;
-            }
-
-            return pageName;
         }
     }
 }
