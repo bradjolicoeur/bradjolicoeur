@@ -25,7 +25,7 @@ namespace bradjolicoeur.web.Pages
             var parameters = new List<IQueryParameter>
             {
                 new DepthParameter(0),
-               // new InFilter("system.type", ContentPage.Codename, BlogArticle.Codename),
+                new InFilter("system.type", ContentPage.Codename),
             };
 
             var response = await DClient.GetItemsAsync(parameters).ConfigureAwait(false);
