@@ -9,13 +9,6 @@ namespace bradjolicoeur.Core.Models.ContentType
     {
         private static readonly Dictionary<Type, string> _codenames = new Dictionary<Type, string>
         {
-            {typeof(CodeSnip), "code_snip"},
-            {typeof(ContentPage), "content_page"},
-            {typeof(EmbedVideo), "embed_video"},
-            {typeof(MarkDownContent), "mark_down_content"},
-            {typeof(Profile), "profile"},
-            {typeof(RichImage), "rich_image"},
-            {typeof(Socialprofile), "socialprofile"},
             {typeof(UrlRedirect), "url_redirect"}
         };
 

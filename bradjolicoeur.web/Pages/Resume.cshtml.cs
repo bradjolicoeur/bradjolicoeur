@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using bradjolicoeur.core.Models.ContentModels;
-using bradjolicoeur.Core.Models.ContentType;
-using KenticoCloud.Delivery;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Squidex.ClientLibrary;
 

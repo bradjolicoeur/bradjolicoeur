@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using bradjolicoeur.core.Models.ContentModels;
-using bradjolicoeur.Core.Models.ContentType;
-using bradjolicoeur.web.ViewModels;
-using KenticoCloud.Delivery;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Squidex.ClientLibrary;
 

@@ -1,7 +1,5 @@
 ﻿using bradjolicoeur.core.Models.ContentModels;
 using bradjolicoeur.core.Models.Web;
-using bradjolicoeur.Core.Models.ContentType;
-using KenticoCloud.Delivery;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
