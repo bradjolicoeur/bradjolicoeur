@@ -3,20 +3,14 @@ using bradjolicoeur.core.Helpers;
 using bradjolicoeur.core.Models;
 using bradjolicoeur.core.Resolvers;
 using bradjolicoeur.core.Services;
-using bradjolicoeur.web.Filters;
 using bradjolicoeur.web.Middleware;
-using bradjolicoeur.web.Resolvers;
-using KenticoCloud.Delivery;
-using Markdig;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using WebEssentials.AspNetCore.Pwa;
 
 namespace bradjolicoeur.web
@@ -34,13 +28,6 @@ namespace bradjolicoeur.web
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ProjectOptions>(Configuration);
-
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-            //    options.CheckConsentNeeded = context => true;
-            //    options.MinimumSameSitePolicy = SameSiteMode.None;
-            //});
 
             services.AddSingleton(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
 
@@ -60,17 +47,7 @@ namespace bradjolicoeur.web
                 AllowHttp = true
             });
 
-            var deliveryOptions = new DeliveryOptions();
-            Configuration.GetSection(nameof(DeliveryOptions)).Bind(deliveryOptions);
-
             services.AddSingleton<IWebhookListener>(sp => new WebhookListener());
-            services.AddSingleton<IDependentTypesResolver>(sp => new DependentFormatResolver());
-            services.AddSingleton<ICacheManager>(sp => new ReactiveCacheManager(
-                sp.GetRequiredService<IOptions<ProjectOptions>>(),
-                sp.GetRequiredService<IMemoryCache>(),
-                sp.GetRequiredService<IDependentTypesResolver>(),
-                sp.GetRequiredService<IWebhookListener>()));
-            services.AddScoped<KenticoCloudSignatureActionFilter>();
 
             services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
 

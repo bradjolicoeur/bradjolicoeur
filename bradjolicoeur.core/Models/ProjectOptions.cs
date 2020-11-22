@@ -1,11 +1,9 @@
-﻿using KenticoCloud.Delivery;
-using System.Linq;
+﻿using System.Linq;
 
 namespace bradjolicoeur.core.Models
 {
     public class ProjectOptions
     {
-        public DeliveryOptions DeliveryOptions { get; set; }
         public int CacheTimeoutSeconds { get; set; }
         public string KenticoCloudWebhookSecret { get; set; }
         public bool CreateCacheEntriesInBackground { get; set; }
