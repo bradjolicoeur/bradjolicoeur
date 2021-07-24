@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using bradjolicoeur.core.Models.ContentModels;
+using bradjolicoeur.web.Services;
+using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Squidex.ClientLibrary;
@@ -13,10 +15,15 @@ namespace bradjolicoeur.web.Pages
 
         public ISquidexClientManager _squidex { get; }
 
-        public ArticleModel(IContentsClient<BlogArticle, BlogArticleData> blogArtcle, ISquidexClientManager squidex)
+        private readonly IAppCache _appCache;
+        private readonly ISuggestionArticlesService _suggestionService;
+
+        public ArticleModel(IContentsClient<BlogArticle, BlogArticleData> blogArtcle, ISquidexClientManager squidex, IAppCache appCache, ISuggestionArticlesService suggestionService)
         {
             _blogArticle = blogArtcle;
             _squidex = squidex;
+            _appCache = appCache;
+            _suggestionService = suggestionService;
         }
 
         public ContentsResult<BlogArticle, BlogArticleData> ArticleData { get; set; }
@@ -34,20 +41,21 @@ namespace bradjolicoeur.web.Pages
                 return RedirectToPage("/blog");
             }
 
-            ArticleData = await _blogArticle.GetAsync(new ContentQuery
+            ArticleData = await _appCache.GetOrAddAsync($"blogarticle-{slug.ToLower()}", () => GetContent(slug));
+
+
+            Suggestions = await _suggestionService.GetSuggestions();
+
+            return Page();
+        }
+
+        private async Task<ContentsResult<BlogArticle, BlogArticleData>> GetContent(string slug)
+        {
+            return await _blogArticle.GetAsync(new ContentQuery
             {
                 Filter = $"data/slug/iv eq '{slug}'",
                 Top = 1,
             });
-
-
-            Suggestions = await _blogArticle.GetAsync(new ContentQuery
-            {
-                OrderBy = $"data/publisheddate/iv desc",
-                Top = 3,
-            });
-
-            return Page();
         }
     }
 }

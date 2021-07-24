@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using bradjolicoeur.core.Models.ContentModels;
+using bradjolicoeur.web.Services;
 using LazyCache;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Squidex.ClientLibrary;
@@ -15,13 +16,16 @@ namespace bradjolicoeur.web.Pages
         private readonly IContentsClient<HomePage, HomePageData> _homePage;
         private readonly ISquidexClientManager _squidex;
         private readonly IAppCache _appCache;
+        private readonly ISuggestionArticlesService _suggestionService;
 
-        public IndexModel(IContentsClient<BlogArticle, BlogArticleData> blogArtcle, IContentsClient<HomePage, HomePageData> homePage, ISquidexClientManager squidex, IAppCache appCache)
+        public IndexModel(IContentsClient<BlogArticle, BlogArticleData> blogArtcle, IContentsClient<HomePage, HomePageData> homePage, 
+            ISquidexClientManager squidex, IAppCache appCache, ISuggestionArticlesService suggestionService)
         {
             _blogArticle = blogArtcle;
             _homePage = homePage;
             _squidex = squidex;
             _appCache = appCache;
+            _suggestionService = suggestionService;
         }
 
         public ContentsResult<HomePage, HomePageData> HomePageData { get; set; }
@@ -56,11 +60,7 @@ namespace bradjolicoeur.web.Pages
             });
 
 
-            result.BlogArticles = await _blogArticle.GetAsync(new ContentQuery
-            {
-                OrderBy = $"data/publisheddate/iv desc",
-                Top = 3,
-            });
+            result.BlogArticles = await _suggestionService.GetSuggestions();
 
             return result;
         }

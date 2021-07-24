@@ -4,6 +4,7 @@ using bradjolicoeur.core.Models;
 using bradjolicoeur.core.Resolvers;
 using bradjolicoeur.core.Services;
 using bradjolicoeur.web.Middleware;
+using bradjolicoeur.web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -50,6 +51,7 @@ namespace bradjolicoeur.web
             services.AddSingleton<IWebhookListener>(sp => new WebhookListener());
 
             services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
+            services.AddTransient<ISuggestionArticlesService, SuggestionArticlesService>();
 
             services.AddSquidexServices(Configuration);
 
