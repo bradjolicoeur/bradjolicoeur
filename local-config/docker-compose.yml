@@ -2,24 +2,14 @@ version: '3.4'
 
 services:
   website:
-    container_name: "website"
+    container_name: "bjwebsite"
     image: bradjolicoeur/website
-    networks:
-      - jolicoeur_net
     build:
       context: ../
       dockerfile: ./Dockerfile
-  proxy:
-     image: nginx:latest
-     container_name: "proxy"
-     volumes:
-       - ./nginx.conf:/etc/nginx/nginx.conf
-       
-     networks:
-      - jolicoeur_net
-     ports:
-       - "80:80"
-     links:
-       - website
-networks:
-  jolicoeur_net:
+    environment: 
+      ASPNETCORE_URLS: http://*:8484
+      SquidexClientId: brad-jolicoeur-blog:read-only-website
+      SquidexClientSecret: 93lxzzmqgxvwqkqjaxsha9od0vm3dsuh2zovsa4sqccx
+    ports: 
+      - "8484:8484"
