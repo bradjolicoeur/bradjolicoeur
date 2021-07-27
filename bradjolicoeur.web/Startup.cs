@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
@@ -29,6 +30,11 @@ namespace bradjolicoeur.web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+            
             services.Configure<ProjectOptions>(Configuration);
 
             services.AddSingleton(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
@@ -63,7 +69,6 @@ namespace bradjolicoeur.web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
             
             if (env.EnvironmentName.Equals("Development", System.StringComparison.InvariantCultureIgnoreCase))
             {
@@ -73,7 +78,7 @@ namespace bradjolicoeur.web
             {
 
                 app.UseExceptionHandler("/Error");
-                //app.UseHsts();
+                app.UseHsts();
             }
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
