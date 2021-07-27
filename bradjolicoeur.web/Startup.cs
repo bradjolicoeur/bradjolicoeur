@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net;
 using WebEssentials.AspNetCore.Pwa;
 
 namespace bradjolicoeur.web
@@ -72,7 +73,7 @@ namespace bradjolicoeur.web
             {
 
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
+                //app.UseHsts();
             }
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
