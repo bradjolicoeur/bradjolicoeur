@@ -62,6 +62,8 @@ namespace bradjolicoeur.web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+            
             if (env.EnvironmentName.Equals("Development", System.StringComparison.InvariantCultureIgnoreCase))
             {
                 app.UseDeveloperExceptionPage();
