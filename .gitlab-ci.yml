@@ -38,10 +38,10 @@ release:
       - publish/
   script:
         - export BUILD_LABEL=j-$CI_JOB_ID
-        - docker build -t $IMAGE_NAME:$CI_BUILD_ID .
-        - docker tag $IMAGE_NAME:$CI_BUILD_ID "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:$CI_BUILD_ID"
-        - docker push "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:$CI_BUILD_ID"
-        - google-cloud-sdk/bin/gcloud run deploy bj-web-test --project $GCLOUD_PROJECT_ID --image "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:$CI_BUILD_ID" --platform managed --region us-central1
+        - docker build -t $IMAGE_NAME:$CI_PIPELINE_ID .
+        - docker tag $IMAGE_NAME:$CI_PIPELINE_ID "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:$CI_PIPELINE_ID"
+        - docker push "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:$CI_PIPELINE_ID"
+        - google-cloud-sdk/bin/gcloud run deploy bj-web-test --project $GCLOUD_PROJECT_ID --image "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:$CI_PIPELINE_ID" --platform managed --region us-central1
 
 production:
   stage: production
@@ -65,4 +65,4 @@ production:
     - master
   when: manual
   script:
-    - google-cloud-sdk/bin/gcloud run deploy bj-web --project $GCLOUD_PROJECT_ID --image "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:$CI_BUILD_ID" --platform managed --region us-east1
+    - google-cloud-sdk/bin/gcloud run deploy bj-web --project $GCLOUD_PROJECT_ID --image "us.gcr.io/$GCLOUD_PROJECT_ID/$IMAGE_NAME:$CI_PIPELINE_ID" --platform managed --region us-east1
