@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using bradjolicoeur.core.Models.ContentModels;
+using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using Squidex.ClientLibrary;
 
 namespace bradjolicoeur.web.Pages
@@ -20,10 +22,12 @@ namespace bradjolicoeur.web.Pages
         public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
 
         private readonly IContentsClient<ReadingFeed, ReadingFeedData> _readingFeed;
+        private readonly IAppCache _appCache;
 
-        public ReadingModel(IContentsClient<ReadingFeed, ReadingFeedData> readingFeed)
+        public ReadingModel(IContentsClient<ReadingFeed, ReadingFeedData> readingFeed, IAppCache appCache)
         {
             _readingFeed = readingFeed;
+            _appCache = appCache;
         }
 
         public ContentsResult<ReadingFeed, ReadingFeedData> content;
@@ -36,14 +40,21 @@ namespace bradjolicoeur.web.Pages
         {
             CurrentPage = CurrentPage < 1 ? 1 : CurrentPage;
 
-            content = await _readingFeed.GetAsync(new ContentQuery
+            var contentQuery = new ContentQuery
             {
                 OrderBy = $"data/dateposted/iv desc",
                 Skip = ((CurrentPage - 1) * PageSize),
                 Top = PageSize,
-            }) ;
+            };
+
+            content = await _appCache.GetOrAddAsync(JsonConvert.SerializeObject(contentQuery), () => GetContent(contentQuery));
 
             Count = content.Total;
+        }
+
+        private Task<ContentsResult<ReadingFeed, ReadingFeedData>> GetContent(ContentQuery contentQuery)
+        {
+            return  _readingFeed.GetAsync(contentQuery);
         }
     }
 }

@@ -4,13 +4,16 @@ using bradjolicoeur.core.Models;
 using bradjolicoeur.core.Resolvers;
 using bradjolicoeur.core.Services;
 using bradjolicoeur.web.Middleware;
+using bradjolicoeur.web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net;
 using WebEssentials.AspNetCore.Pwa;
 
 namespace bradjolicoeur.web
@@ -27,6 +30,7 @@ namespace bradjolicoeur.web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.Configure<ProjectOptions>(Configuration);
 
             services.AddSingleton(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
@@ -50,6 +54,7 @@ namespace bradjolicoeur.web
             services.AddSingleton<IWebhookListener>(sp => new WebhookListener());
 
             services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
+            services.AddTransient<ISuggestionArticlesService, SuggestionArticlesService>();
 
             services.AddSquidexServices(Configuration);
 
@@ -60,6 +65,7 @@ namespace bradjolicoeur.web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.EnvironmentName.Equals("Development", System.StringComparison.InvariantCultureIgnoreCase))
             {
                 app.UseDeveloperExceptionPage();
@@ -76,7 +82,7 @@ namespace bradjolicoeur.web
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
