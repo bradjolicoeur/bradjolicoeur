@@ -1,8 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>050b88e8-79e6-4d13-8dd1-4b7004127256</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <OpenApiReference Include="OpenAPIs\swagger.json" CodeGenerator="NSwagCSharp" Namespace="bradjolicoeur.core.blastcms">
+      <SourceUri>https://blog-blastcms.bradjolicoeur.com/swagger/v1/swagger.json</SourceUri>
+      <Options>/UseBaseUrl:false /GenerateClientInterfaces:true</Options>
+      <ClassName>BlastCMSClient</ClassName>
+    </OpenApiReference>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentCache.Microsoft.Extensions.Caching.Memory" Version="4.0.0.2" />
@@ -12,6 +21,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NSwag.ApiDescription.Client" Version="13.13.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

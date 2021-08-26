@@ -1,3 +1,4 @@
+using bradjolicoeur.core.blastcms;
 using bradjolicoeur.core.Client;
 using bradjolicoeur.core.Helpers;
 using bradjolicoeur.core.Models;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Net;
 using WebEssentials.AspNetCore.Pwa;
 
@@ -57,6 +59,13 @@ namespace bradjolicoeur.web
             services.AddTransient<ISuggestionArticlesService, SuggestionArticlesService>();
 
             services.AddSquidexServices(Configuration);
+
+            services.AddHttpClient<IBlastCMSClient, BlastCMSClient>(
+                (provider, client) => {
+                    client.BaseAddress = new Uri(Configuration.GetValue(
+                        "BlastCMSBaseAddress", "https://blog-blastms.bradjolicoeur.com/"));
+                    client.DefaultRequestHeaders.Add("ApiKey", Configuration.GetValue<string>("BlastCMSContentKey"));
+                });
 
             // Register IAppCache as a singleton CachingService
             services.AddLazyCache();
