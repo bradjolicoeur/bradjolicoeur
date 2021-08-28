@@ -1,38 +1,37 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using bradjolicoeur.core.Models.ContentModels;
+using bradjolicoeur.core.blastcms;
 using bradjolicoeur.web.Services;
 using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Squidex.ClientLibrary;
+using Microsoft.Extensions.Configuration;
 
 namespace bradjolicoeur.web.Pages
 {
     public class ArticleModel : PageModel
     {
-        private readonly IContentsClient<BlogArticle, BlogArticleData> _blogArticle;
-
-        public ISquidexClientManager _squidex { get; }
 
         private readonly IAppCache _appCache;
         private readonly ISuggestionArticlesService _suggestionService;
+        private readonly IBlastCMSClient _blastcms;
+        private readonly string _key;
 
-        public ArticleModel(IContentsClient<BlogArticle, BlogArticleData> blogArtcle, ISquidexClientManager squidex, IAppCache appCache, ISuggestionArticlesService suggestionService)
+        public ArticleModel(IBlastCMSClient blastcms, IAppCache appCache, IConfiguration configuration, ISuggestionArticlesService suggestionService)
         {
-            _blogArticle = blogArtcle;
-            _squidex = squidex;
             _appCache = appCache;
             _suggestionService = suggestionService;
+            _blastcms = blastcms;
+            _key = configuration["BlastCMSContentKey"];
         }
 
-        public ContentsResult<BlogArticle, BlogArticleData> ArticleData { get; set; }
 
-        public BlogArticle Article { get => ArticleData?.Items?.FirstOrDefault(); }
+        public BlogArticle Article { get; set; }
 
-        public string ImageUrl { get => _squidex.GenerateImageUrl(Article.Data.ImageUrl.FirstOrDefault()); }
+        public string ImageUrl { get => Article.ImageUrl; }
 
-        public ContentsResult<BlogArticle, BlogArticleData> Suggestions { get; set; }
+        public IEnumerable<BlogArticle> Suggestions { get; set; }
 
         public async Task<IActionResult> OnGet(string slug)
         {
@@ -41,7 +40,7 @@ namespace bradjolicoeur.web.Pages
                 return RedirectToPage("/blog");
             }
 
-            ArticleData = await _appCache.GetOrAddAsync($"blogarticle-{slug.ToLower()}", () => GetContent(slug));
+            Article = await _appCache.GetOrAddAsync($"blogarticle-{slug.ToLower()}", () => GetContent(slug));
 
 
             Suggestions = await _suggestionService.GetSuggestions();
@@ -49,13 +48,9 @@ namespace bradjolicoeur.web.Pages
             return Page();
         }
 
-        private async Task<ContentsResult<BlogArticle, BlogArticleData>> GetContent(string slug)
+        private async Task<BlogArticle> GetContent(string slug)
         {
-            return await _blogArticle.GetAsync(new ContentQuery
-            {
-                Filter = $"data/slug/iv eq '{slug}'",
-                Top = 1,
-            });
+            return await _blastcms.GetBlogArticle2Async(slug, _key);
         }
     }
 }

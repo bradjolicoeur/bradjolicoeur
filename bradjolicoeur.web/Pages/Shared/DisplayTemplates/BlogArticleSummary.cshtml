@@ -1,19 +1,19 @@
-﻿@model BlogArticle
+﻿@model bradjolicoeur.core.blastcms.BlogArticle
 @inject Squidex.ClientLibrary.ISquidexClientManager Squidex
 
 
 <div class="row margin-bottom-20">
     <div class="col-sm-4 blog-thumbnail">
-        <img src="@Squidex.GenerateImageUrl(Model.Data.ImageUrl.FirstOrDefault())" alt="@Model.Data.Title" class="img-responsive" />
+        <img src="@Model.ImageUrl" class="img-responsive" />
     </div>
     <div class="col-sm-8 text-align-top blog-summary">
-        <h3>@Model.Data.Title</h3>
-        <h6><strong>Brad Jolicoeur</strong>  -  @Model.Data.PublishedDate.ToString("MM/dd/yyyy")</h6>
-        @if (Model.Data.HasTags())
+        <h3>@Model.Title</h3>
+        <h6><strong>Brad Jolicoeur</strong>  -  @Model.PublishedDate.ToString("MM/dd/yyyy")</h6>
+        @if (Model.HasTags())
         {
             <ul class="list-inline">
                 <li><h5>tags:</h5></li>
-                @foreach (var tag in Model.Data.GetTags().Tags)
+                @foreach (var tag in Model.GetTags().Tags)
                 {
                     <li><a asp-page="./blog" asp-route-id="@tag.Name">@tag.Name</a></li>
                 }
@@ -21,9 +21,9 @@
 
         }
 
-        <div>@Html.DisplayFor(i => Model.Data.Description)</div>
+        <div>@Html.DisplayFor(i => Model.Description)</div>
         <span class="button-link">
-            <a asp-page="./article" asp-route-slug="@Model.Data.Slug">Read More</a>
+            <a asp-page="./article" asp-route-slug="@Model.Slug">Read More</a>
         </span>
     </div>
 </div>

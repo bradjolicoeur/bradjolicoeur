@@ -8,7 +8,7 @@
 
 <h2>@ViewData["Title"]</h2>
 
-@foreach (var article in Model.BlogArticles.Items)
+@foreach (var article in Model.BlogArticles.Data)
 {
     @Html.DisplayFor(vm => article, "BlogArticleSummary");
 }

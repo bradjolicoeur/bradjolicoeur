@@ -1,11 +1,12 @@
-﻿using bradjolicoeur.core.Models.ContentModels;
-using Squidex.ClientLibrary;
+﻿
+using bradjolicoeur.core.blastcms;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace bradjolicoeur.web.Services
 {
     public interface ISuggestionArticlesService
     {
-        Task<ContentsResult<BlogArticle, BlogArticleData>> GetSuggestions();
+        Task<IEnumerable<BlogArticle>> GetSuggestions();
     }
 }

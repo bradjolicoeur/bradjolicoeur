@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using bradjolicoeur.core.Models.ContentModels;
@@ -30,7 +31,7 @@ namespace bradjolicoeur.web.Pages
 
         public ContentsResult<HomePage, HomePageData> HomePageData { get; set; }
         public HomePage HomePage { get => HomePageData?.Items?.FirstOrDefault(); }
-        public ContentsResult<BlogArticle, BlogArticleData> BlogArticles { get; set; }
+        public IEnumerable<core.blastcms.BlogArticle> BlogArticles { get; set; }
         public string ImageUrl { get => _squidex.GenerateImageUrl(HomePage.Data.ProfileImage.FirstOrDefault()); }
 
         public async Task OnGetAsync()
@@ -46,7 +47,7 @@ namespace bradjolicoeur.web.Pages
 
         private class ContentResults
         {
-            public ContentsResult<BlogArticle, BlogArticleData> BlogArticles { get; set; }
+            public IEnumerable<core.blastcms.BlogArticle> BlogArticles { get; set; }
             public ContentsResult<HomePage, HomePageData> HomePageData { get; set; }
         }
 

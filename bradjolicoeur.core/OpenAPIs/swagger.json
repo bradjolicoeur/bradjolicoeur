@@ -77,10 +77,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/BlogArticle"
-                  }
+                  "$ref": "#/components/schemas/PagedData"
                 }
               }
             }
@@ -98,7 +95,7 @@
         }
       }
     },
-    "/api/blogarticle/{id}": {
+    "/api/blogarticle/id/{id}": {
       "get": {
         "tags": [
           "Blog Article"
@@ -114,6 +111,53 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlogArticle"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blogarticle/slug/{slug}": {
+      "get": {
+        "tags": [
+          "Blog Article"
+        ],
+        "summary": "Get Blog Article",
+        "description": "Returns a Blog Article",
+        "operationId": "GetBlogArticle",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -415,7 +459,7 @@
         }
       }
     },
-    "/api/landingpage/{id}": {
+    "/api/landingpage/id/{id}": {
       "get": {
         "tags": [
           "Landing Page"
@@ -431,6 +475,53 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LandingPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/landingpage/slug/{slug}": {
+      "get": {
+        "tags": [
+          "Landing Page"
+        ],
+        "summary": "Get Landing Page",
+        "description": "Returns a Landing Page",
+        "operationId": "GetLandingPage",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -622,6 +713,30 @@
           "slug": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedData": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlogArticle"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
           }
         },
         "additionalProperties": false
