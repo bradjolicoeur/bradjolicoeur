@@ -38,7 +38,7 @@ namespace bradjolicoeur.web.Pages
             _key = _configuration["BlastCMSContentKey"];
         }
 
-        public PagedData BlogArticles { get; set; }
+        public BlogArticleIPagedData BlogArticles { get; set; }
 
         public async Task OnGetAsync(string id = null)
         {

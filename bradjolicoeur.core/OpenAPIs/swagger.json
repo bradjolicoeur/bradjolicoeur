@@ -77,7 +77,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedData"
+                  "$ref": "#/components/schemas/BlogArticleIPagedData"
                 }
               }
             }
@@ -238,10 +238,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ContentTag"
-                  }
+                  "$ref": "#/components/schemas/ContentTagIPagedData"
                 }
               }
             }
@@ -314,10 +311,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FeedArticle"
-                  }
+                  "$ref": "#/components/schemas/FeedArticleIPagedData"
                 }
               }
             }
@@ -438,10 +432,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/LandingPage"
-                  }
+                  "$ref": "#/components/schemas/LandingPageIPagedData"
                 }
               }
             }
@@ -603,6 +594,30 @@
         },
         "additionalProperties": false
       },
+      "BlogArticleIPagedData": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlogArticle"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ContentTag": {
         "type": "object",
         "properties": {
@@ -613,6 +628,30 @@
           "value": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContentTagIPagedData": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentTag"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -671,6 +710,30 @@
         },
         "additionalProperties": false
       },
+      "FeedArticleIPagedData": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeedArticle"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
       "LandingPage": {
         "type": "object",
         "properties": {
@@ -717,20 +780,20 @@
         },
         "additionalProperties": false
       },
-      "PagedData": {
+      "LandingPageIPagedData": {
         "type": "object",
         "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BlogArticle"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
           "count": {
             "type": "integer",
             "format": "int64",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LandingPage"
+            },
+            "nullable": true,
             "readOnly": true
           },
           "page": {

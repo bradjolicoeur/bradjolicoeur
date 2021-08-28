@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using bradjolicoeur.core.Models.ContentModels;
+using bradjolicoeur.core.blastcms;
 using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Squidex.ClientLibrary;
 
@@ -21,18 +22,22 @@ namespace bradjolicoeur.web.Pages
         public long Count { get; set; }
         public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
 
-        private readonly IContentsClient<ReadingFeed, ReadingFeedData> _readingFeed;
+        private readonly IBlastCMSClient _blastcms;
+        private readonly IConfiguration _configuration;
         private readonly IAppCache _appCache;
+        private readonly string _key;
 
-        public ReadingModel(IContentsClient<ReadingFeed, ReadingFeedData> readingFeed, IAppCache appCache)
+        public ReadingModel(IBlastCMSClient blastcms, IAppCache appCache, IConfiguration configuration)
         {
-            _readingFeed = readingFeed;
+            _blastcms = blastcms;
+            _configuration = configuration;
             _appCache = appCache;
+            _key = _configuration["BlastCMSContentKey"];
         }
 
-        public ContentsResult<ReadingFeed, ReadingFeedData> content;
+        public FeedArticleIPagedData content;
 
-        public bool NextPage => (CurrentPage * PageSize) <= content.Total;
+        public bool NextPage => (CurrentPage * PageSize) <= Count;
 
         public bool PreviousPage => (CurrentPage > 1);
 
@@ -40,21 +45,14 @@ namespace bradjolicoeur.web.Pages
         {
             CurrentPage = CurrentPage < 1 ? 1 : CurrentPage;
 
-            var contentQuery = new ContentQuery
-            {
-                OrderBy = $"data/dateposted/iv desc",
-                Skip = ((CurrentPage - 1) * PageSize),
-                Top = PageSize,
-            };
+            content = await GetContent(null);
 
-            content = await _appCache.GetOrAddAsync(JsonConvert.SerializeObject(contentQuery), () => GetContent(contentQuery));
-
-            Count = content.Total;
+            Count = content.Count;
         }
 
-        private Task<ContentsResult<ReadingFeed, ReadingFeedData>> GetContent(ContentQuery contentQuery)
+        private async Task<FeedArticleIPagedData> GetContent(string tag)
         {
-            return  _readingFeed.GetAsync(contentQuery);
+            return await _blastcms.GetFeedArticlesAsync(((CurrentPage - 1) * PageSize), PageSize, CurrentPage, null,  _key);
         }
     }
 }

@@ -1,16 +1,13 @@
-﻿using bradjolicoeur.core.Models.ContentModels;
+﻿using bradjolicoeur.core.blastcms;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace bradjolicoeur.web.Helpers
 {
     public static class ReadingFeedHelpers
     {
-        public static string AuthorAndSiteName(this ReadingFeedData data)
+        public static string AuthorAndSiteName(this FeedArticle data)
         {
             var sb = new StringBuilder();
 
@@ -24,12 +21,12 @@ namespace bradjolicoeur.web.Helpers
             return sb.ToString();
         }
 
-        public static bool IsYouTube(this ReadingFeedData data)
+        public static bool IsYouTube(this FeedArticle data)
         {
             return data.ArticleUrl.Contains("youtu", StringComparison.OrdinalIgnoreCase);
         }
 
-        public static string YouTubeEmbeddedUrl(this ReadingFeedData data)
+        public static string YouTubeEmbeddedUrl(this FeedArticle data)
         {
             string param1 = "";
             if(data.ArticleUrl.Contains("https://youtu.be/",StringComparison.OrdinalIgnoreCase))
@@ -45,7 +42,7 @@ namespace bradjolicoeur.web.Helpers
             return $"https://www.youtube.com/embed/" + param1;
         }
 
-        public static string ButtonLabel(this ReadingFeedData data)
+        public static string ButtonLabel(this FeedArticle data)
         {
             return data.IsYouTube() ? "View" : "Read More";
         }
