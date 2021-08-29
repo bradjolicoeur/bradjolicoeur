@@ -544,6 +544,119 @@
           }
         }
       }
+    },
+    "/api/urlredirect/all": {
+      "get": {
+        "tags": [
+          "URL Redirect"
+        ],
+        "summary": "Get URL Redirects",
+        "description": "Returns a paged list of URL Redirects",
+        "operationId": "GetUrlRedirects",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UrlRedirectIPagedData"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/urlredirect/from/{fromurl}": {
+      "get": {
+        "tags": [
+          "URL Redirect"
+        ],
+        "summary": "Get URL Redirect By From",
+        "description": "Returns a URL Redirect By the FROM Relative URL",
+        "operationId": "GetUrlRedirectByFrom",
+        "parameters": [
+          {
+            "name": "fromurl",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UrlRedirect"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -868,6 +981,51 @@
           }
         },
         "additionalProperties": { }
+      },
+      "UrlRedirect": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "redirectFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "redirectTo": {
+            "type": "string",
+            "nullable": true
+          },
+          "permanent": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UrlRedirectIPagedData": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UrlRedirect"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
       }
     }
   }
