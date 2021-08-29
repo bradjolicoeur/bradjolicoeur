@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = Model.Article.Title;
     ViewBag.Description = Model.Article.Description;
-    ViewBag.Image = Model.ImageUrl;
+    ViewBag.Image = Model.ImageUrl?.ResolvedUrl;
 }
 
 <div class="container">

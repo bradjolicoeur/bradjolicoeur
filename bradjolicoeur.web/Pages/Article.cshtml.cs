@@ -29,7 +29,7 @@ namespace bradjolicoeur.web.Pages
 
         public BlogArticle Article { get; set; }
 
-        public string ImageUrl { get => Article.ImageUrl; }
+        public ImageFile ImageUrl { get => Article.Image; }
 
         public IEnumerable<BlogArticle> Suggestions { get; set; }
 
