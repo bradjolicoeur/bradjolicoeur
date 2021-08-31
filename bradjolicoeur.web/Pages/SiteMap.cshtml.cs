@@ -4,7 +4,6 @@ using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 

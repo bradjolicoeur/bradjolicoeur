@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using bradjolicoeur.core.blastcms;
 using bradjolicoeur.web.Services;
 using LazyCache;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
-using Squidex.ClientLibrary;
 
 namespace bradjolicoeur.web.Pages
 {

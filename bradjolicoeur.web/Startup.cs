@@ -1,8 +1,6 @@
 using bradjolicoeur.core.blastcms;
-using bradjolicoeur.core.Client;
 using bradjolicoeur.core.Helpers;
 using bradjolicoeur.core.Models;
-using bradjolicoeur.core.Resolvers;
 using bradjolicoeur.core.Services;
 using bradjolicoeur.web.Middleware;
 using bradjolicoeur.web.Services;
@@ -11,11 +9,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Net;
 using System.Net.Http.Headers;
 using WebEssentials.AspNetCore.Pwa;
 
@@ -58,8 +54,6 @@ namespace bradjolicoeur.web
 
             services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
             services.AddTransient<ISuggestionArticlesService, SuggestionArticlesService>();
-
-            services.AddSquidexServices(Configuration);
 
             services.AddHttpClient<IBlastCMSClient, BlastCMSClient>(
                 (provider, client) => {

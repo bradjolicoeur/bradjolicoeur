@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using bradjolicoeur.core.blastcms;
 
@@ -8,7 +6,6 @@ using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 
 
 namespace bradjolicoeur.web.Pages

@@ -28,7 +28,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Reactive" Version="5.0.0" />
-    <PackageReference Include="Squidex.ClientLibrary" Version="7.4.0" />
   </ItemGroup>
 
 </Project>

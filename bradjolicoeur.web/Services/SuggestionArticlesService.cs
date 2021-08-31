@@ -1,10 +1,7 @@
 ﻿using bradjolicoeur.core.blastcms;
 using LazyCache;
 using Microsoft.Extensions.Configuration;
-using Squidex.ClientLibrary;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace bradjolicoeur.web.Services
