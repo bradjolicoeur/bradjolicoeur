@@ -1,8 +1,10 @@
-﻿using bradjolicoeur.core.Models.ContentModels;
+﻿using bradjolicoeur.core.blastcms;
 using bradjolicoeur.core.Services;
+using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Squidex.ClientLibrary;
+using Microsoft.Extensions.Configuration;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,26 +12,31 @@ namespace bradjolicoeur.web.Pages
 {
     public class SiteMapModel : PageModel
     {
-        private IGenerateSitemapService GenerateSitemapService { get; set; }
+        private readonly IGenerateSitemapService _generateSitemapService;
 
-        private readonly IContentsClient<SitemapItem, SitemapItemData> _sitemapItem;
+        private readonly IBlastCMSClient _blastcms;
+        private readonly IConfiguration _configuration;
+        private readonly IAppCache _appCache;
+        private readonly string _key;
 
-        public SiteMapModel(IContentsClient<SitemapItem, SitemapItemData> sitemapItem, IGenerateSitemapService generateSitemapService)
+        public SiteMapModel(IBlastCMSClient blastcms, IAppCache appCache, IConfiguration configuration, IGenerateSitemapService generateSitemapService)
         {
-            GenerateSitemapService = generateSitemapService;
-            _sitemapItem = sitemapItem;
+            _blastcms = blastcms;
+            _configuration = configuration;
+            _appCache = appCache;
+            _key = _configuration["BlastCMSContentKey"];
+            _generateSitemapService = generateSitemapService;
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var results = await _sitemapItem.GetAsync(new ContentQuery
+            var results = await _appCache.GetOrAddAsync("sitemap-content", async () =>
             {
-                OrderBy = $"data/lastmodified/iv desc",
-                Top = 10,
+                return await _blastcms.GetSitemapItemsAsync(0, 100, 1, _key);
             });
 
 
-            string xml = GenerateSitemapService.Generate(results.Items, HttpContext.Request.Scheme + "://" + HttpContext.Request.Host);
+            string xml = _generateSitemapService.Generate(results.Data, HttpContext.Request.Scheme + "://" + HttpContext.Request.Host);
             return Content(xml, "text/xml", Encoding.UTF8);
         }
 
