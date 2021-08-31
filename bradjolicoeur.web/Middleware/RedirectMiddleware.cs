@@ -1,7 +1,7 @@
-﻿using bradjolicoeur.core.Models.ContentModels;
+﻿using bradjolicoeur.core.blastcms;
 using LazyCache;
 using Microsoft.AspNetCore.Http;
-using Squidex.ClientLibrary;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,27 +12,28 @@ namespace bradjolicoeur.web.Middleware
     public class RedirectMiddleware
     {
         private readonly IAppCache _cache;
-        private RequestDelegate NextDelegate { get; set; }
-        private IServiceProvider ServiceProvider { get; set; }
+        private readonly object _key;
 
-        private readonly IContentsClient<UrlRedirect, UrlRedirectData> _urlRedirect;
+        private RequestDelegate NextDelegate { get; set; }
+
+        private readonly IBlastCMSClient _blastcms;
 
         public RedirectMiddleware(RequestDelegate nextDelegate, 
-            IServiceProvider serviceProvider, 
-            IContentsClient<UrlRedirect, UrlRedirectData> urlRedirect,
-            IAppCache cache)
+            IBlastCMSClient blastcms,
+            IAppCache cache,
+            IConfiguration configuration)
         {
             NextDelegate = nextDelegate;
-            ServiceProvider = serviceProvider;
-            _urlRedirect = urlRedirect;
+            _blastcms = blastcms;
             _cache = cache;
+            _key = configuration["BlastCMSContentKey"];
         }
 
-        private async Task<IEnumerable<UrlRedirectData>> GetRedirects()
+        private async Task<IEnumerable<UrlRedirect>> GetRedirects()
         {
-            var response = await _urlRedirect.GetAsync(new ContentQuery());
+            var response = await _blastcms.GetUrlRedirectsAsync(0,1000,1, _key);
 
-            return response.Items.Select(x => x.Data);
+            return response.Data;
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -40,7 +41,7 @@ namespace bradjolicoeur.web.Middleware
             //The path from the request
             string requestURL = httpContext.Request.Path.ToString().ToLower();
 
-            Func<Task<IEnumerable<UrlRedirectData>>> getter = () => GetRedirects();
+            Func<Task<IEnumerable<UrlRedirect>>> getter = () => GetRedirects();
 
             //pull the full list of redirects 
             var redirects = await _cache.GetOrAddAsync("url-redirects", getter, new TimeSpan(0, 20, 0));
@@ -52,12 +53,12 @@ namespace bradjolicoeur.web.Middleware
             if (redirect != null)
             {
                 //a redirect was found in the list to be executed
-                httpContext.Response.Redirect(redirect.RedirectTo.ToLower(), false);
+                httpContext.Response.Redirect(redirect.RedirectTo.ToLower(), redirect.Permanent);
             }
             else
             {
                 //invoke the next delegate in the pipeline
-                await NextDelegate.Invoke(httpContext).ConfigureAwait(false);
+                await NextDelegate.Invoke(httpContext);
             }
 
         }

@@ -1,36 +1,34 @@
-﻿using bradjolicoeur.core.Models.ContentModels;
+﻿using bradjolicoeur.core.blastcms;
 using LazyCache;
-using Squidex.ClientLibrary;
-using System;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace bradjolicoeur.web.Services
 {
     public class SuggestionArticlesService : ISuggestionArticlesService
     {
-        private readonly IContentsClient<BlogArticle, BlogArticleData> _blogArticle;
+        private readonly IBlastCMSClient _blastcms;
         private readonly IAppCache _appCache;
+        private readonly string _key;
 
-        public SuggestionArticlesService(IContentsClient<BlogArticle, BlogArticleData> blogArtcle, IAppCache appCache)
+        public SuggestionArticlesService(IBlastCMSClient blastcms, IAppCache appCache, IConfiguration configuration)
         {
-            _blogArticle = blogArtcle;
+            _blastcms = blastcms;
             _appCache = appCache;
+            _key = configuration["BlastCMSContentKey"];
         }
 
-        public async Task<ContentsResult<BlogArticle, BlogArticleData>> GetSuggestions()
+        public async Task<IEnumerable<BlogArticle>> GetSuggestions()
         {
             return await _appCache.GetOrAddAsync("blog-article-suggestions", () => GetContents());
         }
 
-        private async Task<ContentsResult<BlogArticle, BlogArticleData>> GetContents()
+        private async Task<IEnumerable<BlogArticle>> GetContents()
         {
-            return await _blogArticle.GetAsync(new ContentQuery
-            {
-                OrderBy = $"data/publisheddate/iv desc",
-                Top = 3,
-            });
+
+            var BlogArticles = await _blastcms.GetBlogArticlesAsync(0, 3, 1, null, null, _key);
+            return BlogArticles.Data;
         }
     }
 }

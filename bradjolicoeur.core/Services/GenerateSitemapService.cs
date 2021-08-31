@@ -1,4 +1,5 @@
-﻿using bradjolicoeur.core.Models.ContentModels;
+﻿
+using bradjolicoeur.core.blastcms;
 using bradjolicoeur.core.Models.Web;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,12 @@ namespace bradjolicoeur.core.Services
 
         private string PageUrl { get; set; }
 
-        public string Generate(IReadOnlyList<SitemapItem> items, string pageUrl)
+        public string Generate(IEnumerable<SitemapItem> items, string pageUrl)
         {
             PageUrl = pageUrl;
             var nodes = items.Select(item => new SitemapNode(GetPageUrl(item))
             {
-                LastModified = item.Data.LastModified
+                LastModified = item.LastModified.DateTime
             }).ToList();
 
             return GetSitemapDocument(nodes);
@@ -52,7 +53,7 @@ namespace bradjolicoeur.core.Services
 
         private string GetPageUrl(SitemapItem contentItem)
         {
-            return PageUrl + "/" + contentItem.Data.RelativePath;
+            return PageUrl + "/" + contentItem.RelativePath;
 
         }
     }

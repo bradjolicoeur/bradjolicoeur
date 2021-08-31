@@ -1,22 +1,19 @@
-﻿using bradjolicoeur.core.Models.ContentModels;
+﻿using bradjolicoeur.core.blastcms;
 using bradjolicoeur.web.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace bradjolicoeur.web.Helpers
 {
     public static class BlogArticleHelpers
     {
-        public static TagsViewModel GetTags(this BlogArticleData data)
+        public static TagsViewModel GetTags(this BlogArticle data)
         {
-            return new TagsViewModel(data.BlogTags);
+            return new TagsViewModel(data.Tags);
         }
 
-        public static bool HasTags(this BlogArticleData data)
+        public static bool HasTags(this BlogArticle data)
         {
-            return !(data.BlogTags == null || data.BlogTags.Count() == 0);
+            return !(data.Tags == null || data.Tags.Count() == 0);
         }
     }
 }

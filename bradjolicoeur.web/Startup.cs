@@ -1,7 +1,6 @@
-using bradjolicoeur.core.Client;
+using bradjolicoeur.core.blastcms;
 using bradjolicoeur.core.Helpers;
 using bradjolicoeur.core.Models;
-using bradjolicoeur.core.Resolvers;
 using bradjolicoeur.core.Services;
 using bradjolicoeur.web.Middleware;
 using bradjolicoeur.web.Services;
@@ -10,10 +9,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net;
+using System;
+using System.Net.Http.Headers;
 using WebEssentials.AspNetCore.Pwa;
 
 namespace bradjolicoeur.web
@@ -56,7 +55,13 @@ namespace bradjolicoeur.web
             services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
             services.AddTransient<ISuggestionArticlesService, SuggestionArticlesService>();
 
-            services.AddSquidexServices(Configuration);
+            services.AddHttpClient<IBlastCMSClient, BlastCMSClient>(
+                (provider, client) => {
+                    client.BaseAddress = new Uri(Configuration.GetValue(
+                        "BlastCMSBaseAddress", "https://blog-blastcms.bradjolicoeur.com/"));
+                    var productValue = new ProductInfoHeaderValue("MyBlog", "1.0");
+                    client.DefaultRequestHeaders.UserAgent.Add(productValue);
+                });
 
             // Register IAppCache as a singleton CachingService
             services.AddLazyCache();
@@ -65,7 +70,8 @@ namespace bradjolicoeur.web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
+
+
             if (env.EnvironmentName.Equals("Development", System.StringComparison.InvariantCultureIgnoreCase))
             {
                 app.UseDeveloperExceptionPage();

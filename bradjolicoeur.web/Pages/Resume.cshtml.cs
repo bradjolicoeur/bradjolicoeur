@@ -1,36 +1,34 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using bradjolicoeur.core.Models.ContentModels;
+﻿using System.Threading.Tasks;
+using bradjolicoeur.core.blastcms;
 using LazyCache;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Squidex.ClientLibrary;
+using Microsoft.Extensions.Configuration;
 
 namespace bradjolicoeur.web.Pages
 {
     public class ResumeModel : PageModel
     {
-        private readonly IContentsClient<Resume, ResumeData> _resume;
+        private readonly IBlastCMSClient _blastcms;
+        private readonly IConfiguration _configuration;
         private readonly IAppCache _appCache;
+        private readonly string _key;
 
-        public ResumeModel(IContentsClient<Resume, ResumeData> resume, IAppCache appCache)
+        public ResumeModel(IBlastCMSClient blastcms, IAppCache appCache, IConfiguration configuration)
         {
-            _resume = resume;
+            _blastcms = blastcms;
+            _configuration = configuration;
             _appCache = appCache;
+            _key = _configuration["BlastCMSContentKey"];
         }
 
-        public Resume Resume { get => content?.Items?.FirstOrDefault(); }
+        public LandingPage Resume { get; set; }
 
-        public ContentsResult<Resume, ResumeData> content { get; set; }
 
         public async Task OnGet()
         {
-            content = await _appCache.GetOrAddAsync("resume-content", async () =>
+            Resume = await _appCache.GetOrAddAsync("resume-content", async () =>
             {
-                return await _resume.GetAsync(new ContentQuery
-                {
-                    Filter = $"id eq '603b2d8a-c44f-4be1-be30-b61a205dbbf0'"
-                });
+                return await _blastcms.GetLandingPage2Async("resume-page", _key);
             });
         }
 

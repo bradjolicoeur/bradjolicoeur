@@ -6,6 +6,6 @@
 }
 <div class="container">
     <div class="row">
-        @Html.Raw(MarkdownHelper.Transform(Model.Resume.Data.Body))
+        @Html.Raw(MarkdownHelper.Transform(Model.Resume?.Body))
     </div>
 </div>

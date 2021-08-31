@@ -2,32 +2,32 @@
 @model ArticleModel
 
 @{
-    ViewData["Title"] = Model.Article.Data.Title;
-    ViewBag.Description = Model.Article.Data.Description;
-    ViewBag.Image = Model.ImageUrl;
+    ViewData["Title"] = Model.Article.Title;
+    ViewBag.Description = Model.Article.Description;
+    ViewBag.Image = Model.ImageUrl?.ResolvedUrl;
 }
 
 <div class="container">
     <div class="row margin-bottom-20">
-        <h1>@Model.Article.Data.Title</h1>
+        <h1>@Model.Article.Title</h1>
     </div>
     <div class="row margin-bottom-20">
         <div class="col-sm-8">
             <div class="row">
                 <div class="col-sm-3">
                     <div class="blog-thumbnail margin-bottom-20">
-                        <img src="@ViewBag.Image" alt="@Model.Article.Data.Title" class="img-responsive" />
+                        <img src="@ViewBag.Image" alt="@Model.Article.Title" class="img-responsive" />
                     </div>
                 </div>
                 <div class="col-sm-9">
                     <h5>by Brad Jolicoeur</h5>
-                    <h6>@Model.Article.Data.PublishedDate.ToString("MM/dd/yyyy")</h6>
+                    <h6>@Model.Article.PublishedDate.ToString("MM/dd/yyyy")</h6>
 
-                    @if (Model.Article.Data.HasTags())
+                    @if (Model.Article.HasTags())
                     {
                         <ul class="list-inline">
                             <li><h5>tags:</h5></li>
-                                @foreach (var tag in Model.Article.Data.GetTags().Tags)
+                                @foreach (var tag in Model.Article.GetTags().Tags)
                                 {
                                     <li><a asp-page="./blog" asp-route-id="@tag.Name">@tag.Name</a></li>
                                 }
@@ -37,16 +37,16 @@
                 </div>
             </div>
             <div class="text-align-top ">
-                <div class="blog-body">@Html.Raw(MarkdownHelper.Transform(Model.Article.Data.Body))</div>
+                <div class="blog-body">@Html.Raw(MarkdownHelper.Transform(Model.Article.Body))</div>
             </div>
         </div>
         <div class="col-sm-4">
             <h3>You May Also Like</h3>
             <ul class="list-unstyled">
-                @foreach (var article in Model.Suggestions.Items)
+                @foreach (var article in Model.Suggestions)
                 {
                     <li>
-                        <a asp-page="./article" asp-route-id="@article.Data.Slug"><h4>@article.Data.Title</h4></a>
+                        <a asp-page="./article" asp-route-id="@article.Slug"><h4>@article.Title</h4></a>
                     </li>
 
                 }

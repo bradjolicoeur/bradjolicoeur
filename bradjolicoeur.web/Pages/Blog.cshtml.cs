@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using bradjolicoeur.core.Models.ContentModels;
+using bradjolicoeur.core.blastcms;
+
 using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
-using Squidex.ClientLibrary;
+using Microsoft.Extensions.Configuration;
+
 
 namespace bradjolicoeur.web.Pages
 {
@@ -18,19 +19,23 @@ namespace bradjolicoeur.web.Pages
         public int PageSize { get; set; } = 10;
         public long Count { get; set; }
         public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
-        public bool NextPage => (CurrentPage * PageSize) <= BlogArticles.Total;
+        public bool NextPage => (CurrentPage * PageSize) <= Count;
         public bool PreviousPage => (CurrentPage > 1);
 
-        private readonly IContentsClient<BlogArticle, BlogArticleData> _blogArticle;
+        private readonly IBlastCMSClient _blastcms;
+        private readonly IConfiguration _configuration;
         private readonly IAppCache _appCache;
+        private readonly string _key;
 
-        public BlogModel( IContentsClient<BlogArticle, BlogArticleData> blogArtcle, IAppCache appCache)
+        public BlogModel(IBlastCMSClient blastcms, IAppCache appCache, IConfiguration configuration)
         {
-            _blogArticle = blogArtcle;
+            _blastcms = blastcms;
+            _configuration = configuration;
             _appCache = appCache;
+            _key = _configuration["BlastCMSContentKey"];
         }
 
-        public ContentsResult<BlogArticle, BlogArticleData> BlogArticles { get; set; }
+        public BlogArticleIPagedData BlogArticles { get; set; }
 
         public async Task OnGetAsync(string id = null)
         {
@@ -42,24 +47,15 @@ namespace bradjolicoeur.web.Pages
         {
             CurrentPage = CurrentPage < 1 ? 1 : CurrentPage;
 
-            var filter = string.IsNullOrEmpty(tag) ? null : $"data/blogtags/iv eq '{tag}'";
-            var contentQuery = new ContentQuery
-            {
-                OrderBy = $"data/publisheddate/iv desc",
-                Filter = filter,
-                Skip = ((CurrentPage - 1) * PageSize),
-                Top = PageSize,
-            };
 
-            BlogArticles = await _appCache.GetOrAddAsync(JsonConvert.SerializeObject(contentQuery), () => GetContent(contentQuery));
+            BlogArticles = await _blastcms.GetBlogArticlesAsync(((CurrentPage - 1) * PageSize), PageSize, CurrentPage, null, tag, _key);
 
-            Count = BlogArticles.Total;
+            //BlogArticles = await _appCache.GetOrAddAsync(JsonConvert.SerializeObject(contentQuery), () => GetContent(contentQuery));
+
+            Count = BlogArticles.Count;
 
         }
 
-        private async Task<ContentsResult<BlogArticle, BlogArticleData>> GetContent(ContentQuery contentQuery)
-        {
-            return await _blogArticle.GetAsync(contentQuery);
-        }
+
     }
 }

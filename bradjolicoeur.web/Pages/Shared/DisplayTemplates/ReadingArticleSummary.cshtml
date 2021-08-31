@@ -1,17 +1,17 @@
-﻿@model ReadingFeed
+﻿@model bradjolicoeur.core.blastcms.FeedArticle
 
 <div class="row margin-bottom-20">
     <div class="col-sm-4 blog-thumbnail">
 
-        @if (!string.IsNullOrEmpty(Model.Data.ImageUrl) && !Model.Data.IsYouTube())
+        @if (!string.IsNullOrEmpty(Model.ImageUrl) && !Model.IsYouTube())
         {
-            <img src="@Model.Data.ImageUrl" alt="@Model.Data.Title" class="img-responsive" />
+            <img src="@Model.ImageUrl" alt="@Model.Title" class="img-responsive" />
         }
 
-        @if (Model.Data.IsYouTube())
+        @if (Model.IsYouTube())
         {
         <div class="responsive-iframe-container">
-            <iframe class="responsive-iframe" src="@Model.Data.YouTubeEmbeddedUrl()" 
+            <iframe class="responsive-iframe" src="@Model.YouTubeEmbeddedUrl()" 
                     frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen></iframe>
         </div>
@@ -19,17 +19,17 @@
 
     </div>
     <div class="col-sm-8 text-align-top blog-summary margin-top-5">
-        <h3>@Model.Data.Title</h3>
-        <h6><strong>@Model.Data.AuthorAndSiteName()</strong></h6>
+        <h3>@Model.Title</h3>
+        <h6><strong>@Model.AuthorAndSiteName()</strong></h6>
       
         <div>
-        @if (!string.IsNullOrEmpty(Model.Data.Description)) { 
+        @if (!string.IsNullOrEmpty(Model.Description)) { 
 
-           <i>@Html.DisplayFor(i => Model.Data.Description)</i>
+           <i>@Html.DisplayFor(i => Model.Description)</i>
         
         }</div>
         <span class="button-link">
-            <a href="@Model.Data.ArticleUrl" target="_blank">@Model.Data.ButtonLabel()</a>
+            <a href="@Model.ArticleUrl" target="_blank">@Model.ButtonLabel()</a>
         </span>
     </div>
 
