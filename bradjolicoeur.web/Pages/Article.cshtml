@@ -5,6 +5,7 @@
     ViewData["Title"] = Model.Article.Title;
     ViewBag.Description = Model.Article.Description;
     ViewBag.Image = Model.ImageUrl?.ResolvedUrl;
+    ViewBag.Author = Model.Article.Author;
 }
 
 <div class="container">
@@ -46,7 +47,7 @@
                 @foreach (var article in Model.Suggestions)
                 {
                     <li>
-                        <a asp-page="./article" asp-route-id="@article.Slug"><h4>@article.Title</h4></a>
+                        <a asp-page="./article" asp-route-slug="@article.Slug"><h4>@article.Title</h4></a>
                     </li>
 
                 }
