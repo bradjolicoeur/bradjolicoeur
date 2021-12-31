@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Brad Jolicoeur</title>
 
-    <meta property="og:title" content="@ViewBag.Title" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path" />
-    <meta property="og:image:secure" content="@ViewBag.Image?.ToLower()" />
-    <meta property="og:image" content="@ViewBag.Image?.ToLower()" />
-    <meta property="og:site_name" content="Brad Jolicoeur" />
-    <meta property="og:description" content="@ViewBag.Description" />
+    <meta prefix="og: http://ogp.me/ns#" property="og:title" content="@ViewBag.Title" />
+    <meta prefix="og: http://ogp.me/ns#" property="og:type" content="website" />
+    <meta prefix="og: http://ogp.me/ns#" property="og:url" content="@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path" />
+    <meta prefix="og: http://ogp.me/ns#" property="og:image" content="@ViewBag.Image?.ToLower()" />
+    <meta prefix="og: http://ogp.me/ns#" property="og:site_name" content="Brad Jolicoeur" />
+    <meta prefix="og: http://ogp.me/ns#" property="og:description" content="@ViewBag.Description" />
     <meta property="fb:app_id" content="859212197619663" />
     <meta name="description" content="@ViewBag.Description" />
     <meta name="author" content="@ViewBag.Author">
