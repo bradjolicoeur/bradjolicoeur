@@ -28,7 +28,7 @@ namespace bradjolicoeur.web.Pages
         {
             Resume = await _appCache.GetOrAddAsync("resume-content", async () =>
             {
-                return await _blastcms.GetLandingPage2Async("resume-page", _key);
+                return await _blastcms.GetLandingPageBySlugAsync("resume-page", _key);
             });
         }
 

@@ -5,7 +5,7 @@
     "description": "Blast CMS Content API",
     "contact": {
       "name": "Brad Jolicoeur",
-      "url": "https://bradjoli",
+      "url": "https://bradjolicoeur.com",
       "email": ""
     },
     "license": {
@@ -83,14 +83,7 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -131,14 +124,7 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -150,7 +136,7 @@
         ],
         "summary": "Get Blog Article",
         "description": "Returns a Blog Article",
-        "operationId": "GetBlogArticle",
+        "operationId": "GetBlogArticleBySlug",
         "parameters": [
           {
             "name": "slug",
@@ -178,14 +164,7 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -244,14 +223,301 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/event/all": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Get Event Venues",
+        "description": "Returns a paged list of Event Venues",
+        "operationId": "GetEvents",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/EventItemIPagedData"
                 }
               }
             }
+          },
+          "401": {
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/event/{id}": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Get Event Venue",
+        "description": "Returns an Event Venue",
+        "operationId": "GetEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventItem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/event/slug/{slug}": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Get Event Venue By Slug",
+        "description": "Returns an Event Venue",
+        "operationId": "GetEventBySlug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventItem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/eventvenue/all": {
+      "get": {
+        "tags": [
+          "Event Venue"
+        ],
+        "summary": "Get Event Venues",
+        "description": "Returns a paged list of Event Venues",
+        "operationId": "GetEventVenues",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventVenueIPagedData"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/eventvenue/{id}": {
+      "get": {
+        "tags": [
+          "Event Venue"
+        ],
+        "summary": "Get Event Venue",
+        "description": "Returns an Event Venue",
+        "operationId": "GetEventVenue",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventVenue"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/eventvenue/slug/{slug}": {
+      "get": {
+        "tags": [
+          "Event Venue"
+        ],
+        "summary": "Get Event Venue By Slug",
+        "description": "Returns an Event Venue",
+        "operationId": "GetEventVenueBySlug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventVenue"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -317,14 +583,7 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -365,14 +624,7 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -438,14 +690,7 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -486,14 +731,7 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -505,7 +743,7 @@
         ],
         "summary": "Get Landing Page",
         "description": "Returns a Landing Page",
-        "operationId": "GetLandingPage",
+        "operationId": "GetLandingPageBySlug",
         "parameters": [
           {
             "name": "slug",
@@ -533,14 +771,375 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/podcastepisode/{podcastid}/all": {
+      "get": {
+        "tags": [
+          "Podcast Episode"
+        ],
+        "summary": "Get Podcast Episodes",
+        "description": "Returns a paged list of Podcast Episodes for a podcast",
+        "operationId": "GetPodcastEpisodes",
+        "parameters": [
+          {
+            "name": "podcastid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/PodcastEpisodeIPagedData"
                 }
               }
             }
+          },
+          "401": {
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/podcastepisode/id/{episodeid}": {
+      "get": {
+        "tags": [
+          "Podcast Episode"
+        ],
+        "summary": "Get Podcast Episode",
+        "description": "Returns a podcast episode",
+        "operationId": "GetPodcastEpisode",
+        "parameters": [
+          {
+            "name": "episodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PodcastEpisode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/podcastepisode": {
+      "post": {
+        "tags": [
+          "Podcast Episode"
+        ],
+        "summary": "Alter Podcast Episode",
+        "description": "Inserts or Updates a Podcast Episode",
+        "operationId": "PostPodcastEpisode",
+        "parameters": [
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlterPodcastEpisodeCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlterPodcastEpisodeCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlterPodcastEpisodeCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlterPodcastModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/podcastepisode/slug/{slug}": {
+      "get": {
+        "tags": [
+          "Podcast Episode"
+        ],
+        "summary": "Get Podcast Episode By Slug",
+        "description": "Returns a podcast episode",
+        "operationId": "GetPodcastEpisodeBySlug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PodcastEpisode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/podcast/id/{podcastid}": {
+      "get": {
+        "tags": [
+          "Podcast"
+        ],
+        "summary": "Get Podcast",
+        "description": "Returns a podcast",
+        "operationId": "GetPodcast",
+        "parameters": [
+          {
+            "name": "podcastid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Podcast"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/podcast/slug/{slug}": {
+      "get": {
+        "tags": [
+          "Podcast"
+        ],
+        "summary": "Get Podcast By Slug",
+        "description": "Returns a podcast",
+        "operationId": "GetPodcastBySlug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Podcast"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid"
+          }
+        }
+      }
+    },
+    "/api/podcast/all": {
+      "get": {
+        "tags": [
+          "Podcast"
+        ],
+        "summary": "Get Podcasts",
+        "description": "Returns a paged list of Podcasts",
+        "operationId": "GetPodcasts",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ApiKey",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PodcastIPagedData"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -599,14 +1198,7 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -665,14 +1257,7 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -712,14 +1297,7 @@
             }
           },
           "401": {
-            "description": "Api Key is not valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
+            "description": "Api Key is not valid"
           }
         }
       }
@@ -727,6 +1305,87 @@
   },
   "components": {
     "schemas": {
+      "AlterPodcastEpisodeCommand": {
+        "required": [
+          "podcastId",
+          "publishedDate",
+          "slug",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "podcastId": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "title": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "publishedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "image": {
+            "$ref": "#/components/schemas/ImageFile"
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "episode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "duration": {
+            "type": "string",
+            "nullable": true
+          },
+          "mp3Url": {
+            "type": "string",
+            "nullable": true
+          },
+          "youTubeUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "slug": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AlterPodcastModel": {
+        "type": "object",
+        "properties": {
+          "podcast": {
+            "$ref": "#/components/schemas/Podcast"
+          }
+        },
+        "additionalProperties": false
+      },
       "BlogArticle": {
         "type": "object",
         "properties": {
@@ -743,7 +1402,6 @@
             "nullable": true
           },
           "tags": {
-            "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "string"
@@ -822,6 +1480,170 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ContentTag"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "body": {
+            "type": "string",
+            "nullable": true
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "special": {
+            "type": "string",
+            "nullable": true
+          },
+          "venueId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ticketPrice": {
+            "type": "string",
+            "nullable": true
+          },
+          "flyer": {
+            "$ref": "#/components/schemas/ImageFile"
+          },
+          "openMicSignup": {
+            "$ref": "#/components/schemas/OpenMicOption"
+          },
+          "eventDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "eventTime": {
+            "$ref": "#/components/schemas/TimeSpan"
+          },
+          "sponsor": {
+            "type": "string",
+            "nullable": true
+          },
+          "ticketSaleProvider": {
+            "$ref": "#/components/schemas/TicketSaleProvider"
+          },
+          "ticketSaleValue": {
+            "type": "string",
+            "nullable": true
+          },
+          "venueTicketsUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "slug": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventItemIPagedData": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventItem"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventVenue": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "venueName": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "zip": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "string",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "string",
+            "nullable": true
+          },
+          "websiteUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "image": {
+            "$ref": "#/components/schemas/ImageFile"
+          },
+          "slug": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventVenueIPagedData": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventVenue"
             },
             "nullable": true,
             "readOnly": true
@@ -1021,32 +1843,184 @@
         },
         "additionalProperties": false
       },
-      "ProblemDetails": {
+      "OpenMicOption": {
         "type": "object",
         "properties": {
-          "type": {
+          "name": {
             "type": "string",
             "nullable": true
+          },
+          "value": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Podcast": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
           },
           "title": {
             "type": "string",
             "nullable": true
           },
-          "status": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "detail": {
+          "description": {
             "type": "string",
             "nullable": true
           },
-          "instance": {
+          "publishedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "podcastUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "rssCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "rssSubcategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "coverImage": {
+            "$ref": "#/components/schemas/ImageFile"
+          },
+          "ownerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "explicitContent": {
+            "type": "boolean"
+          },
+          "slug": {
             "type": "string",
             "nullable": true
           }
         },
-        "additionalProperties": { }
+        "additionalProperties": false
+      },
+      "PodcastEpisode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "podcastId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "author": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "publishedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "image": {
+            "$ref": "#/components/schemas/ImageFile"
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "episode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "duration": {
+            "type": "string",
+            "nullable": true
+          },
+          "mp3Url": {
+            "type": "string",
+            "nullable": true
+          },
+          "youTubeUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "slug": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PodcastEpisodeIPagedData": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PodcastEpisode"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PodcastIPagedData": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Podcast"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
       },
       "SitemapItem": {
         "type": "object",
@@ -1085,6 +2059,84 @@
           "page": {
             "type": "integer",
             "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TicketSaleProvider": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valueLabel": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TimeSpan": {
+        "type": "object",
+        "properties": {
+          "ticks": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "days": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "hours": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "milliseconds": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "minutes": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "seconds": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "totalDays": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "totalHours": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "totalMilliseconds": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "totalMinutes": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "totalSeconds": {
+            "type": "number",
+            "format": "double",
             "readOnly": true
           }
         },

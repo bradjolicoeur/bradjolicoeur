@@ -44,7 +44,7 @@ namespace bradjolicoeur.web.Middleware
             Func<Task<IEnumerable<UrlRedirect>>> getter = () => GetRedirects();
 
             //pull the full list of redirects 
-            var redirects = await _cache.GetOrAddAsync("url-redirects", getter, new TimeSpan(0, 20, 0));
+            var redirects = await _cache.GetOrAddAsync("url-redirects", getter, new System.TimeSpan(0, 20, 0));
 
             //search the full list for a redirect that matches the request path
             var redirect = redirects.Where(q => q.RedirectFrom

@@ -49,7 +49,7 @@ namespace bradjolicoeur.web.Pages
         {
             var result = new ContentResults();
 
-            result.HomePage = await _blastcms.GetLandingPage2Async("home-page", _key);
+            result.HomePage = await _blastcms.GetLandingPageBySlugAsync("home-page", _key);
 
             result.BlogArticles = await _suggestionService.GetSuggestions();
 

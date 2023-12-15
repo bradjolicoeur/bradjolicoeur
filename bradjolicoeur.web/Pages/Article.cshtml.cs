@@ -49,7 +49,7 @@ namespace bradjolicoeur.web.Pages
 
         private async Task<BlogArticle> GetContent(string slug)
         {
-            return await _blastcms.GetBlogArticle2Async(slug, _key);
+            return await _blastcms.GetBlogArticleBySlugAsync(slug, _key);
         }
     }
 }
