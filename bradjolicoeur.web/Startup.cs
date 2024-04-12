@@ -59,8 +59,7 @@ namespace bradjolicoeur.web
                 (provider, client) => {
                     client.BaseAddress = new Uri(Configuration.GetValue(
                         "BlastCMSBaseAddress", "https://blog-blastcms.bradjolicoeur.com/"));
-                    var productValue = new ProductInfoHeaderValue("MyBlog", "1.0");
-                    client.DefaultRequestHeaders.UserAgent.Add(productValue);
+
                 });
 
             // Register IAppCache as a singleton CachingService
