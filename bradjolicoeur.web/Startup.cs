@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http.Headers;
 using WebEssentials.AspNetCore.Pwa;
@@ -67,11 +68,11 @@ namespace bradjolicoeur.web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostApplicationLifetime env)
         {
 
 
-            if (env.EnvironmentName.Equals("Development", System.StringComparison.InvariantCultureIgnoreCase))
+            if (Environment.Equals("Development", System.StringComparison.InvariantCultureIgnoreCase))
             {
                 app.UseDeveloperExceptionPage();
             }
