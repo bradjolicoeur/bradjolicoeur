@@ -27,6 +27,7 @@
         </div>
         <div class="col-sm-10 col-xs-8">
             @Html.Raw(MarkdownHelper.Transform(Model.HomePage.Description))
+            @* <component type="typeof(bradjolicoeur.web.Components.TryAnother)" render-mode="Static" /> *@
         </div>
 
         
@@ -34,10 +35,7 @@
     <div class="row">
         <h2>Recent Blog Articles</h2>
         <hr/>
-        @foreach (var article in Model.BlogArticles)
-        {
-            @Html.DisplayFor(vm => article, "BlogArticleSummary");
-        }
+        <component type="typeof(bradjolicoeur.web.Components.RecentBlogArticles)" render-mode="ServerPrerendered" param-Articles="@Model.BlogArticles" />
     </div>
 </div>
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using bradjolicoeur.core.blastcms;
 using bradjolicoeur.web.Services;
@@ -42,9 +43,16 @@ namespace bradjolicoeur.web.Pages
             Article = await _appCache.GetOrAddAsync($"blogarticle-{slug.ToLower()}", () => GetContent(slug));
 
 
-            Suggestions = await _suggestionService.GetSuggestions();
+            Suggestions = await FilterSuggestions();
 
             return Page();
+        }
+
+        private async Task<IEnumerable<BlogArticle>> FilterSuggestions()
+        {
+            var suggestions = await _suggestionService.GetSuggestions();
+
+            return suggestions.Where(q => q.Slug != Article.Slug).Take(3);
         }
 
         private async Task<BlogArticle> GetContent(string slug)

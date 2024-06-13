@@ -27,7 +27,7 @@ namespace bradjolicoeur.web.Services
         private async Task<IEnumerable<BlogArticle>> GetContents()
         {
 
-            var BlogArticles = await _blastcms.GetBlogArticlesAsync(0, 3, 1, null, null, _key);
+            var BlogArticles = await _blastcms.GetBlogArticlesAsync(0, 4, 1, null, null, _key);
             return BlogArticles.Data;
         }
     }

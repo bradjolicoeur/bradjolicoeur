@@ -42,17 +42,20 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <h3>You May Also Like</h3>
-            <ul class="list-unstyled">
+            <div class="row">
+                <h3>You May Also Like</h3>
+            </div>
+            
+
                 @foreach (var article in Model.Suggestions)
                 {
-                    <li>
-                        <a asp-page="./article" asp-route-slug="@article.Slug"><h4>@article.Title</h4></a>
-                    </li>
+                    
+                        <component type="typeof(bradjolicoeur.web.Components.BlogArticleRecommendation)" render-mode="ServerPrerendered" param-Model="@article" />
+                    
 
                 }
 
-            </ul>
+            
         </div>
 
         <div id="disqus_thread"></div>

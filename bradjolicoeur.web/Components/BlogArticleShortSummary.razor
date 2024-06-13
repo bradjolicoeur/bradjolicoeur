@@ -1,5 +1,5 @@
-﻿@model bradjolicoeur.core.blastcms.BlogArticle
-
+﻿@using bradjolicoeur.core.blastcms
+@using bradjolicoeur.web.Helpers
 
 <div class="row margin-bottom-20">
     <div class="col-sm-4 blog-thumbnail">
@@ -14,15 +14,24 @@
                 <li><h5>tags:</h5></li>
                 @foreach (var tag in Model.GetTags().Tags)
                 {
-                    <li><a asp-page="../blog" asp-route-id="@tag.Name">@tag.Name</a></li>
+                    <li><a href="/blog/@tag.Name">@tag.Name</a></li>
                 }
             </ul>
 
         }
 
-        <div>@Html.DisplayFor(i => Model.Description)</div>
+        <div>@Model.Description</div>
+
         <span class="button-link">
-            <a asp-page="./article" asp-route-slug="@Model.Slug">Read More</a>
+            <a href="/article/@Model.Slug">Read More</a>
         </span>
+
     </div>
 </div>
+
+@code {
+
+    [Parameter]
+    public BlogArticle Model { get; set; } = new();
+
+}

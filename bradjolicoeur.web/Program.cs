@@ -1,30 +1,84 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using bradjolicoeur.core.blastcms;
+using bradjolicoeur.core.Helpers;
+using bradjolicoeur.core.Models;
+using bradjolicoeur.core.Services;
+using bradjolicoeur.web.Middleware;
+using bradjolicoeur.web.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using WebEssentials.AspNetCore.Pwa;
 
-namespace bradjolicoeur.web
-{
-    public class Program
+var builder = WebApplication.CreateBuilder(args);
+
+var Configuration = builder.Configuration;
+
+builder.Services.Configure<ProjectOptions>(Configuration);
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddRazorComponents();
+
+builder.Services.AddMvc(o =>
     {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        o.EnableEndpointRouting = false;
+    })
+    .AddRazorPagesOptions(options =>
+    {
+        options.Conventions.AddPageRoute("/sitemap", "sitemap.xml");
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostContext, configApp) =>
-                {
-                    configApp.AddEnvironmentVariables();
-                    configApp.AddJsonFile("appsettings.json", optional: true);
-                    configApp.AddJsonFile(
-                       $"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json",
-                       optional: true);
-                    configApp.AddJsonFile("secretsettings.json", true);
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+    });
+
+builder.Services.AddProgressiveWebApp(new PwaOptions
+{
+    AllowHttp = true
+});
+
+builder.Services.AddSingleton<IWebhookListener>(sp => new WebhookListener());
+
+builder.Services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
+builder.Services.AddTransient<ISuggestionArticlesService, SuggestionArticlesService>();
+
+builder.Services.AddHttpClient<IBlastCMSClient, BlastCMSClient>(
+    (provider, client) => {
+        client.BaseAddress = new Uri(Configuration.GetValue(
+            "BlastCMSBaseAddress", "https://blog-blastcms.bradjolicoeur.com/"));
+
+    });
+
+// Register IAppCache as a singleton CachingService
+builder.Services.AddLazyCache();
+
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
 }
+else
+{
+
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+app.UseStaticFiles();
+app.UseCookiePolicy();
+
+app.UseMiddleware<RedirectMiddleware>();
+
+app.MapRazorComponents<bradjolicoeur.web.App>();
+
+app.UseMvc();
+
+app.Run();

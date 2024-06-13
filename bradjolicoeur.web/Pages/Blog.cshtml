@@ -10,7 +10,7 @@
 
 @foreach (var article in Model.BlogArticles.Data)
 {
-    @Html.DisplayFor(vm => article, "BlogArticleSummary");
+    <component type="typeof(bradjolicoeur.web.Components.BlogArticleShortSummary)" render-mode="ServerPrerendered" param-Model="@article" />
 }
 
 
