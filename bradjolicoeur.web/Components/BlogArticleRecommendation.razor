@@ -1,0 +1,36 @@
+﻿@using bradjolicoeur.core.blastcms
+@using bradjolicoeur.web.Helpers
+
+<div class="row margin-bottom-20">
+
+    <div class="text-align-top blog-summary">
+        <hr />
+        <h3>@Model.Title</h3>
+        <img src="@Model.Image?.ResolvedUrl" alt="@Model.Image?.Title" class="img-responsive" />
+        
+        <h6><strong>Brad Jolicoeur</strong>  -  @Model.PublishedDate.ToString("MM/dd/yyyy")</h6>
+        @if (Model.HasTags())
+        {
+            <ul class="list-inline">
+                <li><h5>tags:</h5></li>
+                @foreach (var tag in Model.GetTags().Tags)
+                {
+                    <li><a href="/blog/@tag.Name">@tag.Name</a></li>
+                }
+            </ul>
+
+        }
+
+        <span class="button-link">
+            <a href="/article/@Model.Slug">Read</a>
+        </span>
+
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public BlogArticle Model { get; set; } = new();
+
+}

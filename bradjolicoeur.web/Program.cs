@@ -2,21 +2,16 @@
 using bradjolicoeur.core.Helpers;
 using bradjolicoeur.core.Models;
 using bradjolicoeur.core.Services;
-using bradjolicoeur.web;
 using bradjolicoeur.web.Middleware;
 using bradjolicoeur.web.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using WebEssentials.AspNetCore.Pwa;
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,18 +19,19 @@ var Configuration = builder.Configuration;
 
 builder.Services.Configure<ProjectOptions>(Configuration);
 
-builder.Services.AddSingleton(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddRazorComponents();
 
 builder.Services.AddMvc(o =>
-{
-    o.EnableEndpointRouting = false;
-})
+    {
+        o.EnableEndpointRouting = false;
+    })
     .AddRazorPagesOptions(options =>
     {
         options.Conventions.AddPageRoute("/sitemap", "sitemap.xml");
 
-    })
-    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+    });
 
 builder.Services.AddProgressiveWebApp(new PwaOptions
 {
@@ -60,7 +56,7 @@ builder.Services.AddLazyCache();
 
 var app = builder.Build();
 
-if (Environment.Equals("Development", System.StringComparison.InvariantCultureIgnoreCase))
+if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
@@ -76,11 +72,12 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
 
-//app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCookiePolicy();
 
 app.UseMiddleware<RedirectMiddleware>();
+
+app.MapRazorComponents<bradjolicoeur.web.App>();
 
 app.UseMvc();
 
