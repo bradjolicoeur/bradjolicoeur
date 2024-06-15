@@ -1,0 +1,45 @@
+﻿
+<div class="row margin-bottom-20">
+    <div class="col-sm-4 blog-thumbnail">
+
+        @if (!string.IsNullOrEmpty(Model.ImageUrl) && !Model.IsYouTube())
+        {
+            <img src="@Model.ImageUrl" alt="@Model.Title" class="img-responsive" />
+        }
+
+        @if (Model.IsYouTube())
+        {
+            <div class="responsive-iframe-container">
+                <iframe class="responsive-iframe" src="@Model.YouTubeEmbeddedUrl()"
+                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+            </div>
+        }
+
+    </div>
+    <div class="col-sm-8 text-align-top blog-summary margin-top-5">
+        <h3>@Model.Title</h3>
+        <h6><strong>@Model.AuthorAndSiteName()</strong></h6>
+
+        <div>
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+
+                <i>@((MarkupString)MarkdownHelper.Transform(Model.Description))</i>
+
+            }
+        </div>
+        <span class="button-link">
+            <a href="@Model.ArticleUrl" target="_blank">@Model.ButtonLabel()</a>
+        </span>
+    </div>
+
+
+</div>
+
+@code {
+
+    [Parameter]
+    public bradjolicoeur.core.blastcms.FeedArticle Model { get; set; }
+
+}

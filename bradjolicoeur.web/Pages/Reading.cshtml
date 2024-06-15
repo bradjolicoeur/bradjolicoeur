@@ -1,5 +1,6 @@
 ﻿@page
 @model bradjolicoeur.web.Pages.ReadingModel
+@using bradjolicoeur.web.Components
 @{
     ViewData["Title"] = "Feed";
 }
@@ -10,9 +11,7 @@
 
 @foreach (var item in Model.content?.Data)
 {
-
-    @Html.DisplayFor(vm => item, "ReadingArticleSummary");
-
+    <component type="typeof(FeedArticleSummary)" render-mode="ServerPrerendered" param-Model="@item" />
 }
 
 <nav aria-label="Page navigation example">
