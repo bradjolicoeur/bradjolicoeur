@@ -21,7 +21,7 @@ builder.Services.Configure<ProjectOptions>(Configuration);
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddRazorComponents();
+//builder.Services.AddRazorComponents();
 
 builder.Services.AddMvc(o =>
     {
@@ -77,7 +77,7 @@ app.UseCookiePolicy();
 
 app.UseMiddleware<RedirectMiddleware>();
 
-app.MapRazorComponents<bradjolicoeur.web.App>();
+//app.MapRazorComponents<Program>();
 
 app.UseMvc();
 

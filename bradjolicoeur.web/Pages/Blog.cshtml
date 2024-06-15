@@ -1,5 +1,6 @@
 ﻿@page "{id?}"
 @model BlogModel
+@using bradjolicoeur.web.Components
 @{
     ViewData["Title"] = "Blog";
     ViewBag.Description = "Blog";
@@ -10,7 +11,7 @@
 
 @foreach (var article in Model.BlogArticles.Data)
 {
-    <component type="typeof(bradjolicoeur.web.Components.BlogArticleShortSummary)" render-mode="ServerPrerendered" param-Model="@article" />
+    <component type="typeof(BlogArticleShortSummary)" render-mode="ServerPrerendered" param-Model="@article" />
 }
 
 

@@ -1,5 +1,6 @@
 ﻿@page "{slug?}"
 @model ArticleModel
+@using bradjolicoeur.web.Components
 
 @{
     ViewData["Title"] = Model.Article.Title;
@@ -50,7 +51,7 @@
                 @foreach (var article in Model.Suggestions)
                 {
                     
-                        <component type="typeof(bradjolicoeur.web.Components.BlogArticleRecommendation)" render-mode="ServerPrerendered" param-Model="@article" />
+                        <component type="typeof(BlogArticleRecommendation)" render-mode="ServerPrerendered" param-Model="@article" />
                     
 
                 }
