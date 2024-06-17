@@ -25,17 +25,7 @@
                     <h5>by Brad Jolicoeur</h5>
                     <h6>@Model.Article.PublishedDate.ToString("MM/dd/yyyy")</h6>
 
-                    @if (Model.Article.HasTags())
-                    {
-                        <ul class="list-inline">
-                            <li><h5>tags:</h5></li>
-                                @foreach (var tag in Model.Article.GetTags().Tags)
-                                {
-                                    <li><a asp-page="./blog" asp-route-id="@tag.Name">@tag.Name</a></li>
-                                }
-                        </ul>
-                    }
-
+                    <component type="typeof(TagLinkList)" render-mode="ServerPrerendered" param-Tags="@Model.Article.GetTags()" />
                 </div>
             </div>
             <div class="text-align-top ">

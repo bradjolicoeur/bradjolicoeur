@@ -7,17 +7,7 @@
         <img src="@Model.Image?.ResolvedUrl" alt="@Model.Image?.Title" class="img-responsive" />
         
         <h6><strong>Brad Jolicoeur</strong>  -  @Model.PublishedDate.ToString("MM/dd/yyyy")</h6>
-        @if (Model.HasTags())
-        {
-            <ul class="list-inline">
-                <li><h5>tags:</h5></li>
-                @foreach (var tag in Model.GetTags().Tags)
-                {
-                    <li><a href="/blog/@tag.Name">@tag.Name</a></li>
-                }
-            </ul>
-
-        }
+        <TagLinkList Tags="Model.GetTags()" />
 
         <span class="button-link">
             <a href="/article/@Model.Slug">Read</a>

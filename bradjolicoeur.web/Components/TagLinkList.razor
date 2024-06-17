@@ -1,0 +1,16 @@
+﻿@if (Tags != null && Tags.Tags != null)
+{
+    <ul class="list-inline">
+        <li><h5>tags:</h5></li>
+        @foreach (var tag in Tags.Tags)
+        {
+            <li><a href="/blog/@tag.Name">@tag.Name</a></li>
+        }
+    </ul>
+}
+
+@code {
+
+    [Parameter]
+    public TagsViewModel Tags { get; set; }
+}
