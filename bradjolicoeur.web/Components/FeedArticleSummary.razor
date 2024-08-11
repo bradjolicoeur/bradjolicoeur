@@ -4,7 +4,7 @@
 
         @if (!string.IsNullOrEmpty(Model.ImageUrl) && !Model.IsYouTube())
         {
-            <img src="@Model.ImageUrl" alt="@Model.Title" class="img-responsive" />
+            <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid" />
         }
 
         @if (Model.IsYouTube())

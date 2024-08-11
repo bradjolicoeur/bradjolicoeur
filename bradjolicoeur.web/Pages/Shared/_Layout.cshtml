@@ -15,34 +15,28 @@
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
     </environment>
+
 </head>
 
 <body>
-    <nav class="navbar navbar-custom navbar-fixed-top">
-
+    <nav class="navbar navbar-expand-sm navbar-fixed-top navbar-toggleable-sm navbar-custom custom-toggler">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                <a class="navbar-brand" asp-page="/Index">
-                    <img src="~/images/android-chrome-192x192.png" class="nav-bar-image" alt="logo">
-                </a>
-                <a class="navbar-brand" asp-page="/Index">
-                    Brad Jolicoeur
-                </a>
-
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-page="/index">Home</a></li>
-                    <li><a asp-page="/blog" asp-route-id="">Blog</a></li>
-                    <li><a asp-page="/reading">Feed</a></li>
-                    <li><a asp-page="/resume">Resume</a></li>
+            <a class="navbar-brand" asp-page="/Index">
+                <img src="~/images/android-chrome-192x192.png" class="nav-bar-image" alt="logo">
+            </a>
+            <a class="navbar-brand" asp-page="/Index">
+                Brad Jolicoeur
+            </a>
+            <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item"><a class="nav-link text-dark" asp-page="/index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" asp-page="/blog" asp-route-id="">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" asp-page="/reading">Feed</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" asp-page="/resume">Resume</a></li>
                 </ul>
             </div>
         </div>
@@ -50,9 +44,9 @@
 
     <partial name="_CookieConsentPartial" />
 
-    <div class="container-fluid">
-        @RenderSection("HeroSection", required: false)
-    </div>
+    
+  @RenderSection("HeroSection", required: false)
+
     <div class="container body-content">
         @RenderBody()
 
