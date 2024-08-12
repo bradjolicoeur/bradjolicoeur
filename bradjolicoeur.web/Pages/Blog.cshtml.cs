@@ -22,6 +22,8 @@ namespace bradjolicoeur.web.Pages
         public bool NextPage => (CurrentPage * PageSize) <= Count;
         public bool PreviousPage => (CurrentPage > 1);
 
+        public string Filter { get; set; } = string.Empty;
+
         private readonly IBlastCMSClient _blastcms;
         private readonly IConfiguration _configuration;
         private readonly IAppCache _appCache;
@@ -46,7 +48,7 @@ namespace bradjolicoeur.web.Pages
         private async Task GetBlogArticles(string tag)
         {
             CurrentPage = CurrentPage < 1 ? 1 : CurrentPage;
-
+            Filter = tag;
 
             BlogArticles = await _blastcms.GetBlogArticlesAsync(((CurrentPage - 1) * PageSize), PageSize, CurrentPage, null, tag, _key);
 
