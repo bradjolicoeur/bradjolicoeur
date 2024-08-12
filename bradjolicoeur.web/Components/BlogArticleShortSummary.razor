@@ -1,22 +1,12 @@
 ﻿
 <div class="row margin-bottom-20">
     <div class="col-sm-4 blog-thumbnail">
-        <img src="@Model.Image?.ResolvedUrl" alt="@Model.Image?.Title" class="img-responsive" />
+        <img src="@Model.Image?.ResolvedUrl" alt="@Model.Image?.Title" class="img-fluid" />
     </div>
     <div class="col-sm-8 text-align-top blog-summary">
         <h3>@Model.Title</h3>
         <h6><strong>Brad Jolicoeur</strong>  -  @Model.PublishedDate.ToString("MM/dd/yyyy")</h6>
-        @if (Model.HasTags())
-        {
-            <ul class="list-inline">
-                <li><h5>tags:</h5></li>
-                @foreach (var tag in Model.GetTags().Tags)
-                {
-                    <li><a href="/blog/@tag.Name">@tag.Name</a></li>
-                }
-            </ul>
-
-        }
+        <TagLinkList Tags="Model.GetTags()" />
 
         <div>@Model.Description</div>
 

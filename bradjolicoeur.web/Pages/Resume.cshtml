@@ -5,7 +5,7 @@
     ViewBag.Description = "Resume";
 }
 <div class="container">
-    <div class="row">
+    <div class="row resume">
         @Html.Raw(MarkdownHelper.Transform(Model.Resume?.Body))
     </div>
 </div>

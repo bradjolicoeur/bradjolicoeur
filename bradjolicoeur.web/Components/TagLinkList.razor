@@ -1,0 +1,18 @@
+﻿@if (Tags != null && Tags.Tags != null)
+{
+    <div class="borderless">
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item border-0 p-2 ps-0">tags:</li>
+            @foreach (var tag in Tags.Tags)
+            {
+                <li class="list-group-item border-0 p-2"><a class="text-decoration-none" href="/blog/@tag.Name">@tag.Name</a></li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public TagsViewModel Tags { get; set; }
+}
