@@ -2,7 +2,20 @@
 <html  prefix="og: http://ogp.me/ns#">
 <head>
     <base href="~/" />
+    <title>@ViewData["Title"] - Brad Jolicouer</title>
 
+    <meta name="description" content="@ViewBag.Description" />
+
+    @{
+        ViewBag.HostURL = $"{Context.Request.Scheme}://{Context.Request.Host.ToString().ToLower()}{Context.Request.Path.ToString().ToLower()}";
+    }
+
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@ViewBag.HostURL" />
+    <meta property="og:image" content="@ViewBag.Image" />
+    <meta property="og:site_name" content="Brad Jolicoeur" />
+    <meta property="og:description" content="@ViewBag.Description" />
     
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
