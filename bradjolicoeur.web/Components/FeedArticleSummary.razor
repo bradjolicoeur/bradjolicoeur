@@ -29,6 +29,12 @@
 
             }
         </div>
+        <div>
+             @if (!string.IsNullOrEmpty(Model.KeyWords))
+            {
+                <i>@((MarkupString)MarkdownHelper.Transform(Model.KeyWords))</i>
+            }
+        </div>
         <span class="button-link">
             <a href="@Model.ArticleUrl" target="_blank">@Model.ButtonLabel()</a>
         </span>
