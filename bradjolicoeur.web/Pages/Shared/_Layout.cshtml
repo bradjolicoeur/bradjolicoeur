@@ -17,6 +17,7 @@
     <meta property="og:site_name" content="Brad Jolicoeur" />
     <meta property="og:description" content="@ViewBag.Description" />
     
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -41,9 +42,9 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="ham-menu">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item ms-5 me-3"><a class="nav-link text-dark fw-semibold" asp-page="/index">Home</a></li>
+                    <li class="nav-item ms-md-5 me-3"><a class="nav-link text-dark fw-semibold" asp-page="/index">Home</a></li>
                     <li class="nav-item me-3"><a class="nav-link text-dark fw-semibold" asp-page="/blog" asp-route-id="">Blog</a></li>
                     <li class="nav-item me-3"><a class="nav-link text-dark fw-semibold" asp-page="/reading">Feed</a></li>
                     <li class="nav-item me-3"><a class="nav-link text-dark fw-semibold" asp-page="/resume">Resume</a></li>
