@@ -53,7 +53,6 @@ builder.Services.AddHttpClient<IBlastCMSClient, BlastCMSClient>(
 // Register IAppCache as a singleton CachingService
 builder.Services.AddLazyCache();
 
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
