@@ -1,17 +1,51 @@
-name: Mirroring
+name: Deploy to Cloud Run
 
-on: [push, delete]
+env:
+  SERVICE_NAME: bj-web
+  PROJECT_ID: bradjolicoeur-web
+  DOCKER_IMAGE_URL: us.gcr.io/bradjolicoeur-web/bj-web
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  to_gitlab:
+  dockerize-and-deploy:
     runs-on: ubuntu-latest
-    steps:                                              # <-- must use actions/checkout before mirroring!
-      - uses: actions/checkout@v3
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Google Cloud Auth
+        uses: 'google-github-actions/auth@v2'
         with:
-          fetch-depth: 0
-      - uses: pixta-dev/repository-mirroring-action@v1
-        with:
-          target_repo_url:
-            git@gitlab.com:brad27/bradjolicoeur.git
-          ssh_private_key:                              # <-- use 'secrets' to pass credential information.
-            ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Set up Cloud SDK
+        uses: 'google-github-actions/setup-gcloud@v2'
+
+      - name: Configure Docker
+        run: |
+          gcloud auth configure-docker us.gcr.io
+
+      - name: Build and Push Docker Image
+        working-directory: ./src
+        run: |
+          dir
+          docker build -t ${{ env.DOCKER_IMAGE_URL }}:${{ github.run_number }} .
+          docker push ${{ env.DOCKER_IMAGE_URL }}:${{ github.run_number }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          echo SERVICE_NAME $SERVICE_NAME
+          gcloud run deploy $SERVICE_NAME \
+            --image ${{ env.DOCKER_IMAGE_URL }}:${{ github.run_number }} \
+            --platform managed \
+            --region us-east1 \
+            --allow-unauthenticated
