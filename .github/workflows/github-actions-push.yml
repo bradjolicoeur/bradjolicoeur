@@ -60,7 +60,7 @@ jobs:
             --allow-unauthenticated
 
   deploy-production:
-    if: github.ref_name == 'main'
+    if: github.ref_name == 'master'
     runs-on: ubuntu-latest
     environment: 'production'
     needs: [build-and-publish, deploy-test]
