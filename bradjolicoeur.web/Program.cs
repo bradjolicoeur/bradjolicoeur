@@ -46,7 +46,7 @@ builder.Services.AddTransient<ISuggestionArticlesService, SuggestionArticlesServ
 builder.Services.AddHttpClient<IBlastCMSClient, BlastCMSClient>(
     (provider, client) => {
         client.BaseAddress = new Uri(Configuration.GetValue(
-            "BlastCMSBaseAddress", "https://blog-blastcms.bradjolicoeur.com/"));
+            "BlastCMSBaseAddress", "https://app.blastcms.net/blog-blastcms/"));
 
     });
 
