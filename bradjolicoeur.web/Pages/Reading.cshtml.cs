@@ -18,6 +18,10 @@ namespace bradjolicoeur.web.Pages
         public long Count { get; set; }
         public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
 
+        [BindProperty(SupportsGet = true)]
+        [FromQuery(Name = "search")]
+        public string Search { get; set; } = null;
+
         private readonly IBlastCMSClient _blastcms;
         private readonly IConfiguration _configuration;
         private readonly IAppCache _appCache;
@@ -41,14 +45,14 @@ namespace bradjolicoeur.web.Pages
         {
             CurrentPage = CurrentPage < 1 ? 1 : CurrentPage;
 
-            content = await GetContent(null);
+            content = await GetContent(Search);
 
             Count = content.Count;
         }
 
-        private async Task<FeedArticleIPagedData> GetContent(string tag)
+        private async Task<FeedArticleIPagedData> GetContent(string search)
         {
-            return await _blastcms.GetFeedArticlesAsync(((CurrentPage - 1) * PageSize), PageSize, CurrentPage, null,  _key);
+            return await _blastcms.GetFeedArticlesAsync(((CurrentPage - 1) * PageSize), PageSize, CurrentPage, search,  _key);
         }
     }
 }

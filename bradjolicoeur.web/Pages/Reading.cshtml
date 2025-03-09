@@ -1,11 +1,32 @@
-﻿@page
+﻿@page 
 @model bradjolicoeur.web.Pages.ReadingModel
 @using bradjolicoeur.web.Components
 @{
     ViewData["Title"] = "Feed";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <div class="col-md-8 ">
+
+        <div class="container-fluid">
+                <form class="float-md-end float-start">
+                    <p>
+                        <label><input type="text" class="form-control" placeholder="Search Term" asp-for="Search" /></label>
+                    <input type="submit" class="btn btn-primary" value="Search" />
+                    @if (!string.IsNullOrEmpty(Model.Search))
+                    {
+                        <a class="text-decoration-none" href="/reading">clear</a>
+                    }
+                    
+                    </p>
+                </form>
+            </div>
+        
+    </div>
+</div>
 
 <blockquote>This is a feed of links I've run across and found interesting or noteworthy.  The images, content and opinions in them are owned by their respective authors.</blockquote>
 
@@ -17,19 +38,19 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination">
         <li class='page-item me-2 @(Model.PreviousPage? "":"disabled")'>
-            <a asp-page="/reading" asp-route-currentpage="@(Model.CurrentPage -1)" class="button-link">Previous</a>
+            <a asp-page="/reading" asp-route-currentpage="@(Model.CurrentPage -1)" asp-route-search="@Model.Search" class="button-link">Previous</a>
         </li>
 
         @for (var i = Model.CurrentPage; i <= (Model.TotalPages >= 10 ? 10 : Model.TotalPages); i++)
         {
             <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                <a asp-page="/reading" asp-route-currentpage="@i" class="page-link">@i</a>
+                <a asp-page="/reading" asp-route-currentpage="@i" asp-route-search="@Model.Search" class="page-link">@i</a>
             </li>
         }
  
 
         <li class='page-item ms-2 @(Model.NextPage? "":"disabled")'>
-            <a asp-page="/reading" asp-route-currentpage="@(Model.CurrentPage +1)" class="button-link">Next</a>
+            <a asp-page="/reading" asp-route-currentpage="@(Model.CurrentPage +1)" asp-route-search="@Model.Search" class="button-link">Next</a>
         </li>
     </ul>
 </nav>
