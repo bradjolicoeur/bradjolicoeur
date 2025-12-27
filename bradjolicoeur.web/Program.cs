@@ -53,6 +53,11 @@ builder.Services.AddHttpClient<IBlastCMSClient, BlastCMSClient>(
 // Register IAppCache as a singleton CachingService
 builder.Services.AddLazyCache();
 
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -71,7 +76,18 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
 
-app.UseStaticFiles();
+app.UseResponseCompression();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        const int durationInSeconds = 60 * 60 * 24 * 365;
+        ctx.Context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.CacheControl] =
+            "public,max-age=" + durationInSeconds;
+    }
+});
+
 app.UseCookiePolicy();
 
 app.UseMiddleware<RedirectMiddleware>();

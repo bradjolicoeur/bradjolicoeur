@@ -12,10 +12,10 @@
     <div class="hero-container">
             <img class="img-fluid w-100" src="~/images/IMG_20180707_161856v2.jpg" alt="Brad self portrait" />
         <div class="container hero-content">
-            <p>
+            <div>
                 <h1>@Model.HomePage.HeroTitle</h1>
                 <div class="hero-phrase">@Model.HomePage.HeroPhrase</div>
-            </p>
+            </div>
         </div>
     </div>
 </div>
@@ -26,7 +26,7 @@
     <div class="bg-light rounded-3 p2 m-3">
         <div class="row">
         <div class="col-sm-2 col-xs-4">
-            <img class="p-1" src="@Model.ImageUrl" class="img-fluid" alt="Brad Jolicoeur" />
+            <img class="p-1 img-fluid" src="@Model.ImageUrl" alt="Brad Jolicoeur" />
         </div>
         <div class="col-sm-10 col-xs-8">
             @Html.Raw(MarkdownHelper.Transform(Model.HomePage.Body))
