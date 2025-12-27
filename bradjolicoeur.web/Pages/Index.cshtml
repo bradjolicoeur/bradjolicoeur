@@ -14,7 +14,7 @@
         <div class="container hero-content">
             <p>
                 <h1>@Model.HomePage.HeroTitle</h1>
-                <h3>@Model.HomePage.HeroPhrase</h3>
+                <div class="hero-phrase">@Model.HomePage.HeroPhrase</div>
             </p>
         </div>
     </div>
@@ -29,7 +29,7 @@
             <img class="p-1" src="@Model.ImageUrl" class="img-fluid" alt="Brad Jolicoeur" />
         </div>
         <div class="col-sm-10 col-xs-8">
-            @Html.Raw(MarkdownHelper.Transform(Model.HomePage.Description))
+            @Html.Raw(MarkdownHelper.Transform(Model.HomePage.Body))
         </div>
         </div>
     </div>

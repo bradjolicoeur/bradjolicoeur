@@ -83,8 +83,9 @@ body {
         font-size: 8vw;
     }
 
-    .hero-content h3 {
-        font-size: 4vw;
+    .hero-content .hero-phrase {
+        font-size: 3vw;
+        font-weight: 500;
     }
 
 .button-link a {
