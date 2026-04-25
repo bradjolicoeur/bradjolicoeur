@@ -1,0 +1,34 @@
+using System.Threading.Tasks;
+using bradjolicoeur.core.blastcms;
+using LazyCache;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
+
+namespace bradjolicoeur.web.Pages
+{
+    public class ResumePrintModel : PageModel
+    {
+        private readonly IBlastCMSClient _blastcms;
+        private readonly IConfiguration _configuration;
+        private readonly IAppCache _appCache;
+        private readonly string _key;
+
+        public ResumePrintModel(IBlastCMSClient blastcms, IAppCache appCache, IConfiguration configuration)
+        {
+            _blastcms = blastcms;
+            _configuration = configuration;
+            _appCache = appCache;
+            _key = _configuration["BlastCMSContentKey"];
+        }
+
+        public LandingPage Resume { get; set; }
+
+        public async Task OnGet()
+        {
+            Resume = await _appCache.GetOrAddAsync("resume-content", async () =>
+            {
+                return await _blastcms.GetLandingPageBySlugAsync("resume-page", _key);
+            });
+        }
+    }
+}

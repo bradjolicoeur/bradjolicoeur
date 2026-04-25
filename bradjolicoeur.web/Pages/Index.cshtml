@@ -14,7 +14,7 @@
         <a asp-page="/Index" class="nav-logo">Brad Jolicoeur</a>
         <ul class="nav-links">
             <li><a asp-page="/Blog" asp-route-id="">Blog</a></li>
-            <li><a asp-page="/Reading">Feed</a></li>
+            <li><a asp-page="/Reading">Reading List</a></li>
             <li><a asp-page="/Resume">Resume</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -134,12 +134,17 @@
     <div class="contact-inner">
         <p class="section-label">Get in Touch</p>
         <h2 class="contact-heading">Let's work on something real.</h2>
-        <p class="contact-body">If you're working on a real architecture problem — or building the team to solve one — I'd like to hear about it.</p>
+        <p class="contact-body">If you're working on a real architecture problem — or building the team to solve one — I'd like to hear about it. I respond to every message.</p>
         <a href="/contact" class="btn-primary">Send a message</a>
         <p class="contact-availability">Available for Principal Architect, VP Architecture, and Fractional CTO engagements. Let's talk.</p>
     </div>
 </section>
 
 <footer>
-    <p>&copy; @DateTime.Now.ToString("yyyy") Brad Jolicoeur</p>
+    <p>
+        &copy; @DateTime.Now.ToString("yyyy") Brad Jolicoeur &nbsp;|&nbsp;
+        <a href="https://www.linkedin.com/in/bradjolicoeur" target="_blank" rel="noopener">LinkedIn</a> &nbsp;|&nbsp;
+        <a href="https://github.com/bradjolicoeur" target="_blank" rel="noopener">GitHub</a> &nbsp;|&nbsp;
+        <a href="/contact">Contact</a>
+    </p>
 </footer>
