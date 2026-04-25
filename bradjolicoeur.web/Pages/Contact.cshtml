@@ -1,0 +1,45 @@
+@page
+@model bradjolicoeur.web.Pages.ContactModel
+@{
+    ViewData["Title"] = "Contact Brad Jolicoeur";
+    ViewBag.Description = "Get in touch with Brad Jolicoeur — Principal Architect, VP Architecture, and Fractional CTO. Available for architecture consulting and leadership roles.";
+}
+
+<div class="container" style="max-width: 680px; margin: 3rem auto; padding: 0 1.5rem;">
+    <h1 style="color: #0f172a; font-size: 2rem; margin-bottom: 0.5rem;">Let's work on something real.</h1>
+    <p style="color: #64748b; margin-bottom: 2rem;">Tell me about the problem you're trying to solve.</p>
+
+    @if (Model.Submitted)
+    {
+        <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
+            <p style="color: #166534; margin: 0;"><strong>Message sent!</strong> I'll be in touch shortly.</p>
+        </div>
+    }
+    else
+    {
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" style="color: #dc2626; margin-bottom: 1rem;"></div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <label asp-for="Input.Name" style="display: block; font-weight: 600; margin-bottom: 0.4rem; color: #0f172a;">Name</label>
+                <input asp-for="Input.Name" class="form-control" style="width: 100%; padding: 0.6rem 0.9rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;" />
+                <span asp-validation-for="Input.Name" style="color: #dc2626; font-size: 0.875rem;"></span>
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <label asp-for="Input.Email" style="display: block; font-weight: 600; margin-bottom: 0.4rem; color: #0f172a;">Email</label>
+                <input asp-for="Input.Email" type="email" class="form-control" style="width: 100%; padding: 0.6rem 0.9rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;" />
+                <span asp-validation-for="Input.Email" style="color: #dc2626; font-size: 0.875rem;"></span>
+            </div>
+
+            <div style="margin-bottom: 1.75rem;">
+                <label asp-for="Input.Message" style="display: block; font-weight: 600; margin-bottom: 0.4rem; color: #0f172a;">Message</label>
+                <textarea asp-for="Input.Message" rows="6" class="form-control" style="width: 100%; padding: 0.6rem 0.9rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; resize: vertical;"></textarea>
+                <span asp-validation-for="Input.Message" style="color: #dc2626; font-size: 0.875rem;"></span>
+            </div>
+
+            <button type="submit" style="background: #0ea5e9; color: white; border: none; padding: 0.75rem 2rem; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer;">Send Message</button>
+        </form>
+    }
+</div>

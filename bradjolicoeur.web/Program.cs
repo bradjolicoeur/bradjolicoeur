@@ -4,6 +4,7 @@ using bradjolicoeur.core.Models;
 using bradjolicoeur.core.Services;
 using bradjolicoeur.web.Middleware;
 using bradjolicoeur.web.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -42,6 +43,18 @@ builder.Services.AddSingleton<IWebhookListener>(sp => new WebhookListener());
 
 builder.Services.AddScoped<IGenerateSitemapService, GenerateSitemapService>();
 builder.Services.AddTransient<ISuggestionArticlesService, SuggestionArticlesService>();
+
+// Mail services
+builder.Services.Configure<bradjolicoeur.web.Models.MailSettings>(Configuration.GetSection("MailSettings"));
+builder.Services.AddScoped<IMailService, MailService>();
+builder.Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
+
+// AWS SES
+builder.Services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+builder.Services.AddAWSService<Amazon.SimpleEmailV2.IAmazonSimpleEmailServiceV2>();
+
+// FluentValidation
+builder.Services.AddValidatorsFromAssemblyContaining<bradjolicoeur.web.Validators.ContactFormValidator>();
 
 builder.Services.AddHttpClient<IBlastCMSClient, BlastCMSClient>(
     (provider, client) => {
