@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <OpenApiReference Include="OpenAPIs\swagger.json" CodeGenerator="NSwagCSharp" Namespace="bradjolicoeur.core.blastcms">
-      <SourceUri>https://blog-blastcms.bradjolicoeur.com/swagger/v1/swagger.json</SourceUri>
+      <SourceUri>https://app.blastcms.net/blog-blastcms/swagger/v1/swagger.json</SourceUri>
       <Options>/UseBaseUrl:false /GenerateClientInterfaces:true</Options>
       <ClassName>BlastCMSClient</ClassName>
     </OpenApiReference>
