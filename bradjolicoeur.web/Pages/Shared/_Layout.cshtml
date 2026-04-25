@@ -16,8 +16,18 @@
     <meta property="og:image" content="@ViewBag.Image" />
     <meta property="og:site_name" content="Brad Jolicoeur" />
     <meta property="og:description" content="@ViewBag.Description" />
-    
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@ViewBag.Title" />
+    <meta name="twitter:description" content="@ViewBag.Description" />
+    <meta name="twitter:image" content="@ViewBag.Image" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -33,23 +43,20 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-fixed-top navbar-toggleable-sm navbar-custom custom-toggler">
+    <nav class="navbar navbar-expand-sm navbar-fixed-top navbar-toggleable-sm site-nav">
         <div class="container">
-            <a class="navbar-brand" asp-page="/Index">
-                <img src="~/images/android-chrome-192x192.png" class="nav-bar-image" alt="logo" width="32" height="32">
-                Brad Jolicoeur
-            </a>
+            <a class="navbar-brand nav-logo" asp-page="/Index">Brad Jolicoeur</a>
 
-            <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+            <button class="navbar-toggler site-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="ham-menu">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item ms-md-5 me-3"><a class="nav-link text-dark fw-semibold" asp-page="/index">Home</a></li>
-                    <li class="nav-item me-3"><a class="nav-link text-dark fw-semibold" asp-page="/blog" asp-route-id="">Blog</a></li>
-                    <li class="nav-item me-3"><a class="nav-link text-dark fw-semibold" asp-page="/reading">Feed</a></li>
-                    <li class="nav-item me-3"><a class="nav-link text-dark fw-semibold" asp-page="/resume">Resume</a></li>
+                    <li class="nav-item ms-md-5 me-3"><a class="nav-link site-nav-link" asp-page="/blog" asp-route-id="">Blog</a></li>
+                    <li class="nav-item me-3"><a class="nav-link site-nav-link" asp-page="/reading">Feed</a></li>
+                    <li class="nav-item me-3"><a class="nav-link site-nav-link" asp-page="/resume">Resume</a></li>
+                    <li class="nav-item me-3"><a class="nav-link site-nav-link" href="/#contact">Contact</a></li>
                 </ul>
             </div>
         </div>
