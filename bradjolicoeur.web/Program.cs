@@ -50,7 +50,12 @@ builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
 
 // AWS SES
-builder.Services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+var awsOptions = Configuration.GetAWSOptions();
+var accessKey = Configuration["AWS:AccessKey"];
+var secretKey = Configuration["AWS:SecretKey"];
+if (!string.IsNullOrEmpty(accessKey) && !string.IsNullOrEmpty(secretKey))
+    awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(accessKey, secretKey);
+builder.Services.AddDefaultAWSOptions(awsOptions);
 builder.Services.AddAWSService<Amazon.SimpleEmailV2.IAmazonSimpleEmailServiceV2>();
 
 // FluentValidation
