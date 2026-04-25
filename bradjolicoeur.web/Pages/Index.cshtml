@@ -1,43 +1,145 @@
-﻿@page
+@page
 @model IndexModel
 @using bradjolicoeur.web.Components
 @{
-    ViewData["Title"] = "Home";
-    ViewBag.Description = "Home";
+    Layout = "~/Pages/Shared/_LayoutHomepage.cshtml";
+    ViewData["Title"] = "Brad Jolicoeur | Principal Architect, Production AI";
+    ViewBag.Description = "Principal Architect with 20 years transforming organizations and shipping production AI systems. Wharton Executive CTO. Available for architecture leadership and fractional CTO roles.";
+    ViewBag.OgTitle = "Brad Jolicoeur: Principal Architect, Production AI, 20 Years of Organizational Transformation";
     ViewBag.Image = Model.ImageUrl;
 }
-@section HeroSection {
 
-<div class="row">
-    <div class="hero-container">
-            <img class="img-fluid w-100" src="~/images/IMG_20180707_161856v2.jpg" alt="Brad self portrait" />
-        <div class="container hero-content">
-            <div>
-                <h1>@Model.HomePage.HeroTitle</h1>
-                <div class="hero-phrase">@Model.HomePage.HeroPhrase</div>
+<nav>
+    <div class="nav-inner">
+        <a asp-page="/Index" class="nav-logo">Brad Jolicoeur</a>
+        <ul class="nav-links">
+            <li><a asp-page="/Blog" asp-route-id="">Blog</a></li>
+            <li><a asp-page="/Reading">Feed</a></li>
+            <li><a asp-page="/Resume">Resume</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-inner">
+        <span class="hero-eyebrow">Principal Architect · Wharton Executive CTO Program</span>
+        <h1>@Model.HomePage.HeroTitle</h1>
+        <p class="hero-sub">@Model.HomePage.HeroPhrase</p>
+        <div class="hero-bio">
+            @Html.Raw(MarkdownHelper.Transform(Model.HomePage.Body))
+        </div>
+        <div class="hero-ctas">
+            <a href="#contact" class="btn-primary">Start a conversation</a>
+        </div>
+        <p class="hero-availability">Available for Principal Architect, VP Architecture, and Fractional CTO engagements</p>
+    </div>
+</section>
+
+<section class="metrics">
+    <div class="metrics-inner">
+        <div class="metric">
+            <span class="metric-number">20+</span>
+            <span class="metric-label">Years Experience</span>
+        </div>
+        <div class="metric">
+            <span class="metric-number">4×</span>
+            <span class="metric-label">Release Frequency</span>
+        </div>
+        <div class="metric">
+            <span class="metric-number">60%</span>
+            <span class="metric-label">Faster Onboarding via AI Agents</span>
+        </div>
+        <div class="metric">
+            <span class="metric-number">50%</span>
+            <span class="metric-label">Observability Cost Reduction</span>
+        </div>
+        <div class="metric">
+            <span class="metric-number">$100K</span>
+            <span class="metric-label">Under AWS Budget Delivered</span>
+        </div>
+    </div>
+</section>
+
+<section class="what-i-do">
+    <div class="section-inner">
+        <p class="section-label">Expertise</p>
+        <h2 class="section-heading">What I do</h2>
+        <div class="cards">
+            <div class="card">
+                <h3 class="card-title">Architecture &amp; Platform</h3>
+                <div class="card-accent-line"></div>
+                <p>Cloud-native transformations that last. Distributed systems designed to scale without accumulating debt. Guided a 5-year migration from monolith to microservices and built Internal Developer Platforms that compressed new service setup from weeks to hours. Architecture decisions that map to business outcomes, not just technical ideals.</p>
+                <div class="card-tags">
+                    <span class="tag">Cloud-Native</span>
+                    <span class="tag">Distributed Systems</span>
+                    <span class="tag">IDP</span>
+                    <span class="tag">Microservices</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3 class="card-title">Production AI Systems</h3>
+                <div class="card-accent-line"></div>
+                <p>Not AI experiments — production systems. Shipped AI agents grounded in internal documentation that reduced developer onboarding time by 60%, integrated LLMs into developer tooling, and deployed AI-assisted workflows before most organizations had a name for it. Real systems, running in production, with measurable outcomes.</p>
+                <div class="card-tags">
+                    <span class="tag">AI Agents</span>
+                    <span class="tag">LLM Integration</span>
+                    <span class="tag">Developer Tooling</span>
+                    <span class="tag">RAG</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3 class="card-title">Engineering Leadership</h3>
+                <div class="card-accent-line"></div>
+                <p>The Wharton Executive CTO credential reflects a belief: the difference between technical leadership and executive technical leadership is translating architectural decisions into business outcomes — and back. Hands-on in the codebase and in the room when strategy is set. Org design, team building, engineering culture, executive technical strategy.</p>
+                <div class="card-tags">
+                    <span class="tag">Org Design</span>
+                    <span class="tag">Team Building</span>
+                    <span class="tag">Wharton CTO</span>
+                    <span class="tag">Technical Strategy</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
-}
+</section>
 
-
-    <div class="row ">
-    <div class="bg-light rounded-3 p2 m-3">
-        <div class="row">
-        <div class="col-sm-2 col-xs-4">
-            <img class="p-1 img-fluid" src="@Model.ImageUrl" alt="Brad Jolicoeur" />
-        </div>
-        <div class="col-sm-10 col-xs-8">
-            @Html.Raw(MarkdownHelper.Transform(Model.HomePage.Body))
-        </div>
+<section class="featured-articles">
+    <div class="section-inner">
+        <p class="section-label">Writing</p>
+        <h2 class="section-heading">Featured Articles</h2>
+        <div class="article-cards">
+            @foreach (var article in Model.BlogArticles)
+            {
+                <div class="article-card">
+                    @if (!string.IsNullOrEmpty(article.Image?.ResolvedUrl))
+                    {
+                        <a href="/Article/@article.Slug" class="article-card-image-link">
+                            <img src="@article.Image.ResolvedUrl" alt="@article.Image.Title" class="article-card-image" />
+                        </a>
+                    }
+                    <div class="article-card-body">
+                        <h3 class="article-card-title">
+                            <a href="/Article/@article.Slug">@article.Title</a>
+                        </h3>
+                        <p class="article-card-excerpt">@article.Description</p>
+                        <a href="/Article/@article.Slug" class="article-card-link">Read →</a>
+                    </div>
+                </div>
+            }
         </div>
     </div>
-    </div>
-    <div class="row">
-        <h2>Recent Blog Articles</h2>
-        <hr/>
-        <component type="typeof(RecentBlogArticles)" render-mode="ServerPrerendered" param-Articles="@Model.BlogArticles" />
-    </div>
+</section>
 
+<section class="contact" id="contact">
+    <div class="contact-inner">
+        <p class="section-label">Get in Touch</p>
+        <h2 class="contact-heading">Let's work on something real.</h2>
+        <p class="contact-body">If you're working on a real architecture problem — or building the team to solve one — I'd like to hear about it.</p>
+        <a href="mailto:brad@bradjolicoeur.com" class="btn-primary">Send a message</a>
+        <p class="contact-availability">Available for Principal Architect, VP Architecture, and Fractional CTO engagements. Let's talk.</p>
+    </div>
+</section>
 
+<footer>
+    <p>&copy; @DateTime.Now.ToString("yyyy") Brad Jolicoeur</p>
+</footer>

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using bradjolicoeur.core.blastcms;
-using bradjolicoeur.web.Services;
 using LazyCache;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -14,14 +13,12 @@ namespace bradjolicoeur.web.Pages
         private readonly IAppCache _appCache;
         private readonly IBlastCMSClient _blastcms;
         private readonly string _key;
-        private readonly ISuggestionArticlesService _suggestionService;
 
-        public IndexModel(IBlastCMSClient blastcms, IAppCache appCache, ISuggestionArticlesService suggestionService, IConfiguration configuration)
+        public IndexModel(IBlastCMSClient blastcms, IAppCache appCache, IConfiguration configuration)
         {
             _appCache = appCache;
             _blastcms = blastcms;
             _key = configuration["BlastCMSContentKey"];
-            _suggestionService = suggestionService;
         }
 
         public LandingPage HomePage { get; set; }
@@ -49,9 +46,20 @@ namespace bradjolicoeur.web.Pages
         {
             var result = new ContentResults();
 
-            result.HomePage = await _blastcms.GetLandingPageBySlugAsync("home-page", _key);
+            var homePageTask = _blastcms.GetLandingPageBySlugAsync("home-page", _key);
+            var article1Task = _blastcms.GetBlogArticleBySlugAsync("copilot-squad-dotnet-web-apps", _key);
+            var article2Task = _blastcms.GetBlogArticleBySlugAsync("wolverine-vs-ai-agents-messaging-framework", _key);
+            var article3Task = _blastcms.GetBlogArticleBySlugAsync("disposable-code-architects-perspective", _key);
 
-            result.BlogArticles = await _suggestionService.GetSuggestions();
+            await Task.WhenAll(homePageTask, article1Task, article2Task, article3Task);
+
+            result.HomePage = await homePageTask;
+            result.BlogArticles = new List<BlogArticle>
+            {
+                await article1Task,
+                await article2Task,
+                await article3Task
+            };
 
             return result;
         }
