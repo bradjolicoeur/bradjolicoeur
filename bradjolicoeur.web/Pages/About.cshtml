@@ -1,0 +1,10 @@
+@page "/about"
+@model AboutModel
+@{
+    ViewData["Title"] = "About Brad Jolicoeur";
+    ViewBag.Description = "Principal Architect with 20+ years building and transforming engineering organizations. Wharton Executive CTO Program graduate.";
+}
+
+<div class="container" style="max-width: 800px; margin: 3rem auto; padding: 0 1.5rem;">
+    @Html.Raw(MarkdownHelper.Transform(Model.PageData?.Body))
+</div>

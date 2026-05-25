@@ -1,9 +1,10 @@
-﻿@page
+@page "/privacy-policy"
 @model PrivacyModel
 @{
     ViewData["Title"] = "Privacy Policy";
+    ViewBag.Description = "Privacy policy for bradjolicoeur.com — how your information is collected and used.";
 }
 
-<h1>@ViewBag.Title</h1>
-
-Click here to view privacy policy: <a href="https://www.iubenda.com/privacy-policy/30647676" class="iubenda-white iubenda-embed " title="Privacy Policy">Privacy Policy</a>
+<div class="container" style="max-width: 800px; margin: 3rem auto; padding: 0 1.5rem;">
+    @Html.Raw(MarkdownHelper.Transform(Model.PageData?.Body))
+</div>

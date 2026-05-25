@@ -1,0 +1,10 @@
+@page "/terms-of-service"
+@model TermsOfServiceModel
+@{
+    ViewData["Title"] = "Terms of Service";
+    ViewBag.Description = "Terms of service for bradjolicoeur.com — governing your use of this site.";
+}
+
+<div class="container" style="max-width: 800px; margin: 3rem auto; padding: 0 1.5rem;">
+    @Html.Raw(MarkdownHelper.Transform(Model.PageData?.Body))
+</div>

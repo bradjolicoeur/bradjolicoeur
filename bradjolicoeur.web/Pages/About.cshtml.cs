@@ -6,13 +6,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace bradjolicoeur.web.Pages
 {
-    public class PrivacyModel : PageModel
+    public class AboutModel : PageModel
     {
         private readonly IBlastCMSClient _blastcms;
         private readonly IAppCache _appCache;
         private readonly string _key;
 
-        public PrivacyModel(IBlastCMSClient blastcms, IAppCache appCache, IConfiguration configuration)
+        public AboutModel(IBlastCMSClient blastcms, IAppCache appCache, IConfiguration configuration)
         {
             _blastcms = blastcms;
             _appCache = appCache;
@@ -23,8 +23,8 @@ namespace bradjolicoeur.web.Pages
 
         public async Task OnGetAsync()
         {
-            PageData = await _appCache.GetOrAddAsync("privacy-policy-content", async () =>
-                await _blastcms.GetLandingPageBySlugAsync("privacy-policy", _key));
+            PageData = await _appCache.GetOrAddAsync("about-content", async () =>
+                await _blastcms.GetLandingPageBySlugAsync("about", _key));
         }
     }
 }
