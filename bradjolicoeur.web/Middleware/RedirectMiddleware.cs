@@ -38,6 +38,15 @@ namespace bradjolicoeur.web.Middleware
 
         public async Task Invoke(HttpContext httpContext)
         {
+            // Redirect www to non-www (Cloud Run forwards the original Host header)
+            if (httpContext.Request.Host.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
+            {
+                var nonWwwHost = httpContext.Request.Host.Host.Substring(4);
+                var redirectUrl = $"https://{nonWwwHost}{httpContext.Request.PathBase}{httpContext.Request.Path}{httpContext.Request.QueryString}";
+                httpContext.Response.Redirect(redirectUrl, permanent: true);
+                return;
+            }
+
             //The path from the request
             string requestURL = httpContext.Request.Path.ToString().ToLower();
 
