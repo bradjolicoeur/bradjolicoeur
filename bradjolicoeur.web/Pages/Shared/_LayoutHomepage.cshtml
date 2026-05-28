@@ -8,8 +8,10 @@
     <meta name="description" content="@ViewBag.Description" />
 
     @{
-        ViewBag.HostURL = $"{Context.Request.Scheme}://{Context.Request.Host.ToString().ToLower()}{Context.Request.Path.ToString().ToLower()}";
+        ViewBag.HostURL = $"https://bradjolicoeur.com{Context.Request.Path.ToString().ToLower()}";
     }
+
+    <link rel="canonical" href="@ViewBag.HostURL" />
 
     <meta property="og:title" content="@ViewBag.OgTitle" />
     <meta property="og:type" content="website" />
