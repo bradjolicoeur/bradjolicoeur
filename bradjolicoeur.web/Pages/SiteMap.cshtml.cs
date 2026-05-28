@@ -35,7 +35,7 @@ namespace bradjolicoeur.web.Pages
             });
 
 
-            string xml = _generateSitemapService.Generate(results.Data, HttpContext.Request.Scheme + "://" + HttpContext.Request.Host);
+            string xml = _generateSitemapService.Generate(results.Data, "https://" + HttpContext.Request.Host);
             return Content(xml, "text/xml", Encoding.UTF8);
         }
 

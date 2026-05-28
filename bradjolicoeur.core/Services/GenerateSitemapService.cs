@@ -22,6 +22,11 @@ namespace bradjolicoeur.core.Services
                 LastModified = item.LastModified.DateTime
             }).ToList();
 
+            nodes.Insert(0, new SitemapNode(pageUrl)
+            {
+                Frequency = SitemapFrequency.Weekly
+            });
+
             return GetSitemapDocument(nodes);
         }
 
