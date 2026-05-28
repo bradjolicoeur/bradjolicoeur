@@ -34,8 +34,12 @@ namespace bradjolicoeur.web.Pages
                 return await _blastcms.GetSitemapItemsAsync(0, 100, 1, _key);
             });
 
+            var articles = await _appCache.GetOrAddAsync("sitemap-articles", async () =>
+            {
+                return await _blastcms.GetBlogArticlesAsync(0, 200, 1, null, null, _key);
+            });
 
-            string xml = _generateSitemapService.Generate(results.Data, "https://" + HttpContext.Request.Host);
+            string xml = _generateSitemapService.Generate(results.Data, "https://" + HttpContext.Request.Host, articles.Data);
             return Content(xml, "text/xml", Encoding.UTF8);
         }
 

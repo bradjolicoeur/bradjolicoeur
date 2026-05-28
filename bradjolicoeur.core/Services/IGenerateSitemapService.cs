@@ -5,6 +5,6 @@ namespace bradjolicoeur.core.Services
 {
     public interface IGenerateSitemapService
     {
-        string Generate(IEnumerable<SitemapItem> items, string pageUrl);
+        string Generate(IEnumerable<SitemapItem> items, string pageUrl, IEnumerable<BlogArticle> blogArticles = null);
     }
 }

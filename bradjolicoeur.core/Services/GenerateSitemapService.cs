@@ -14,7 +14,7 @@ namespace bradjolicoeur.core.Services
 
         private string PageUrl { get; set; }
 
-        public string Generate(IEnumerable<SitemapItem> items, string pageUrl)
+        public string Generate(IEnumerable<SitemapItem> items, string pageUrl, IEnumerable<BlogArticle> blogArticles = null)
         {
             PageUrl = pageUrl;
             var nodes = items.Select(item => new SitemapNode(GetPageUrl(item))
@@ -26,6 +26,18 @@ namespace bradjolicoeur.core.Services
             {
                 Frequency = SitemapFrequency.Weekly
             });
+
+            if (blogArticles != null)
+            {
+                foreach (var article in blogArticles.Where(a => !string.IsNullOrEmpty(a.Slug)))
+                {
+                    nodes.Add(new SitemapNode($"{pageUrl}/Article/{article.Slug}")
+                    {
+                        LastModified = article.PublishedDate.DateTime,
+                        Frequency = SitemapFrequency.Monthly
+                    });
+                }
+            }
 
             return GetSitemapDocument(nodes);
         }
