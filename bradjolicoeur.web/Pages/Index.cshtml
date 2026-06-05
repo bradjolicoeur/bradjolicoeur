@@ -22,17 +22,25 @@
 </nav>
 
 <section class="hero">
-    <div class="hero-inner">
-        <span class="hero-eyebrow">Principal Architect · Wharton Executive CTO Program</span>
-        <h1>@Model.HomePage.HeroTitle</h1>
-        <p class="hero-sub">@Model.HomePage.HeroPhrase</p>
-        <div class="hero-bio">
-            @Html.Raw(MarkdownHelper.Transform(Model.HomePage.Body))
+    <div class="hero-inner hero-inner--split">
+        <div class="hero-text">
+            <span class="hero-eyebrow">Principal Architect · Wharton Executive CTO Program</span>
+            <h1>@Model.HomePage.HeroTitle</h1>
+            <p class="hero-sub">@Model.HomePage.HeroPhrase</p>
+            <div class="hero-bio">
+                @Html.Raw(MarkdownHelper.Transform(Model.HomePage.Body))
+            </div>
+            <div class="hero-ctas">
+                <a href="#contact" class="btn-primary">Start a conversation</a>
+            </div>
+            <p class="hero-availability">Available for Principal Architect, VP Architecture, and Fractional CTO engagements</p>
         </div>
-        <div class="hero-ctas">
-            <a href="#contact" class="btn-primary">Start a conversation</a>
+        <div class="hero-photo-wrap">
+            <img src="https://storage.googleapis.com/blastcms-prod/blog-blastcms/93df8f5f-4118-4674-870b-18b6e5fe3c45-20260605135239.jpg"
+                 alt="Brad Jolicoeur"
+                 class="hero-photo"
+                 width="280" height="280" />
         </div>
-        <p class="hero-availability">Available for Principal Architect, VP Architecture, and Fractional CTO engagements</p>
     </div>
 </section>
 

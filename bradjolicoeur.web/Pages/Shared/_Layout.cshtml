@@ -15,7 +15,7 @@
     <meta property="og:title" content="@ViewBag.Title" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="@ViewBag.HostURL" />
-    <meta property="og:image" content="@ViewBag.Image" />
+    <meta property="og:image" content="@(string.IsNullOrEmpty(ViewBag.Image as string) ? "https://storage.googleapis.com/blastcms-prod/blog-blastcms/93df8f5f-4118-4674-870b-18b6e5fe3c45-20260605135239.jpg" : ViewBag.Image)" />
     <meta property="og:site_name" content="Brad Jolicoeur" />
     <meta property="og:description" content="@ViewBag.Description" />
 

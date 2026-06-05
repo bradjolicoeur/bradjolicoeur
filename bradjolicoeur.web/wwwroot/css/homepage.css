@@ -79,6 +79,44 @@ nav {
   margin: 0 auto;
 }
 
+.hero-inner--split {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  max-width: 1020px;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-photo-wrap {
+  flex-shrink: 0;
+}
+
+.hero-photo {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 3px solid var(--accent);
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  display: block;
+}
+
+@media (max-width: 720px) {
+  .hero-inner--split {
+    flex-direction: column-reverse;
+    gap: 32px;
+  }
+  .hero-photo {
+    width: 160px;
+    height: 160px;
+  }
+}
+
 .hero-eyebrow {
   display: inline-block;
   font-size: 13px;
