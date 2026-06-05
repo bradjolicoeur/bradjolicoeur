@@ -22,8 +22,15 @@
                     </div>
                 </div>
                 <div class="col-sm-9">
-                    <h5>by Brad Jolicoeur</h5>
-                    <h6>@Model.Article.PublishedDate.ToString("MM/dd/yyyy")</h6>
+                    <div class="article-byline">
+                        <img src="https://storage.googleapis.com/blastcms-prod/blog-blastcms/93df8f5f-4118-4674-870b-18b6e5fe3c45-20260605135239.jpg"
+                             alt="Brad Jolicoeur"
+                             class="byline-avatar" />
+                        <div>
+                            <h5 class="mb-0">by Brad Jolicoeur</h5>
+                            <h6>@Model.Article.PublishedDate.ToString("MM/dd/yyyy")</h6>
+                        </div>
+                    </div>
 
                     <component type="typeof(TagLinkList)" render-mode="ServerPrerendered" param-Tags="@Model.Article.GetTags()" />
                 </div>
@@ -32,7 +39,12 @@
                 <div class="blog-body">@Html.Raw(MarkdownHelper.Transform(Model.Article.Body))</div>
                 <hr class="mt-4 mb-4" />
                 <div class="author-bio mt-3">
-                    <h5>About Brad Jolicoeur</h5>
+                    <div class="author-bio-header">
+                        <img src="https://storage.googleapis.com/blastcms-prod/blog-blastcms/93df8f5f-4118-4674-870b-18b6e5fe3c45-20260605135239.jpg"
+                             alt="Brad Jolicoeur"
+                             class="author-bio-avatar" />
+                        <h5 class="mb-0">About Brad Jolicoeur</h5>
+                    </div>
                     <p>Principal Architect with 20+ years building and transforming engineering organizations. Wharton Executive CTO Program graduate. Writing about architecture, distributed systems, production AI, and engineering leadership.</p>
                     <p><a href="/contact" class="btn btn-sm btn-outline-dark mt-2">Get in touch →</a> &nbsp; <a href="/blog" class="btn btn-sm btn-outline-secondary mt-2">More articles →</a></p>
                 </div>
