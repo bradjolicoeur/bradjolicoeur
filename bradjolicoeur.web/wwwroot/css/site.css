@@ -225,23 +225,6 @@ footer a:hover {
     color: #ffffff;
 }
 
-/* Article byline avatar */
-.article-byline {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
-}
-
-.byline-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center top;
-    flex-shrink: 0;
-}
-
 /* Author bio block at bottom of article */
 .author-bio-header {
     display: flex;
