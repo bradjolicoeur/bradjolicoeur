@@ -1,0 +1,10 @@
+@page "/work-with-me"
+@model WorkWithMeModel
+@{
+    ViewData["Title"] = "Work With Me | Brad Jolicoeur";
+    ViewBag.Description = Model.PageData?.Description;
+}
+
+<div class="container" style="max-width: 800px; margin: 3rem auto; padding: 0 1.5rem;">
+    @Html.Raw(MarkdownHelper.Transform(Model.PageData?.Body))
+</div>
