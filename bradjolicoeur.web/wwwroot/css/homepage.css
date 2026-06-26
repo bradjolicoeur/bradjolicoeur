@@ -69,6 +69,8 @@ nav {
 
 .nav-links a:hover { color: var(--white); }
 
+.nav-hamburger { display: none; }
+
 .hero {
   background: var(--navy);
   padding: 100px 32px 110px;
@@ -464,6 +466,53 @@ footer a:hover { color: var(--white); }
   .hero { padding: 72px 24px 80px; }
   .hero-ctas { flex-direction: column; align-items: flex-start; }
   .nav-links { gap: 20px; }
+}
+
+@media (max-width: 600px) {
+  .nav-hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  .nav-hamburger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: var(--white);
+    border-radius: 2px;
+    transition: opacity 0.2s;
+  }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 8px 0;
+    list-style: none;
+  }
+  .nav-links.nav-open {
+    display: flex;
+  }
+  .nav-links li {
+    padding: 0;
+  }
+  .nav-links a {
+    display: block;
+    padding: 12px 20px;
+    font-size: 16px;
+    white-space: nowrap;
+  }
 }
 
 @media (max-width: 480px) {

@@ -12,7 +12,12 @@
 <nav>
     <div class="nav-inner">
         <a asp-page="/Index" class="nav-logo">Brad Jolicoeur</a>
-        <ul class="nav-links">
+        <button class="nav-hamburger" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="nav-menu">
             <li><a asp-page="/Blog" asp-route-id="">Blog</a></li>
             <li><a asp-page="/Reading">Reading</a></li>
             <li><a asp-page="/WorkWithMe">Work With Me</a></li>
