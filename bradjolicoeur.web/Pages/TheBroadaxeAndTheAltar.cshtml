@@ -1,0 +1,25 @@
+@page "/books/the-broadaxe-and-the-altar"
+@model TheBroadaxeAndTheAltarModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = Model.PageData?.Title ?? "The Broadaxe and the Altar | A Novel";
+    ViewBag.Description = Model.PageData?.Description ?? "A historical novel of exile, endurance, faith, and family, inspired by the lives of Alex and Peggy Jolicoeur.";
+    ViewBag.Image = Model.PageData?.HeroImageUrl;
+}
+
+<partial name="_BookLandingStyles" />
+
+<div class="book-landing">
+    <section class="book-hero">
+        @if (!string.IsNullOrEmpty(Model.PageData?.HeroImageUrl))
+        {
+            <img src="@Model.PageData.HeroImageUrl" alt="The Broadaxe and the Altar cover" />
+        }
+        <h1>@(Model.PageData?.HeroTitle ?? "The Broadaxe and the Altar")</h1>
+        <p>@(Model.PageData?.HeroPhrase ?? "A Novel")</p>
+    </section>
+
+    <div class="book-body">
+        @Html.Raw(MarkdownHelper.Transform(Model.PageData?.Body))
+    </div>
+</div>

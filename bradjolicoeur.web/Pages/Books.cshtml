@@ -1,0 +1,20 @@
+@page "/books"
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Books";
+    ViewBag.Description = "Books by Bradley Jolicoeur, from historical fiction to a novel about AI and software delivery.";
+}
+
+<div style="max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem 4rem;">
+    <h1>Books</h1>
+    <p>Explore books by Bradley Jolicoeur.</p>
+
+    <section class="mt-5">
+        <h2><a asp-page="/TheBroadaxeAndTheAltar">The Broadaxe and the Altar</a></h2>
+        <p>A historical novel of exile, endurance, faith, and family.</p>
+    </section>
+    <section class="mt-5">
+        <h2><a asp-page="/TheConstraintLoop">The Constraint Loop</a></h2>
+        <p>A novel of AI, flow, and trust.</p>
+    </section>
+</div>
