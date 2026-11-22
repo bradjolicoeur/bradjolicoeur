@@ -1,20 +1,162 @@
 @page "/books"
+@model BooksModel
 @{
     Layout = "~/Pages/Shared/_Layout.cshtml";
     ViewData["Title"] = "Books";
     ViewBag.Description = "Books by Bradley Jolicoeur, from historical fiction to a novel about AI and software delivery.";
 }
 
-<div style="max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem 4rem;">
-    <h1>Books</h1>
-    <p>Explore books by Bradley Jolicoeur.</p>
+<style>
+    .books-page {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 3rem 0 5rem;
+        color: #17243b;
+    }
 
-    <section class="mt-5">
-        <h2><a asp-page="/TheBroadaxeAndTheAltar">The Broadaxe and the Altar</a></h2>
-        <p>A historical novel of exile, endurance, faith, and family.</p>
-    </section>
-    <section class="mt-5">
-        <h2><a asp-page="/TheConstraintLoop">The Constraint Loop</a></h2>
-        <p>A novel of AI, flow, and trust.</p>
-    </section>
+    .books-intro {
+        max-width: 680px;
+        margin-bottom: 3rem;
+    }
+
+    .books-eyebrow, .book-genre {
+        color: #9a5d34;
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+    }
+
+    .books-intro h1 {
+        margin: .65rem 0 1rem;
+        font-size: clamp(2.6rem, 5vw, 4rem);
+        font-weight: 700;
+        letter-spacing: -.04em;
+        line-height: 1.05;
+    }
+
+    .books-intro p:last-child {
+        max-width: 560px;
+        margin: 0;
+        color: #526074;
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+
+    .books-shelf {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
+
+    .book-card {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid #e6e2dc;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 10px 32px rgba(23, 36, 59, .06);
+    }
+
+    .book-cover {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 330px;
+        padding: 2rem;
+        background: #eae5dd;
+    }
+
+    .book-card:nth-child(2) .book-cover {
+        background: #e4e9ec;
+    }
+
+    .book-cover img {
+        display: block;
+        width: auto;
+        max-width: 100%;
+        height: 280px;
+        object-fit: contain;
+        box-shadow: 0 15px 28px rgba(23, 36, 59, .22);
+    }
+
+    .book-card-content {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2rem;
+    }
+
+    .book-card h2 {
+        margin: .5rem 0 .75rem;
+        font-size: 1.65rem;
+        font-weight: 700;
+        letter-spacing: -.025em;
+        line-height: 1.2;
+    }
+
+    .book-card-content > p:not(.book-genre) {
+        color: #526074;
+        line-height: 1.7;
+    }
+
+    .book-link {
+        margin-top: auto;
+        padding-top: .75rem;
+        color: #17243b;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .book-link:hover, .book-link:focus-visible {
+        color: #9a5d34;
+        text-decoration: underline;
+    }
+
+    @@media (max-width: 700px) {
+        .books-page { padding: 2rem 0 3.5rem; }
+        .books-shelf { grid-template-columns: 1fr; }
+        .book-card-content { padding: 1.5rem; }
+    }
+</style>
+
+<div class="books-page">
+    <header class="books-intro">
+        <p class="books-eyebrow">Books by Bradley Jolicoeur</p>
+        <h1>Stories worth<br />spending time with.</h1>
+        <p>From a life shaped by work and family to the challenges of leading through technological change.</p>
+    </header>
+
+    <div class="books-shelf">
+        <article class="book-card">
+            <a class="book-cover" asp-page="/TheBroadaxeAndTheAltar" aria-label="Explore The Broadaxe and the Altar">
+                @if (!string.IsNullOrEmpty(Model.Broadaxe?.HeroImageUrl))
+                {
+                    <img src="@Model.Broadaxe.HeroImageUrl" alt="The Broadaxe and the Altar cover" />
+                }
+            </a>
+            <div class="book-card-content">
+                <p class="book-genre">Historical fiction</p>
+                <h2>The Broadaxe and the Altar</h2>
+                <p>A sweeping story of exile, endurance, faith, and the search for a place to call home.</p>
+                <a class="book-link" asp-page="/TheBroadaxeAndTheAltar">Explore the book &rarr;</a>
+            </div>
+        </article>
+        <article class="book-card">
+            <a class="book-cover" asp-page="/TheConstraintLoop" aria-label="Explore The Constraint Loop">
+                @if (!string.IsNullOrEmpty(Model.ConstraintLoop?.HeroImageUrl))
+                {
+                    <img src="@Model.ConstraintLoop.HeroImageUrl" alt="The Constraint Loop cover" />
+                }
+            </a>
+            <div class="book-card-content">
+                <p class="book-genre">Business fiction</p>
+                <h2>The Constraint Loop</h2>
+                <p>A novel about AI, software delivery, and the difference between moving faster and creating value.</p>
+                <a class="book-link" asp-page="/TheConstraintLoop">Explore the book &rarr;</a>
+            </div>
+        </article>
+    </div>
 </div>
